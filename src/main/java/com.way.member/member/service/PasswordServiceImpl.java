@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @date: 2017/08/20 20:30
  * 
  */
-@Service
+@Service("passwordServiceImpl")
 public class PasswordServiceImpl implements PasswordService {
     
 	@Autowired

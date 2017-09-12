@@ -5,8 +5,6 @@
         http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!-- 要暴露的服务 -->
-    <dubbo:service interface="com.way.member.MemberDubboDemoService" ref="memberDubboDemoServiceImpl"/>
-
     <dubbo:service interface="com.way.member.member.service.MemberService" ref="memberServiceImpl"/>
 
     <dubbo:service interface="com.way.member.member.service.PasswordService" ref="passwordServiceImpl"/>

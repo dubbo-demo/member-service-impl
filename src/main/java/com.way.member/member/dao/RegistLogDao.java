@@ -3,6 +3,7 @@ package com.way.member.member.dao;
 
 import com.way.common.rom.IBaseMapper;
 import com.way.member.member.entity.RegistLogPo;
+import org.springframework.stereotype.Repository;
 
 /**
  * @ClassName: RegistLogDao

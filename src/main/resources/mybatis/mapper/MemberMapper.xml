@@ -18,13 +18,13 @@
 	</insert>
 	
 	<!-- 根据手机号查询用户信息 -->
-	<select id="selectUserInfoByMobile" parameterType="String" resultMap="memberInfoMap">
+	<select id="selectUserInfoByMobile" parameterType="java.lang.String" resultMap="memberInfoMap">
 		SELECT ID,MEMBERNAME,PHONE,MEMBERSOURCE FROM MEMBER_INFO
 		WHERE PHONE = #{mobile}
 	</select>
 	
 	<!-- 根据手机号查询该手机号是否是老用户 -->
-	<select id="selectIsOldMember" parameterType="String" resultMap="memberInfoMap">
+	<select id="selectIsOldMember" parameterType="java.lang.String" resultMap="memberInfoMap">
 		SELECT T.ID,T.MEMBERNAME,T.PHONE FROM JK_APPLY T
 			LEFT JOIN MEMBER_INFO I ON I.PHONE = T.PHONE
 			LEFT JOIN MEMBER_PASSWORD P ON P.MEMBERID = I.ID
@@ -32,7 +32,7 @@
 	</select>
 	
 	<!-- 根据手机号查询会员信息 -->
-	<select id="queryMemberInfo" parameterType="String" resultType="com.way.member.member.entity.MemberPo">
+	<select id="queryMemberInfo" parameterType="java.lang.String" resultType="com.way.member.member.entity.MemberPo">
 		SELECT T.PASSWORD,F.PHONE,T.MEMBERID,F.MEMBERSOURCE,F.IDCARNO  FROM MEMBER_PASSWORD T
 			LEFT JOIN MEMBER_INFO F ON F.ID = T.MEMBERID
 			WHERE F.PHONE = #{mobile}
@@ -52,7 +52,7 @@
 	</insert>
 	
 	<!-- 修改会员登录密码 -->
-	<update id="updatePassword" parameterType="Map">
+	<update id="updatePassword" parameterType="java.util.Map">
 		UPDATE MEMBER_PASSWORD
 			SET PASSWORD = #{newPassword},UPDATETIME = now()
 		WHERE MEMBERID = #{memberId}
