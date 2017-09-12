@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.way.member.member.dao.MemberDao">
+	
+	<resultMap type="com.way.member.member.entity.MemberPo" id="memberInfoMap">
+		<result property="memberId" column="ID" />
+		<result property="phone" column="PHONE" />
+		<result property="memberName" column="MEMBERNAME" />
+		<result property="memberSource" column="MEMBERSOURCE" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="com.way.member.member.entity.MemberPo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO MEMBER_INFO (
+			ID, PHONE, MEMBERSOURCE, EMPLOYEEID, createTime)
+		VALUES (
+			#{id,jdbcType=BIGINT}, #{phone,jdbcType=VARCHAR},
+			#{memberSource,jdbcType=VARCHAR}, #{employeeId,jdbcType=VARCHAR}, now())
+	</insert>
+	
+	<!-- 根据手机号查询用户信息 -->
+	<select id="selectUserInfoByMobile" parameterType="String" resultMap="memberInfoMap">
+		SELECT ID,MEMBERNAME,PHONE,MEMBERSOURCE FROM MEMBER_INFO
+		WHERE PHONE = #{mobile}
+	</select>
+	
+	<!-- 根据手机号查询该手机号是否是老用户 -->
+	<select id="selectIsOldMember" parameterType="String" resultMap="memberInfoMap">
+		SELECT T.ID,T.MEMBERNAME,T.PHONE FROM JK_APPLY T
+			LEFT JOIN MEMBER_INFO I ON I.PHONE = T.PHONE
+			LEFT JOIN MEMBER_PASSWORD P ON P.MEMBERID = I.ID
+		WHERE T.PHONE = #{mobile} AND I.MEMBERSOURCE = 0 AND P.PASSWORD IS NULL
+	</select>
+	
+	<!-- 根据手机号查询会员信息 -->
+	<select id="queryMemberInfo" parameterType="String" resultType="com.way.member.member.entity.MemberPo">
+		SELECT T.PASSWORD,F.PHONE,T.MEMBERID,F.MEMBERSOURCE,F.IDCARNO  FROM MEMBER_PASSWORD T
+			LEFT JOIN MEMBER_INFO F ON F.ID = T.MEMBERID
+			WHERE F.PHONE = #{mobile}
+	</select>
+	
+	<!-- 保存用户登录信息 -->
+	<insert id="saveLoginInfo" parameterType="com.way.member.member.entity.MemberLoginPo">
+		<selectKey resultType="java.lang.Long" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO MEMBER_LOGININFO (
+			MEMBERID,DEVICENO,LOGINDATE,SIP,CITY,LBS)
+		VALUES (
+			#{memberId,jdbcType=BIGINT}, #{deviceNo,jdbcType=VARCHAR},now(),
+			#{sIp,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{lbs,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 修改会员登录密码 -->
+	<update id="updatePassword" parameterType="Map">
+		UPDATE MEMBER_PASSWORD
+			SET PASSWORD = #{newPassword},UPDATETIME = now()
+		WHERE MEMBERID = #{memberId}
+	</update>
+
+	<select id="queryMemberSourceByMemberId" resultType="com.way.member.member.dto.MemberDto">
+		select memberSource from member_info where id = #{memberId}
+	</select>
+
+</mapper>

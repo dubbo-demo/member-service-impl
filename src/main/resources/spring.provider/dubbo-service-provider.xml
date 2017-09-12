@@ -7,4 +7,10 @@
     <!-- 要暴露的服务 -->
     <dubbo:service interface="com.way.member.MemberDubboDemoService" ref="memberDubboDemoServiceImpl"/>
 
+    <dubbo:service interface="com.way.member.member.service.MemberService" ref="memberServiceImpl"/>
+
+    <dubbo:service interface="com.way.member.member.service.PasswordService" ref="passwordServiceImpl"/>
+
+    <dubbo:service interface="com.way.member.member.service.RegistLogService" ref="registLogServiceImpl"/>
+
 </beans>

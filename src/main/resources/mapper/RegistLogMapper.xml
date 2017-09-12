@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.way.member.member.dao.RegistLogDao">
+
+	<insert id="insert" parameterType="com.way.member.member.entity.RegistLogPo">
+		<selectKey resultType="java.lang.Long" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into member_registerlog (
+			id, registerDate, memberId, deviceNo, city, lbs,
+			promotionSource, terminalChannel, appSource, version)
+		values (
+			#{id,jdbcType=BIGINT}, sysdate(), #{memberId,jdbcType=VARCHAR},
+			#{deviceNo,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+			#{lbs,jdbcType=VARCHAR}, #{promotionSource,jdbcType=VARCHAR},
+			#{terminalChannel,jdbcType=VARCHAR}, #{appSource,jdbcType=VARCHAR},
+			#{version,jdbcType=VARCHAR})
+	</insert>
+</mapper>
