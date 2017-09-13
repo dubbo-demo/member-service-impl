@@ -1,12 +1,12 @@
 package com.way.member.member.service;
 
 import com.alibaba.fastjson.JSON;
-import com.way.member.member.dao.MemberDao;
-import com.way.member.member.entity.MemberLoginPo;
-import com.way.member.member.entity.MemberPo;
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
+import com.way.member.member.dao.MemberDao;
 import com.way.member.member.dto.MemberDto;
+import com.way.member.member.entity.MemberLoginPo;
+import com.way.member.member.entity.MemberPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;

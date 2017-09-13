@@ -5,7 +5,6 @@ import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberLoginPo;
 import com.way.member.member.entity.MemberPo;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 /**
  * 功能描述：用户信息Dao
