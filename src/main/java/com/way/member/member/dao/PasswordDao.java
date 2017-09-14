@@ -1,6 +1,5 @@
 package com.way.member.member.dao;
 
-import com.way.common.rom.IBaseMapper;
 import com.way.member.member.entity.PasswordPo;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
  * @author: xinpei.xu
  * @date: 2017/08/20 20:28
  */
-public interface PasswordDao extends IBaseMapper {
+public interface PasswordDao {
 	
 	Long insert(PasswordPo record);
 	

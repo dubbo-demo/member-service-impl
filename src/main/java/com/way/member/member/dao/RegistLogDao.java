@@ -1,9 +1,7 @@
 package com.way.member.member.dao;
 
 
-import com.way.common.rom.IBaseMapper;
 import com.way.member.member.entity.RegistLogPo;
-import org.springframework.stereotype.Repository;
 
 /**
  * @ClassName: RegistLogDao
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * @date: 2017/08/20 20:12
  *
  */
-public interface RegistLogDao extends IBaseMapper {
+public interface RegistLogDao {
     
 	Long insert(RegistLogPo record);
 }

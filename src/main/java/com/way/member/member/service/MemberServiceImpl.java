@@ -25,7 +25,7 @@ import java.util.Map;
 @Service
 public class MemberServiceImpl implements MemberService {
 
-	@Autowired
+//	@Autowired
 	private MemberDao memberDao;
 	@Autowired
 	private RegistLogService registLogService;

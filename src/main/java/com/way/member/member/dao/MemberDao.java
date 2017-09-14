@@ -1,6 +1,5 @@
 package com.way.member.member.dao;
 
-import com.way.common.rom.IBaseMapper;
 import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberLoginPo;
 import com.way.member.member.entity.MemberPo;
@@ -13,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @Author：xinpei.xu
  * @Date：2017/08/20 22:16
  */
-public interface MemberDao extends IBaseMapper {
+public interface MemberDao {
     
 	Long insert(MemberPo record);
 	
