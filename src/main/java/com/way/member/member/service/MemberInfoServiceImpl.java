@@ -23,7 +23,7 @@ import java.util.Map;
  *
  */
 @Service
-public class MemberServiceImpl implements MemberService {
+public class MemberInfoServiceImpl implements MemberInfoService {
 
 //	@Autowired
 	private MemberDao memberDao;
