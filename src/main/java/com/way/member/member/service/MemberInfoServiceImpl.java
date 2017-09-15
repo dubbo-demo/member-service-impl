@@ -54,21 +54,6 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	}
 
 	/**
-	 * @Title: selectIsOldMember
-	 * @Description: 根据手机号查询该手机号是否是老用户
-	 * @return: Map<String,Object>
-	 */
-	public ServiceResult<MemberDto> selectIsOldMember(String mobile) {
-		MemberPo memberPo = memberDao.selectIsOldMember(mobile);
-		if(memberPo != null){
-			MemberDto memberDto = CommonUtils.transform(memberPo, MemberDto.class);
-			return ServiceResult.newSuccess(memberDto);
-		}else{
-			return ServiceResult.newSuccess(null);
-		}
-	}
-
-	/**
 	 * @Title: queryMemberInfo
 	 * @Description: 根据手机号查询会员信息
 	 * @return: Map<String, String>
@@ -125,13 +110,13 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	}
 
 	/**
-	 * 获取判断用户来源
-	 * @param memberId
-	 * @return
+	 * 根据手机号更新用户头像id
+	 * @param phoneNo
+	 * @param headPicId
 	 */
-	@Override
-	public MemberDto queryMemberSourceByMemberId(Long memberId) {
-		return memberDao.queryMemberSourceByMemberId(memberId);
-	}
+    @Override
+    public void updateHeadPicIdByPhoneNo(String phoneNo, String headPicId) {
+		memberDao.updateHeadPicIdByPhoneNo(phoneNo, headPicId);
+    }
 
 }

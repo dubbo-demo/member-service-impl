@@ -1,7 +1,6 @@
 package com.way.member.member.dao;
 
 import com.way.common.rom.IBaseMapper;
-import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberLoginPo;
 import com.way.member.member.entity.MemberPo;
 import org.apache.ibatis.annotations.Param;
@@ -27,13 +26,6 @@ public interface MemberDao extends IBaseMapper {
 	MemberPo selectUserInfoByMobile(String mobile);
 	
 	/**
-	 * @Title: selectIsOldMember
-	 * @Description: 根据手机号查询该手机号是否是老用户
-	 * @return: Map<String,Object>
-	 */
-	MemberPo selectIsOldMember(String mobile);
-	
-	/**
 	 * @Title: queryMemberInfo
 	 * @Description: 根据手机号查询会员信息
 	 * @return: Map<String, String>
@@ -55,9 +47,9 @@ public interface MemberDao extends IBaseMapper {
 	public void updatePassword(@Param("memberId") Long memberId, @Param("newPassword") String newPassword);
 
 	/**
-	 * 获取判断用户来源
-	 * @param memberId
-	 * @return
+	 * 根据手机号更新用户头像id
+	 * @param phoneNo
+	 * @param headPicId
 	 */
-	MemberDto queryMemberSourceByMemberId(Long memberId);
+	void updateHeadPicIdByPhoneNo(@Param("phoneNo") String phoneNo, @Param("headPicId") String headPicId);
 }
