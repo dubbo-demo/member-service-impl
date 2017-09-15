@@ -1,7 +1,9 @@
 package com.way.member.member.dao;
 
+import com.way.common.rom.IBaseMapper;
 import com.way.member.member.entity.PasswordPo;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * 功能描述：会员密码Dao
@@ -10,7 +12,8 @@ import org.apache.ibatis.annotations.Param;
  * @author: xinpei.xu
  * @date: 2017/08/20 20:28
  */
-public interface PasswordDao {
+@Repository
+public interface PasswordDao extends IBaseMapper {
 	
 	Long insert(PasswordPo record);
 	
