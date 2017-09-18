@@ -4,7 +4,6 @@ import com.way.common.rom.IBaseMapper;
 import com.way.member.member.entity.MemberLoginPo;
 import com.way.member.member.entity.MemberPo;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 /**
  * 功能描述：用户信息Dao
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Repository;
  * @Author：xinpei.xu
  * @Date：2017/08/20 22:16
  */
-@Repository
 public interface MemberDao extends IBaseMapper {
     
 	Long insert(MemberPo record);

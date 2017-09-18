@@ -5,6 +5,7 @@ import com.way.common.util.CommonUtils;
 import com.way.member.member.dao.RegistLogDao;
 import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.RegistLogPo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import java.util.Map;
 @Service
 public class RegistLogServiceImpl implements RegistLogService {
 
-//	@Autowired
+	@Autowired
 	private RegistLogDao registLogDao;
 
 	public Long saveRegistLog(MemberDto memberDto) {

@@ -1,7 +1,6 @@
 package com.way.member.position.service;
 
 import com.way.member.position.dao.PositionInfoDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PositionInfoServiceImpl implements PositionInfoService {
 
-    @Autowired
+//    @Autowired
     private PositionInfoDao positionInfoDao;
 
 }

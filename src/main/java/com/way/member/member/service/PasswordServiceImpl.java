@@ -6,6 +6,7 @@ import com.way.member.member.dao.PasswordDao;
 import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.PasswordPo;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service("passwordServiceImpl")
 public class PasswordServiceImpl implements PasswordService {
     
-//	@Autowired
+	@Autowired
 	private PasswordDao passwordDao;
 
 	public Long savePasswordInfo(MemberDto memberDto) {
