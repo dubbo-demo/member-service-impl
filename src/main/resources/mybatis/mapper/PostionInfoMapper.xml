@@ -2,4 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.way.member.position.dao.PositionInfoDao" >
 
+    <insert id="savePosition">
+        insert into member_location_info_${flag} (phone_no, longitude, latitude, create_time, modify_time) values
+        (#{po.phoneNo}, #{po.longitude}, #{po.latitude}, now(), now())
+    </insert>
+
+    <update id="updatePosition">
+        update member_location_info_${flag} set longitude=#{po.longitude}, latitude=#{po.latitude}, modify_time=now() where id = #{id}
+    </update>
+
+    <select id="getRealtimePositionByPhoneNo" resultType="com.way.member.position.dto.PositionInfoDto">
+        select location.id, location.phone_no phoneNo, location.longitude, location.latitude, date_format(location.modify_time,'%Y-%m-%d %h:%i:%s') modifyTime,
+        member.head_pic_id headPic from member_location_info_${flag} location
+        left join member_info member on location.phone_no = member.phone_no
+        where location.phone_no = #{phoneNo}
+        order by location.modify_time desc limit 1
+    </select>
+
 </mapper>
