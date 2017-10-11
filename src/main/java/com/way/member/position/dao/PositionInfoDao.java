@@ -1,6 +1,7 @@
 package com.way.member.position.dao;
 
 import com.way.common.result.ServiceResult;
+import com.way.common.rom.IBaseMapper;
 import com.way.member.member.entity.PositionInfoPo;
 import com.way.member.position.dto.PositionInfoDto;
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @Author：xinpei.xu
  * @Date：2017/08/28 21:19
  */
-public interface PositionInfoDao {
+public interface PositionInfoDao extends IBaseMapper {
 
     /**
      * 上传坐标
