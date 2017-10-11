@@ -26,7 +26,7 @@ public interface PositionInfoDao {
      * @param flag
      * @param id
      */
-    void updatePosition(@Param("po") PositionInfoPo po, @Param("flag") String flag, Integer id);
+    void updatePosition(@Param("po") PositionInfoPo po, @Param("flag") String flag, @Param("id") Long id);
 
     /**
      * 根据手机号获取用户实时坐标

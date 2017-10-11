@@ -41,7 +41,7 @@ public class PositionInfoServiceImpl implements PositionInfoService {
      * @param id
      */
     @Override
-    public void updatePosition(PositionInfoDto positionInfoDto, Integer id) {
+    public void updatePosition(PositionInfoDto positionInfoDto, Long id) {
         // 分20张表
         String flag = subTable(positionInfoDto.getPhoneNo());
         PositionInfoPo positionInfoPo = CommonUtils.transform(positionInfoDto, PositionInfoPo.class);
