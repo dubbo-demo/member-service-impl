@@ -3,8 +3,6 @@ package com.way.member.position.service;
 import com.way.common.constant.NumberConstants;
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
-import com.way.common.util.DateTimeUtil;
-import com.way.member.member.entity.MemberPo;
 import com.way.member.member.entity.PositionInfoPo;
 import com.way.member.position.dao.PositionInfoDao;
 import com.way.member.position.dto.PositionInfoDto;

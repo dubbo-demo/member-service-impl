@@ -22,9 +22,14 @@ public class PasswordServiceImpl implements PasswordService {
 	@Autowired
 	private PasswordDao passwordDao;
 
-	public Long savePasswordInfo(MemberDto memberDto) {
+	/**
+	 * 保存密码
+	 * @param memberDto
+	 * @return
+	 */
+	public void savePasswordInfo(MemberDto memberDto) {
 		PasswordPo passwordPo = CommonUtils.transform(memberDto, PasswordPo.class);
-		return passwordDao.insert(passwordPo);
+		passwordDao.insert(passwordPo);
 	}
 	
 	/**
@@ -41,17 +46,4 @@ public class PasswordServiceImpl implements PasswordService {
 		}
 	}
 	
-	/**
-	 * @Title: queryPasswdById
-	 * @Description: 根据会员编号查询信息
-	 * @return: String 返回会员编号
-	 */
-	public ServiceResult<String> queryPasswdById(Long memberId){
-		String id = passwordDao.queryPasswdById(memberId);
-		if(StringUtils.isNotBlank(id)){
-			return ServiceResult.newSuccess(id);
-		}else{
-			return ServiceResult.newSuccess();
-		}
-	}
 }

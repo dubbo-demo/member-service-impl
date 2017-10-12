@@ -12,7 +12,12 @@ import org.apache.ibatis.annotations.Param;
  * @date: 2017/08/20 20:28
  */
 public interface PasswordDao extends IBaseMapper {
-	
+
+	/**
+	 * 保存密码
+	 * @param record
+	 * @return
+	 */
 	Long insert(PasswordPo record);
 	
 	/**
@@ -21,11 +26,4 @@ public interface PasswordDao extends IBaseMapper {
 	 * @return: String 返回mobile
 	 */
 	public String queryCurPasswdById(@Param("memberId") Long memberId, @Param("curPasssword") String curPasssword);
-
-	/**
-	 * @Title: queryPasswdById
-	 * @Description: 根据会员编号查询信息
-	 * @return: String 返回mobile
-	 */
-	public String queryPasswdById(@Param("memberId") Long memberId);
 }

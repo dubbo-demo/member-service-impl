@@ -17,8 +17,8 @@ import lombok.ToString;
 public class PasswordPo extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
-	/** 客户id */
-	private Long memberId;
+	/** 客户手机号 */
+	private String phoneNo;
 	/** 客户密码 */
 	private String password;
 }

@@ -10,8 +10,6 @@
 
     <dubbo:service interface="com.way.member.member.service.PasswordService" ref="passwordServiceImpl"/>
 
-    <dubbo:service interface="com.way.member.member.service.RegistLogService" ref="registLogServiceImpl"/>
-
     <dubbo:service interface="com.way.member.position.service.PositionInfoService" ref="positionInfoServiceImpl"/>
 
 </beans>
