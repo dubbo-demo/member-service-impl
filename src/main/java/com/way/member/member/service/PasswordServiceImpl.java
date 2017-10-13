@@ -33,17 +33,17 @@ public class PasswordServiceImpl implements PasswordService {
 	}
 	
 	/**
-	 * @Title: queryCurPasswdById
+	 * @Title: checkCurPassword
 	 * @Description: 查询当前登录密码是否正确
 	 * @return: String 返回mobile
 	 */
-	public ServiceResult<String> queryCurPasswdById(Long memberId, String curPasssword){
-		String id = passwordDao.queryCurPasswdById(memberId, curPasssword);
-		if(StringUtils.isNotBlank(id)){
-			return ServiceResult.newSuccess(id);
-		}else{
+	public ServiceResult checkCurPassword(String phoneNo, String curPasssword){
+		int count = passwordDao.checkCurPassword(phoneNo, curPasssword);
+		if(count > 0){
 			return ServiceResult.newSuccess();
+		}else{
+			return ServiceResult.newFailure();
 		}
 	}
-	
+
 }

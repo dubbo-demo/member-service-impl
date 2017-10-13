@@ -53,8 +53,8 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 * @Description: 根据手机号查询会员信息
 	 * @return: Map<String, String>
 	 */
-	public ServiceResult<MemberDto> queryMemberInfo(String mobile) {
-		MemberInfoEntity memberInfoEntity = memberDao.queryMemberInfo(mobile);
+	public ServiceResult<MemberDto> queryMemberInfo(String phoneNo) {
+		MemberInfoEntity memberInfoEntity = memberDao.queryMemberInfo(phoneNo);
 		if(memberInfoEntity != null){
 			MemberDto memberDto = CommonUtils.transform(memberInfoEntity, MemberDto.class);
 			return ServiceResult.newSuccess(memberDto);

@@ -32,7 +32,7 @@ public interface MemberDao extends IBaseMapper {
 	 * @Description: 根据手机号查询会员信息
 	 * @return: Map<String, String>
 	 */
-	public MemberInfoEntity queryMemberInfo(String mobile);
+	public MemberInfoEntity queryMemberInfo(String phoneNo);
 	
 	/**
 	 * @Title: updatePassword

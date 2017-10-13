@@ -35,9 +35,7 @@
 
 	<!-- 根据手机号查询会员信息 -->
 	<select id="queryMemberInfo" parameterType="java.lang.String" resultType="com.way.member.member.entity.MemberInfoEntity">
-		SELECT T.PASSWORD,F.PHONE,T.MEMBERID,F.MEMBERSOURCE,F.IDCARNO  FROM MEMBER_PASSWORD T
-			LEFT JOIN MEMBER_INFO F ON F.ID = T.MEMBERID
-			WHERE F.PHONE = #{mobile}
+		SELECT phone_no phoneNo FROM member_info WHERE phone_no = #{phoneNo}
 	</select>
 	
 	<!-- 修改会员登录密码 -->
