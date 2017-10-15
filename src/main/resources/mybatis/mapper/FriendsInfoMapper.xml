@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.way.member.friend.dao.FriendsInfoDao" >
+
+    <select id="getFriendsInfoBeforeExit" resultType="com.way.member.friend.dto.FriendsInfoDto">
+        select friends.*,member.head_pic_id from friends_info friends
+        left join member_info member on member.phone_no = friends.friend_phone_no
+    </select>
+
+
+</mapper>
