@@ -3,9 +3,43 @@
 <mapper namespace="com.way.member.friend.dao.FriendsInfoDao" >
 
     <select id="getFriendsInfoBeforeExit" resultType="com.way.member.friend.dto.FriendsInfoDto">
-        select friends.*,member.head_pic_id from friends_info friends
+        select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        friends.is_authorized_visible isAuthorizedVisible,
+        friends.authorized_accredit_startTime authorizedAccreditStartTime,
+        friends.authorized_accredit_endTime authorizedAccreditEndTime,
+        member.head_pic headPic from friends_info friends
         left join member_info member on member.phone_no = friends.friend_phone_no
+        where friends.is_check_before_exit = 1
     </select>
 
+    <select id="getRealtimePositionByGroupId" resultType="com.way.member.friend.dto.FriendsInfoDto">
+        select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        friends.is_authorized_visible isAuthorizedVisible,
+        friends.authorized_accredit_startTime authorizedAccreditStartTime,
+        friends.authorized_accredit_endTime authorizedAccreditEndTime,
+        member.head_pic headPic from friends_info friends
+        left join member_info member on member.phone_no = friends.friend_phone_no
+        where friends.group_id = #{groupId} and friends.phone_no = #{phoneNo}
+    </select>
 
+    <update id="updateIsCheckBeforeExitByGroupId">
+        update friends_info set is_check_before_exit=#{state} where group_id = #{groupId} and phone_no = #{phoneNo}
+    </update>
+
+    <update id="updateIsCheckBeforeExitByFriendPhoneNo">
+        update friends_info set is_check_before_exit=#{state} where friend_phone_no = #{friendPhoneNo} and phone_no = #{phoneNo}
+    </update>
+
+    <select id="getFriendInfo" resultType="com.way.member.friend.dto.FriendsInfoDto">
+        select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        friends.is_accredit_visible isAccreditVisible,
+        friends.accredit_startTime accreditStartTime,
+        friends.accredit_endTime accreditEndTime,
+        member.head_pic headPic,
+        member.nick_name friendNickName,
+        from friends_info friends
+        left join member_info member on member.phone_no = friends.friend_phone_no
+        where friends.is_check_before_exit = 1
+
+    </select>
 </mapper>

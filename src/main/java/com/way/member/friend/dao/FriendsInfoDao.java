@@ -1,6 +1,8 @@
 package com.way.member.friend.dao;
 
+import com.way.common.result.ServiceResult;
 import com.way.member.friend.dto.FriendsInfoDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,4 +21,36 @@ public interface FriendsInfoDao {
      * @return
      */
     List<FriendsInfoDto> getFriendsInfoBeforeExit(String phoneNo);
+
+    /**
+     * 根据组ID获取好友信息
+     * @param phoneNo
+     * @param groupId
+     * @return
+     */
+    List<FriendsInfoDto> getRealtimePositionByGroupId(@Param("phoneNo") String phoneNo, @Param("groupId") String groupId);
+
+    /**
+     * 更新好友是否退出前查看状态
+     * @param phoneNo
+     * @param groupId
+     * @param state
+     */
+    void updateIsCheckBeforeExitByGroupId(@Param("phoneNo") String phoneNo, @Param("groupId") String groupId, @Param("state") Integer state);
+
+    /**
+     * 取消查看好友实时坐标
+     * @param phoneNo
+     * @param friendPhoneNo
+     * @param state
+     */
+    void updateIsCheckBeforeExitByFriendPhoneNo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo, @Param("state") Integer state);
+
+    /**
+     * 查询好友信息
+     * @param phoneNo
+     * @param friendPhoneNo
+     * @return
+     */
+    ServiceResult<FriendsInfoDto> getFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
 }

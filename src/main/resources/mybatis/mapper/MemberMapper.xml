@@ -10,7 +10,7 @@
 		<result property="memberType" column="member_type" />
 		<result property="valueAddedService" column="valueAdded_service" />
 		<result property="age" column="age" />
-		<result property="headPicId" column="head_pic_id" />
+		<result property="headPic" column="head_pic" />
 		<result property="memberStartTime" column="member_startTime" />
 		<result property="memberEndTime" column="member_endTime" />
 		<result property="valueAddedServiceStartTime" column="valueAdded_service_startTime" />
