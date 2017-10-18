@@ -47,4 +47,11 @@ public interface MemberDao extends IBaseMapper {
 	 * @param headPicId
 	 */
 	void updateHeadPicIdByPhoneNo(@Param("phoneNo") String phoneNo, @Param("headPicId") String headPicId);
+
+	/**
+	 * 根据手机号搜索用户
+	 * @param phoneNo
+	 * @return
+	 */
+	MemberInfoEntity searchUserByPhoneNo(String phoneNo);
 }

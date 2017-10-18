@@ -53,4 +53,12 @@ public interface FriendsInfoDao {
      * @return
      */
     ServiceResult<FriendsInfoDto> getFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
+
+    /**
+     * 查询好友列表
+     * @param phoneNo
+     * @return
+     */
+    List<FriendsInfoDto> getFriendList(String phoneNo);
+
 }

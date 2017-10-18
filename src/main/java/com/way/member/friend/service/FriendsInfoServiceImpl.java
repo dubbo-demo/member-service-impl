@@ -75,5 +75,14 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
         return friendsInfoDao.getFriendInfo(phoneNo, friendPhoneNo);
     }
 
+    /**
+     * 查询好友列表
+     * @param phoneNo
+     * @return
+     */
+    @Override
+    public List<FriendsInfoDto> getFriendList(String phoneNo) {
+        return friendsInfoDao.getFriendList(phoneNo);
+    }
 
 }

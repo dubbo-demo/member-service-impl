@@ -42,4 +42,10 @@
         where friends.is_check_before_exit = 1
 
     </select>
+    <select id="getFriendList" resultType="com.way.member.friend.dto.FriendsInfoDto">
+        select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        member.head_pic headPic,member.nick_name friendNickName,
+        from friends_info friends
+        left join member_info member on member.phone_no = friends.friend_phone_no
+    </select>
 </mapper>

@@ -95,4 +95,20 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		memberDao.updateHeadPicIdByPhoneNo(phoneNo, headPicId);
     }
 
+	/**
+	 * 根据手机号搜索用户
+	 * @param phoneNo
+	 * @return
+	 */
+	@Override
+	public ServiceResult<MemberDto> searchUserByPhoneNo(String phoneNo) {
+		MemberInfoEntity memberInfoEntity = memberDao.searchUserByPhoneNo(phoneNo);
+		if(memberInfoEntity != null){
+			MemberDto memberDto = CommonUtils.transform(memberInfoEntity, MemberDto.class);
+			return ServiceResult.newSuccess(memberDto);
+		}else{
+			return ServiceResult.newSuccess(null);
+		}
+	}
+
 }

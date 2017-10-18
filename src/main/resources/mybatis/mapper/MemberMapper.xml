@@ -37,7 +37,7 @@
 	<select id="queryMemberInfo" parameterType="java.lang.String" resultType="com.way.member.member.entity.MemberInfoEntity">
 		SELECT phone_no phoneNo FROM member_info WHERE phone_no = #{phoneNo}
 	</select>
-	
+
 	<!-- 修改会员登录密码 -->
 	<update id="updatePassword" parameterType="java.util.Map">
 		UPDATE MEMBER_PASSWORD SET PASSWORD = #{newPassword},UPDATETIME = now()
@@ -49,4 +49,7 @@
 
 	</update>
 
+	<select id="searchUserByPhoneNo" resultMap="memberInfoMap">
+		SELECT phone_no,head_pic,nick_name FROM member_info WHERE phone_no = #{phoneNo}
+	</select>
 </mapper>
