@@ -1,6 +1,7 @@
 package com.way.member.friend.dao;
 
 import com.way.common.result.ServiceResult;
+import com.way.common.rom.IBaseMapper;
 import com.way.member.friend.dto.FriendsInfoDto;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @date 2017/08/23 19:14
  *
  */
-public interface FriendsInfoDao {
+public interface FriendsInfoDao extends IBaseMapper {
 
     /**
      * 出退出前查看的好友信息
