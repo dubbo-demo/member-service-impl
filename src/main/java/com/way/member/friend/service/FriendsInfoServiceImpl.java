@@ -1,8 +1,11 @@
 package com.way.member.friend.service;
 
 import com.way.common.result.ServiceResult;
+import com.way.common.util.DateTimeUtil;
+import com.way.common.util.DateUtils;
 import com.way.member.friend.dao.FriendsInfoDao;
 import com.way.member.friend.dto.FriendsInfoDto;
+import com.way.member.friend.entity.FriendsInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,6 +86,48 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
     @Override
     public List<FriendsInfoDto> getFriendList(String phoneNo) {
         return friendsInfoDao.getFriendList(phoneNo);
+    }
+
+    /**
+     * 修改好友信息
+     * @param phoneNo
+     * @param dto
+     */
+    @Override
+    public void modifyFriendInfo(String phoneNo, FriendsInfoDto dto) {
+        FriendsInfoEntity entity = new FriendsInfoEntity();
+        entity.setPhoneNo(phoneNo);
+        entity.setFriendPhoneNo(dto.getFriendPhoneNo());
+        entity.setIsAccreditVisible(dto.getIsAccreditVisible());
+        entity.setAccreditStartTime(DateUtils.convertToDateTime(dto.getAccreditStartTime()));
+        entity.setAccreditEndTime(DateUtils.convertToDateTime(dto.getAccreditEndTime()));
+        friendsInfoDao.modifyFriendInfo(entity);
+    }
+
+    /**
+     * 修改被授权人好友信息
+     * @param phoneNo
+     * @param dto
+     */
+    @Override
+    public void modifyAuthorizedFriendInfo(String phoneNo, FriendsInfoDto dto) {
+        FriendsInfoEntity entity = new FriendsInfoEntity();
+        entity.setPhoneNo(dto.getFriendPhoneNo());
+        entity.setFriendPhoneNo(phoneNo);
+        entity.setIsAuthorizedVisible(dto.getIsAccreditVisible());
+        entity.setAuthorizedAccreditStartTime(DateUtils.convertToDateTime(dto.getAccreditStartTime()));
+        entity.setAuthorizedAccreditEndTime(DateUtils.convertToDateTime(dto.getAccreditEndTime()));
+        friendsInfoDao.modifyAuthorizedFriendInfo(entity);
+    }
+
+    /**
+     * 删除好友
+     * @param phoneNo
+     * @param friendPhoneNo
+     */
+    @Override
+    public void deleteFriend(String phoneNo, String friendPhoneNo) {
+        friendsInfoDao.deleteFriend(phoneNo, friendPhoneNo);
     }
 
 }

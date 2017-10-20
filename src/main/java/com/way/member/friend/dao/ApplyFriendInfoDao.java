@@ -1,5 +1,6 @@
 package com.way.member.friend.dao;
 
+import com.way.common.rom.IBaseMapper;
 import com.way.member.friend.dto.FriendsInfoDto;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @date 2017/09/06 20:21
  *
  */
-public interface ApplyFriendInfoDao {
+public interface ApplyFriendInfoDao extends IBaseMapper {
 
     /**
      * 增加被申请记录

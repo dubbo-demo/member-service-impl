@@ -3,6 +3,7 @@ package com.way.member.friend.dao;
 import com.way.common.result.ServiceResult;
 import com.way.common.rom.IBaseMapper;
 import com.way.member.friend.dto.FriendsInfoDto;
+import com.way.member.friend.entity.FriendsInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -62,4 +63,22 @@ public interface FriendsInfoDao extends IBaseMapper {
      */
     List<FriendsInfoDto> getFriendList(String phoneNo);
 
+    /**
+     * 修改好友信息
+     * @param entity
+     */
+    void modifyFriendInfo(FriendsInfoEntity entity);
+
+    /**
+     * 修改被授权人好友信息
+     * @param entity
+     */
+    void modifyAuthorizedFriendInfo(FriendsInfoEntity entity);
+
+    /**
+     * 删除好友
+     * @param phoneNo
+     * @param friendPhoneNo
+     */
+    void deleteFriend(@Param("phoneNo") String phoneNo, String friendPhoneNo);
 }

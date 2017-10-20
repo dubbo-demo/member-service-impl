@@ -5,8 +5,8 @@
     <select id="getFriendsInfoBeforeExit" resultType="com.way.member.friend.dto.FriendsInfoDto">
         select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
         friends.is_authorized_visible isAuthorizedVisible,
-        friends.authorized_accredit_startTime authorizedAccreditStartTime,
-        friends.authorized_accredit_endTime authorizedAccreditEndTime,
+        date_format(friends.authorized_accredit_startTime,'%Y-%m-%d %h:%i:%s') authorizedAccreditStartTime,
+        date_format(friends.authorized_accredit_endTime,'%Y-%m-%d %h:%i:%s') authorizedAccreditEndTime,
         member.head_pic headPic from friends_info friends
         left join member_info member on member.phone_no = friends.friend_phone_no
         where friends.is_check_before_exit = 1
@@ -15,8 +15,8 @@
     <select id="getRealtimePositionByGroupId" resultType="com.way.member.friend.dto.FriendsInfoDto">
         select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
         friends.is_authorized_visible isAuthorizedVisible,
-        friends.authorized_accredit_startTime authorizedAccreditStartTime,
-        friends.authorized_accredit_endTime authorizedAccreditEndTime,
+        date_format(friends.authorized_accredit_startTime,'%Y-%m-%d %h:%i:%s') authorizedAccreditStartTime,
+        date_format(friends.authorized_accredit_endTime,'%Y-%m-%d %h:%i:%s') authorizedAccreditEndTime,
         member.head_pic headPic from friends_info friends
         left join member_info member on member.phone_no = friends.friend_phone_no
         where friends.group_id = #{groupId} and friends.phone_no = #{phoneNo}
@@ -33,8 +33,8 @@
     <select id="getFriendInfo" resultType="com.way.member.friend.dto.FriendsInfoDto">
         select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
         friends.is_accredit_visible isAccreditVisible,
-        friends.accredit_startTime accreditStartTime,
-        friends.accredit_endTime accreditEndTime,
+        date_format(friends.accredit_startTime,'%Y-%m-%d %h:%i:%s') accreditStartTime,
+        date_format(friends.accredit_endTime,'%Y-%m-%d %h:%i:%s') accreditEndTime,
         member.head_pic headPic,
         member.nick_name friendNickName,
         from friends_info friends
@@ -48,4 +48,20 @@
         from friends_info friends
         left join member_info member on member.phone_no = friends.friend_phone_no
     </select>
+
+    <update id="modifyFriendInfo">
+        update friends_info set friend_remark_name = #{friendRemarkName}, is_accredit_visible = #{isAccreditVisible},
+        accredit_startTime = #{accreditStartTime}, accredit_endTime = #{accreditEndTime}
+        where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
+    </update>
+
+    <update id="modifyAuthorizedFriendInfo">
+        update friends_info set friend_remark_name = #{friendRemarkName}, is_authorized_visible = #{isAuthorizedVisible},
+        authorized_accredit_startTime = #{authorizedAccreditStartTime}, authorized_accredit_endTime = #{authorizedAccreditEndTime}
+        where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
+    </update>
+
+    <delete id="deleteFriend">
+        delete from friends_info where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
+    </delete>
 </mapper>
