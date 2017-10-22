@@ -81,4 +81,18 @@ public interface FriendsInfoDao extends IBaseMapper {
      * @param friendPhoneNo
      */
     void deleteFriend(@Param("phoneNo") String phoneNo, String friendPhoneNo);
+
+    /**
+     * 根据组ID获取好友信息
+     * @param groupId
+     * @return
+     */
+    List<FriendsInfoDto> getFriendListByGroupId(String groupId);
+
+    /**
+     * 将好友组信息清空
+     * @param phoneNo
+     * @param groupId
+     */
+    void updateFriendsGroupInfo(@Param("phoneNo") String phoneNo, @Param("groupId") String groupId);
 }

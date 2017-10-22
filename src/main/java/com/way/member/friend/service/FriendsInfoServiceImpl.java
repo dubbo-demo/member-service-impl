@@ -130,4 +130,24 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
         friendsInfoDao.deleteFriend(phoneNo, friendPhoneNo);
     }
 
+    /**
+     * 根据组ID获取好友信息
+     * @param groupId
+     * @return
+     */
+    @Override
+    public List<FriendsInfoDto> getFriendListByGroupId(String groupId) {
+        return friendsInfoDao.getFriendListByGroupId(groupId);
+    }
+
+    /**
+     * 将好友组信息清空
+     * @param phoneNo
+     * @param groupId
+     */
+    @Override
+    public void updateFriendsGroupInfo(String phoneNo, String groupId) {
+        friendsInfoDao.updateFriendsGroupInfo(phoneNo, groupId);
+    }
+
 }
