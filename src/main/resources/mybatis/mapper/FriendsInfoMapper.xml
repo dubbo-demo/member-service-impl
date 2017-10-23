@@ -44,9 +44,11 @@
     </select>
     <select id="getFriendList" resultType="com.way.member.friend.dto.FriendsInfoDto">
         select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        friends.group_id groupId,friends.group_name groupName,
         member.head_pic headPic,member.nick_name friendNickName,
         from friends_info friends
         left join member_info member on member.phone_no = friends.friend_phone_no
+        order by friends.id asc
     </select>
 
     <update id="modifyFriendInfo">

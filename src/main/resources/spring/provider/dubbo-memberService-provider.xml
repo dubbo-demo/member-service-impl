@@ -16,4 +16,5 @@
 
     <dubbo:service interface="com.way.member.friend.service.ApplyFriendInfoService" ref="applyFriendInfoServiceImpl"/>
 
+    <dubbo:service interface="com.way.member.friend.service.GroupInfoService" ref="groupInfoServiceImpl"/>
 </beans>

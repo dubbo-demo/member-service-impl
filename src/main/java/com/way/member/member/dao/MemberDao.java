@@ -1,6 +1,7 @@
 package com.way.member.member.dao;
 
 import com.way.common.rom.IBaseMapper;
+import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -54,4 +55,17 @@ public interface MemberDao extends IBaseMapper {
 	 * @return
 	 */
 	MemberInfoEntity searchUserByPhoneNo(String phoneNo);
+
+	/**
+	 * 查看个人信息
+	 * @param phoneNo
+	 * @return
+	 */
+	MemberInfoEntity getMemberInfo(String phoneNo);
+
+	/**
+	 * 修改个人信息
+	 * @param dto
+	 */
+	void modifyMemberInfo(MemberDto dto);
 }

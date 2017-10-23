@@ -15,7 +15,7 @@
 		<result property="memberEndTime" column="member_endTime" />
 		<result property="valueAddedServiceStartTime" column="valueAdded_service_startTime" />
 		<result property="valueAddedServiceEndTime" column="valueAdded_service_endTime" />
-		<result property="integral" column="integral" />
+		<result property="rewardScore" column="reward_score" />
 		<result property="invitationCode" column="invitation_code" />
 		<result property="createTime" column="create_time" />
 		<result property="modifyTime" column="modify_time" />
@@ -45,11 +45,38 @@
 	</update>
 
 	<update id="updateHeadPicIdByPhoneNo">
-
-
+		update member_info set head_pic = ${headPicId} where phone_no = #{phoneNo}
 	</update>
 
 	<select id="searchUserByPhoneNo" resultMap="memberInfoMap">
 		SELECT phone_no,head_pic,nick_name FROM member_info WHERE phone_no = #{phoneNo}
 	</select>
+	<select id="getMemberInfo" resultType="com.way.member.member.entity.MemberInfoEntity">
+		SELECT head_pic,nick_name,age,member_type,valueAdded_service,reward_score FROM MEMBER_INFO WHERE phone_no = #{phoneNo}
+	</select>
+
+	<update id="modifyMemberInfo">
+		update MEMBER_INFO
+		<set >
+			<if test="headPic != null" >
+				head_pic = #{headPic},
+			</if>
+			<if test="nickName != null" >
+				nick_name = #{nickName},
+			</if>
+			<if test="nickSpell != null" >
+				nick_spell = #{nickSpell},
+			</if>
+			<if test="age != null" >
+				age = #{age},
+			</if>
+			<if test="gender != null" >
+				gender = #{gender},
+			</if>
+			<if test="modifyTime != null" >
+				modify_time = #{modifyTime},
+			</if>
+		</set>
+		where phone_no = #{phoneNo}
+	</update>
 </mapper>

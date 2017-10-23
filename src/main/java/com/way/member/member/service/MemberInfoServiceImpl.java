@@ -2,12 +2,16 @@ package com.way.member.member.service;
 
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
+import com.way.common.util.PingYinUtil;
 import com.way.member.member.dao.MemberDao;
 import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberInfoEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 /**
  * @ClassName: MemberServiceImpl
@@ -109,6 +113,37 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		}else{
 			return ServiceResult.newSuccess(null);
 		}
+	}
+
+	/**
+	 * 查看个人信息
+	 * @param phoneNo
+	 * @return
+	 */
+	@Override
+	public ServiceResult<MemberDto> getMemberInfo(String phoneNo) {
+		MemberInfoEntity memberInfoEntity = memberDao.getMemberInfo(phoneNo);
+		if(memberInfoEntity != null){
+			MemberDto memberDto = CommonUtils.transform(memberInfoEntity, MemberDto.class);
+			return ServiceResult.newSuccess(memberDto);
+		}else{
+			return ServiceResult.newSuccess(null);
+		}
+	}
+
+	/**
+	 * 修改个人信息
+	 * @param dto
+	 * @return
+	 */
+	@Override
+	public ServiceResult<Object> modifyMemberInfo(MemberDto dto) {
+		if(StringUtils.isNotBlank(dto.getNickName())){
+			dto.setNickSpell(PingYinUtil.getPingYin(dto.getNickName()));
+		}
+		dto.setModifyTime(new Date());
+		memberDao.modifyMemberInfo(dto);
+		return ServiceResult.newSuccess();
 	}
 
 }
