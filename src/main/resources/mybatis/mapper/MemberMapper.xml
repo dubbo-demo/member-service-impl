@@ -23,8 +23,9 @@
 
 	<!-- 保存用户信息 -->
 	<insert id="insert" parameterType="com.way.member.member.entity.MemberInfoEntity" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO member_info (phone_no, member_type, valueAdded_service, create_time, modify_time)
-		VALUES (#{phoneNo}, #{memberType}, #{valueAddedService}, now(), now())
+		INSERT INTO member_info (phone_no, member_type, valueAdded_service, reward_score, create_time, modify_time,
+		member_startTime, member_endTime, valueAdded_service_startTime, valueAdded_service_endTime)
+		VALUES (#{phoneNo}, #{memberType}, #{valueAddedService}, 0, now(), now(), memberStartTime, memberEndTime, valueAddedServiceStartTime, valueAddedServiceEndTime)
 	</insert>
 	
 	<!-- 根据手机号查询用户信息 -->

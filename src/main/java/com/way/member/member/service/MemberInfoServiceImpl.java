@@ -2,6 +2,7 @@ package com.way.member.member.service;
 
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
+import com.way.common.util.DateUtils;
 import com.way.common.util.PingYinUtil;
 import com.way.member.member.dao.MemberDao;
 import com.way.member.member.dto.MemberDto;
@@ -83,6 +84,12 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 */
 	@Transactional
 	public void memberRegist(MemberDto memberDto){
+		memberDto.setMemberType("2");
+		memberDto.setValueAddedService("1");
+		memberDto.setMemberStartTime(new Date());
+		memberDto.setMemberEndTime(DateUtils.addDays(memberDto.getMemberStartTime(), 30));
+		memberDto.setValueAddedServiceStartTime(memberDto.getMemberStartTime());
+		memberDto.setValueAddedServiceEndTime(memberDto.getMemberEndTime());
 		// 保存客户信息表
 		saveMemberInfo(memberDto);
 		// 保存密码表
