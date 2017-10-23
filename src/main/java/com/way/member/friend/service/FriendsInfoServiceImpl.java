@@ -161,4 +161,16 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
         friendsInfoDao.moveFriendToGroup(friendPhoneNo, groupInfoDto);
     }
 
+    /**
+     * 将好友从分组中移除
+     * @param phoneNo
+     * @param friendPhoneNo
+     * @return
+     */
+    @Override
+    public ServiceResult<Object> removeFriendFromGroup(String phoneNo, String friendPhoneNo) {
+        friendsInfoDao.removeFriendFromGroup(phoneNo, friendPhoneNo);
+        return ServiceResult.newSuccess();
+    }
+
 }

@@ -78,6 +78,10 @@
     </update>
 
     <update id="moveFriendToGroup">
-        update friends_info set #{dto.groupId}, group_name = #{dto.groupName} where phone_no = #{dto.phoneNo} and friend_phone_no = #{friendPhoneNo}
+        update friends_info set group_id = #{dto.groupId}, group_name = #{dto.groupName} where phone_no = #{dto.phoneNo} and friend_phone_no = #{friendPhoneNo}
+    </update>
+
+    <update id="removeFriendFromGroup">
+        update friends_info set group_id = null, group_name = null, group_create_time = null where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
     </update>
 </mapper>

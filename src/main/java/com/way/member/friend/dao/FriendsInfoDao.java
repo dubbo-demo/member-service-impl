@@ -103,4 +103,11 @@ public interface FriendsInfoDao extends IBaseMapper {
      * @param dto
      */
     void moveFriendToGroup(@Param("friendPhoneNo") String friendPhoneNo, @Param("dto") GroupInfoDto dto);
+
+    /**
+     * 将好友从分组中移除
+     * @param phoneNo
+     * @param friendPhoneNo
+     */
+    void removeFriendFromGroup(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
 }
