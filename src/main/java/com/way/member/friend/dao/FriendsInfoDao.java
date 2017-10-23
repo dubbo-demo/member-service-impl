@@ -3,6 +3,7 @@ package com.way.member.friend.dao;
 import com.way.common.result.ServiceResult;
 import com.way.common.rom.IBaseMapper;
 import com.way.member.friend.dto.FriendsInfoDto;
+import com.way.member.friend.dto.GroupInfoDto;
 import com.way.member.friend.entity.FriendsInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -95,4 +96,11 @@ public interface FriendsInfoDao extends IBaseMapper {
      * @param groupId
      */
     void updateFriendsGroupInfo(@Param("phoneNo") String phoneNo, @Param("groupId") String groupId);
+
+    /**
+     * 将好友添加到分组
+     * @param friendPhoneNo
+     * @param dto
+     */
+    void moveFriendToGroup(@Param("friendPhoneNo") String friendPhoneNo, @Param("dto") GroupInfoDto dto);
 }

@@ -62,4 +62,5 @@ public class GroupInfoServiceImpl implements GroupInfoService {
     public void deleteGroupInfo(String groupId) {
         groupInfoDao.deleteGroupInfo(groupId);
     }
+
 }

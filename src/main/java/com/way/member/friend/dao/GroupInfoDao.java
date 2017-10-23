@@ -39,4 +39,5 @@ public interface GroupInfoDao  extends IBaseMapper{
      * @param groupId
      */
     void deleteGroupInfo(String groupId);
+
 }

@@ -5,6 +5,7 @@ import com.way.common.util.DateTimeUtil;
 import com.way.common.util.DateUtils;
 import com.way.member.friend.dao.FriendsInfoDao;
 import com.way.member.friend.dto.FriendsInfoDto;
+import com.way.member.friend.dto.GroupInfoDto;
 import com.way.member.friend.entity.FriendsInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -148,6 +149,16 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
     @Override
     public void updateFriendsGroupInfo(String phoneNo, String groupId) {
         friendsInfoDao.updateFriendsGroupInfo(phoneNo, groupId);
+    }
+
+    /**
+     * 将好友添加到分组
+     * @param friendPhoneNo
+     * @param groupInfoDto
+     */
+    @Override
+    public void moveFriendToGroup(String friendPhoneNo, GroupInfoDto groupInfoDto) {
+        friendsInfoDao.moveFriendToGroup(friendPhoneNo, groupInfoDto);
     }
 
 }
