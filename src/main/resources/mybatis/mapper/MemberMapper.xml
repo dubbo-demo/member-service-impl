@@ -23,9 +23,9 @@
 
 	<!-- 保存用户信息 -->
 	<insert id="insert" parameterType="com.way.member.member.entity.MemberInfoEntity" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO member_info (phone_no, member_type, valueAdded_service, reward_score, create_time, modify_time,
+		INSERT INTO member_info (phone_no,nick_name,nick_spell, member_type, valueAdded_service, reward_score, create_time, modify_time,
 		member_startTime, member_endTime, valueAdded_service_startTime, valueAdded_service_endTime)
-		VALUES (#{phoneNo}, #{memberType}, #{valueAddedService}, 0, now(), now(), #{memberStartTime}, #{memberEndTime},
+		VALUES (#{phoneNo},#{phoneNo}, #{phoneNo}, #{memberType}, #{valueAddedService}, 0, now(), now(), #{memberStartTime}, #{memberEndTime},
 		#{valueAddedServiceStartTime}, #{valueAddedServiceEndTime})
 	</insert>
 	
