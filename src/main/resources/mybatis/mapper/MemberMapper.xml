@@ -42,7 +42,7 @@
 
 	<!-- 修改会员登录密码 -->
 	<update id="updatePassword" parameterType="java.util.Map">
-		UPDATE MEMBER_PASSWORD SET PASSWORD = #{newPassword},UPDATETIME = now()
+		UPDATE MEMBER_PASSWORD SET password = #{newPassword},modify_time = now()
 		WHERE phone_no = #{phoneNo}
 	</update>
 
