@@ -53,7 +53,7 @@
 	<select id="searchUserByPhoneNo" resultMap="memberInfoMap">
 		SELECT phone_no,head_pic,nick_name FROM member_info WHERE phone_no = #{phoneNo}
 	</select>
-	<select id="getMemberInfo" resultType="com.way.member.member.entity.MemberInfoEntity">
+	<select id="getMemberInfo" resultMap="memberInfoMap">
 		SELECT head_pic,nick_name,age,member_type,valueAdded_service,reward_score FROM MEMBER_INFO WHERE phone_no = #{phoneNo}
 	</select>
 
