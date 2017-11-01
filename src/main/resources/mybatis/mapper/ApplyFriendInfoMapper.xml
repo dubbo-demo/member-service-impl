@@ -3,14 +3,14 @@
 <mapper namespace="com.way.member.friend.dao.ApplyFriendInfoDao" >
 
     <insert id="applyForAddFriend">
-        insert into apply_friend_info (phone_no, friend_phone_no, apply_info, isApprove, create_time, modify_time)
+        insert into apply_friend_info (phone_no, friend_phone_no, apply_info, is_approve, create_time, modify_time)
         values (#{friendPhoneNo}, #{phoneNo}, #{applyInfo}, 0, now(), now())
     </insert>
 
     <select id="getApplicationRecordOfFriend" resultType="com.way.member.friend.dto.FriendsInfoDto">
         select friend.friend_phone_no friendPhoneNo,friend.apply_info applyInfo,friend.is_approve isApprove,
         member.head_pic headPic,member.nick_name friendNickName from apply_friend_info friend
-        left join member_info member on member.phone_no = friends.friend_phone_no
+        left join member_info member on member.phone_no = friend.friend_phone_no
         where friends.phone_no = #{phoneNo}
     </select>
 
