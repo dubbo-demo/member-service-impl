@@ -11,11 +11,10 @@
         select friend.friend_phone_no friendPhoneNo,friend.apply_info applyInfo,friend.is_approve isApprove,
         member.head_pic headPic,member.nick_name friendNickName from apply_friend_info friend
         left join member_info member on member.phone_no = friend.friend_phone_no
-        where friends.phone_no = #{phoneNo}
+        where friend.phone_no = #{phoneNo}
     </select>
 
     <update id="agreeToAddFriend">
-        update apply_friend_info set is_approve=#{isApprove} where phone_no = #{phoneNo}
-        and friend_phone_no = #{friendPhoneNo}
+        update apply_friend_info set is_approve=#{isApprove} where id = #{applicationId}
     </update>
 </mapper>

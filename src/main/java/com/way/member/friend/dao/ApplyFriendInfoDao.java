@@ -33,10 +33,9 @@ public interface ApplyFriendInfoDao extends IBaseMapper {
 
     /**
      * 同意/拒绝添加好友申请
-     * @param phoneNo
-     * @param friendPhoneNo
+     * @param applicationId
      * @param isApprove
      * @return
      */
-    void agreeToAddFriend(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo, @Param("isApprove") String isApprove);
+    void agreeToAddFriend(@Param("applicationId") String applicationId, @Param("isApprove") String isApprove);
 }

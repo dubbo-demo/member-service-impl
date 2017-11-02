@@ -1,10 +1,12 @@
 package com.way.member.friend.service;
 
+import com.way.common.constant.Constants;
 import com.way.common.result.ServiceResult;
 import com.way.member.friend.dao.ApplyFriendInfoDao;
 import com.way.member.friend.dto.FriendsInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -47,11 +49,20 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
      * @param phoneNo
      * @param friendPhoneNo
      * @param isApprove
+     * @param applicationId
      * @return
      */
     @Override
-    public ServiceResult<Object> agreeToAddFriend(String phoneNo, String friendPhoneNo, String isApprove) {
-        applyFriendInfoDao.agreeToAddFriend(phoneNo, friendPhoneNo, isApprove);
+    @Transactional
+    public ServiceResult<Object> agreeToAddFriend(String phoneNo, String friendPhoneNo, String isApprove, String applicationId) {
+        // 如果通过则互为好友
+        if(isApprove.equals(Constants.YES)){
+            // 加好友
+
+            // 添加好友
+
+        }
+        applyFriendInfoDao.agreeToAddFriend(applicationId, isApprove);
         return ServiceResult.newSuccess();
     }
 }
