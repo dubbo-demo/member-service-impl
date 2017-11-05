@@ -3,7 +3,7 @@
 <mapper namespace="com.way.member.friend.dao.GroupInfoDao" >
 
     <insert id="addGroupInfo">
-        insert into group_info (group_name, phone_no, create_time) values (phoneNo, groupName, now())
+        insert into group_info (group_name, phone_no, create_time) values (groupName, phoneNo, now())
     </insert>
 
     <select id="getGroupInfo" resultType="com.way.member.friend.entity.GroupInfoEntity">

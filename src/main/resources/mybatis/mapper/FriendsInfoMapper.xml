@@ -87,4 +87,11 @@
     <update id="removeFriendFromGroup">
         update friends_info set group_id = null, group_name = null, group_create_time = null where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
     </update>
+
+    <insert id="addFriendInfo">
+        INSERT INTO friends_info (phone_no,friend_phone_no,friend_remark_name,is_accredit_visible,accredit_startTime,accredit_endTime,
+        accredit_weeks,is_authorized_visible,authorized_accredit_startTime,authorized_accredit_endTime,authorized_weeks,is_check_before_exit)
+        VALUES (#{phoneNo},#{friendPhoneNo},#{friendRemarkName},#{isAccreditVisible},#{accreditStartTime},#{accreditEndTime},#{accreditWeeks},
+        #{isAuthorizedVisible},#{authorizedAccreditStartTime},#{authorizedAccreditEndTime},#{authorizedWeeks},#{isCheckBeforeExit})
+    </insert>
 </mapper>

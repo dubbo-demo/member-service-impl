@@ -1,12 +1,12 @@
 package com.way.member.friend.service;
 
 import com.way.common.result.ServiceResult;
-import com.way.common.util.DateTimeUtil;
-import com.way.common.util.DateUtils;
+import com.way.common.util.CommonUtils;
 import com.way.member.friend.dao.FriendsInfoDao;
 import com.way.member.friend.dto.FriendsInfoDto;
 import com.way.member.friend.dto.GroupInfoDto;
 import com.way.member.friend.entity.FriendsInfoEntity;
+import com.way.member.member.dto.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -100,8 +100,8 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
         entity.setPhoneNo(phoneNo);
         entity.setFriendPhoneNo(dto.getFriendPhoneNo());
         entity.setIsAccreditVisible(dto.getIsAccreditVisible());
-        entity.setAccreditStartTime(DateUtils.convertToDateTime(dto.getAccreditStartTime()));
-        entity.setAccreditEndTime(DateUtils.convertToDateTime(dto.getAccreditEndTime()));
+        entity.setAccreditStartTime(dto.getAccreditStartTime());
+        entity.setAccreditEndTime(dto.getAccreditEndTime());
         friendsInfoDao.modifyFriendInfo(entity);
     }
 
@@ -116,8 +116,8 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
         entity.setPhoneNo(dto.getFriendPhoneNo());
         entity.setFriendPhoneNo(phoneNo);
         entity.setIsAuthorizedVisible(dto.getIsAccreditVisible());
-        entity.setAuthorizedAccreditStartTime(DateUtils.convertToDateTime(dto.getAccreditStartTime()));
-        entity.setAuthorizedAccreditEndTime(DateUtils.convertToDateTime(dto.getAccreditEndTime()));
+        entity.setAuthorizedAccreditStartTime(dto.getAccreditStartTime());
+        entity.setAuthorizedAccreditEndTime(dto.getAccreditEndTime());
         friendsInfoDao.modifyAuthorizedFriendInfo(entity);
     }
 
@@ -170,6 +170,17 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
     @Override
     public ServiceResult<Object> removeFriendFromGroup(String phoneNo, String friendPhoneNo) {
         friendsInfoDao.removeFriendFromGroup(phoneNo, friendPhoneNo);
+        return ServiceResult.newSuccess();
+    }
+
+    /**
+     * 添加好友
+     * @param dto
+     */
+    @Override
+    public ServiceResult<Object> addFriendInfo(FriendsInfoDto dto) {
+        FriendsInfoEntity entity = CommonUtils.transform(dto, FriendsInfoEntity.class);
+        friendsInfoDao.addFriendInfo(entity);
         return ServiceResult.newSuccess();
     }
 
