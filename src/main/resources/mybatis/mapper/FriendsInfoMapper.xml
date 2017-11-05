@@ -33,8 +33,9 @@
     <select id="getFriendInfo" resultType="com.way.member.friend.dto.FriendsInfoDto">
         select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
         friends.is_accredit_visible isAccreditVisible,
-        date_format(friends.accredit_startTime,'%Y-%m-%d %h:%i:%s') accreditStartTime,
-        date_format(friends.accredit_endTime,'%Y-%m-%d %h:%i:%s') accreditEndTime,
+        friends.accredit_startTime accreditStartTime,
+        friends.accredit_endTime accreditEndTime,
+        friends.accredit_weeks accreditWeeks,
         member.head_pic headPic,
         member.nick_name friendNickName,
         from friends_info friends

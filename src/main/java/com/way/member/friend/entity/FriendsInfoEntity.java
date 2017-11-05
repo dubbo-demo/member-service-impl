@@ -22,41 +22,47 @@ public class FriendsInfoEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** 手机号 */
-    private String phoneNo;//
+    private String phoneNo;
 
     /** 好友手机号 */
-    private String friendPhoneNo;//
+    private String friendPhoneNo;
 
     /** 好友备注名 */
-    private String friendRemarkName;//
+    private String friendRemarkName;
 
     /** 是否授权可见 1:是,2:否 */
-    private Integer isAccreditVisible;//
+    private Integer isAccreditVisible;
 
     /** 授权开始时间 */
-    private Date accreditStartTime;//
+    private String accreditStartTime;
 
     /** 授权结束时间 */
-    private Date accreditEndTime;//
+    private String accreditEndTime;
+
+    /** 授权日期 */
+    private String accreditWeeks;
 
     /** 是否被授权可见 1:是,2:否 */
-    private Integer isAuthorizedVisible;//
+    private Integer isAuthorizedVisible;
 
     /** 被授权开始时间 */
-    private Date authorizedAccreditStartTime;//
+    private String authorizedAccreditStartTime;
 
     /** 被授权结束时间 */
-    private Date authorizedAccreditEndTime;//
+    private String authorizedAccreditEndTime;
+
+    /** 被授权日期 */
+    private String authorizedWeeks;
 
     /** 组id */
-    private String groupId;//
+    private String groupId;
 
     /** 组名称 */
-    private String groupName;//
+    private String groupName;
 
     /** 组创建时间 */
-    private Date groupCreateTime;//
+    private Date groupCreateTime;
 
     /** 是否退出前查看 1:是,2:否 */
-    private Integer isCheckBeforeExit;//
+    private Integer isCheckBeforeExit;
 }

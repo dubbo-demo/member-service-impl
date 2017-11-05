@@ -110,4 +110,10 @@ public interface FriendsInfoDao extends IBaseMapper {
      * @param friendPhoneNo
      */
     void removeFriendFromGroup(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
+
+    /**
+     * 添加好友
+     * @param entity
+     */
+    void addFriendInfo(FriendsInfoEntity entity);
 }
