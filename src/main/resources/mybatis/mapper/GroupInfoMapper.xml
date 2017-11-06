@@ -7,7 +7,7 @@
     </insert>
 
     <select id="getGroupInfo" resultType="com.way.member.friend.entity.GroupInfoEntity">
-        select group_name groupName from group_info where id = #{groupId}
+        select id groupId,group_name groupName from group_info where id = #{groupId}
     </select>
 
     <update id="modifyGroupInfo">
