@@ -32,16 +32,12 @@
 
     <select id="getFriendInfo" resultType="com.way.member.friend.dto.FriendsInfoDto">
         select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
-        friends.is_accredit_visible isAccreditVisible,
-        friends.accredit_startTime accreditStartTime,
-        friends.accredit_endTime accreditEndTime,
-        friends.accredit_weeks accreditWeeks,
-        member.head_pic headPic,
-        member.nick_name friendNickName,
+        friends.accredit_startTime accreditStartTime,friends.accredit_endTime accreditEndTime,
+        friends.is_accredit_visible isAccreditVisible,friends.accredit_weeks accreditWeeks,
+        member.head_pic headPic,member.nick_name friendNickName
         from friends_info friends
         left join member_info member on member.phone_no = friends.friend_phone_no
-        where friends.is_check_before_exit = 1
-
+        where friends.phone_no = #{phoneNo} and friends.friend_phone_no = #{friendPhoneNo}
     </select>
     <select id="getFriendList" resultType="com.way.member.friend.dto.FriendsInfoDto">
         select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
@@ -55,7 +51,7 @@
 
     <update id="modifyFriendInfo">
         update friends_info set friend_remark_name = #{friendRemarkName}, is_accredit_visible = #{isAccreditVisible},
-        accredit_startTime = #{accreditStartTime}, accredit_endTime = #{accreditEndTime}
+        accredit_startTime = #{accreditStartTime}, accredit_endTime = #{accreditEndTime},friend_remark_name=#{friendRemarkName}
         where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
     </update>
 

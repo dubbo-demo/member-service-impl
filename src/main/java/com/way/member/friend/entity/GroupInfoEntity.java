@@ -19,6 +19,9 @@ public class GroupInfoEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
+    /** 组id */
+    private String groupId;
+
     /** 组名称 */
     private String groupName;
 

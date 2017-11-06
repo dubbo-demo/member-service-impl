@@ -5,6 +5,8 @@ import com.way.member.friend.dto.GroupInfoDto;
 import com.way.member.friend.entity.GroupInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @ClassName: GroupInfoDao
  * @Description: 组信息Dao
@@ -40,4 +42,10 @@ public interface GroupInfoDao  extends IBaseMapper{
      */
     void deleteGroupInfo(String groupId);
 
+    /**
+     * 查询组信息
+     * @param phoneNo
+     * @return
+     */
+    List<GroupInfoEntity> getGroupInfoListByPhoneNo(String phoneNo);
 }

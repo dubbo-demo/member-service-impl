@@ -1,6 +1,5 @@
 package com.way.member.friend.dao;
 
-import com.way.common.result.ServiceResult;
 import com.way.common.rom.IBaseMapper;
 import com.way.member.friend.dto.FriendsInfoDto;
 import com.way.member.friend.dto.GroupInfoDto;
@@ -55,7 +54,7 @@ public interface FriendsInfoDao extends IBaseMapper {
      * @param friendPhoneNo
      * @return
      */
-    ServiceResult<FriendsInfoDto> getFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
+    FriendsInfoDto getFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
 
     /**
      * 查询好友列表
@@ -81,7 +80,7 @@ public interface FriendsInfoDao extends IBaseMapper {
      * @param phoneNo
      * @param friendPhoneNo
      */
-    void deleteFriend(@Param("phoneNo") String phoneNo, String friendPhoneNo);
+    void deleteFriend(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
 
     /**
      * 根据组ID获取好友信息

@@ -3,7 +3,7 @@
 <mapper namespace="com.way.member.friend.dao.GroupInfoDao" >
 
     <insert id="addGroupInfo">
-        insert into group_info (group_name, phone_no, create_time) values (groupName, phoneNo, now())
+        insert into group_info (group_name, phone_no, create_time) values (#{groupName}, #{phoneNo}, now())
     </insert>
 
     <select id="getGroupInfo" resultType="com.way.member.friend.entity.GroupInfoEntity">
@@ -18,5 +18,8 @@
         delete from group_info where id = #{groupId}
     </delete>
 
+    <select id="getGroupInfoListByPhoneNo" resultType="com.way.member.friend.entity.GroupInfoEntity">
+        select id groupId,group_name groupName from group_info where phone_no=#{phoneNo} order by create_time asc
+    </select>
 
 </mapper>

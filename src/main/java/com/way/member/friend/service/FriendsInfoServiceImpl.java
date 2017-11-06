@@ -76,7 +76,10 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
      */
     @Override
     public ServiceResult<FriendsInfoDto> getFriendInfo(String phoneNo, String friendPhoneNo) {
-        return friendsInfoDao.getFriendInfo(phoneNo, friendPhoneNo);
+        ServiceResult<FriendsInfoDto> serviceResult = ServiceResult.newSuccess();
+        FriendsInfoDto friendsInfoDto = friendsInfoDao.getFriendInfo(phoneNo, friendPhoneNo);
+        serviceResult.setData(friendsInfoDto);
+        return serviceResult;
     }
 
     /**
@@ -99,9 +102,11 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
         FriendsInfoEntity entity = new FriendsInfoEntity();
         entity.setPhoneNo(phoneNo);
         entity.setFriendPhoneNo(dto.getFriendPhoneNo());
+        entity.setFriendRemarkName(dto.getFriendRemarkName());
         entity.setIsAccreditVisible(dto.getIsAccreditVisible());
         entity.setAccreditStartTime(dto.getAccreditStartTime());
         entity.setAccreditEndTime(dto.getAccreditEndTime());
+        entity.setAccreditWeeks(dto.getAccreditWeeks());
         friendsInfoDao.modifyFriendInfo(entity);
     }
 
@@ -118,6 +123,7 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
         entity.setIsAuthorizedVisible(dto.getIsAccreditVisible());
         entity.setAuthorizedAccreditStartTime(dto.getAccreditStartTime());
         entity.setAuthorizedAccreditEndTime(dto.getAccreditEndTime());
+        entity.setAuthorizedWeeks(dto.getAccreditWeeks());
         friendsInfoDao.modifyAuthorizedFriendInfo(entity);
     }
 

@@ -63,6 +63,6 @@ public class PositionInfoServiceImpl implements PositionInfoService {
      * 分表算法
      */
     private String subTable(String phoneNo) {
-        return String.valueOf(Integer.valueOf(phoneNo).intValue() % NumberConstants.NUM_20 + NumberConstants.NUM_ONE);
+        return String.valueOf(Long.valueOf(phoneNo) % NumberConstants.NUM_20 + NumberConstants.NUM_ONE);
     }
 }

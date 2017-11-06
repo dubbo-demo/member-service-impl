@@ -9,6 +9,8 @@ import com.way.member.member.entity.MemberInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @ClassName: GroupInfoServiceImpl
  * @Description: 组信息ServiceImpl
@@ -61,6 +63,17 @@ public class GroupInfoServiceImpl implements GroupInfoService {
     @Override
     public void deleteGroupInfo(String groupId) {
         groupInfoDao.deleteGroupInfo(groupId);
+    }
+
+    /**
+     * 查询组信息
+     * @param phoneNo
+     * @return
+     */
+    @Override
+    public List<GroupInfoDto> getGroupInfoListByPhoneNo(String phoneNo) {
+        List<GroupInfoEntity> entity = groupInfoDao.getGroupInfoListByPhoneNo(phoneNo);
+        return CommonUtils.transformList(entity, GroupInfoDto.class);
     }
 
 }
