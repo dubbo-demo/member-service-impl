@@ -12,11 +12,18 @@
     </update>
 
     <select id="getRealtimePositionByPhoneNo" resultType="com.way.member.position.dto.PositionInfoDto">
-        select location.id, location.phone_no phoneNo, location.longitude, location.latitude, date_format(location.modify_time,'%Y-%m-%d %h:%i:%s') modifyTime,
-        member.head_pic_id headPic from member_location_info_${flag} location
-        left join member_info member on location.phone_no = member.phone_no
-        where location.phone_no = #{phoneNo}
-        order by location.modify_time desc limit 1
+        select id, phone_no phoneNo, longitude, latitude, date_format(modify_time,'%Y-%m-%d %h:%i:%s') modifyTime
+        from member_location_info_${flag} where phone_no = #{phoneNo}
+        <if test="modifyTime != null" >
+            and date_format(modify_time,'%Y-%m-%d %h:%i:%s') > #{modifyTime},
+        </if>
+        order by modify_time desc limit 1
+    </select>
+
+    <select id="getMemberHistoryPositions" resultType="com.way.member.position.dto.PositionInfoDto">
+        select longitude, latitude from member_location_info_${flag} where phone_no = #{phoneNo}
+        and date_format(modify_time,'%Y-%m-%d %h:%i:%s') between #{startTime} and #{endTime}
+        order by id desc
     </select>
 
 </mapper>

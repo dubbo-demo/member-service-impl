@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.util.Date;
-
 /**
  * 功能描述：定位信息Dto
  *
@@ -26,7 +24,4 @@ public class PositionInfoPo extends BaseEntity {
 
     private String latitude;// 纬度
 
-    private Date createTime;// 更新时间
-
-    private Date modifyTime;// 更新时间
 }

@@ -43,10 +43,10 @@ public interface FriendsInfoDao extends IBaseMapper {
     /**
      * 取消查看好友实时坐标
      * @param phoneNo
-     * @param friendPhoneNo
+     * @param friendPhoneNos
      * @param state
      */
-    void updateIsCheckBeforeExitByFriendPhoneNo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo, @Param("state") Integer state);
+    void updateIsCheckBeforeExitByFriendPhoneNos(@Param("phoneNo") String phoneNo, @Param("friendPhoneNos") List<String> friendPhoneNos, @Param("state") Integer state);
 
     /**
      * 查询好友信息
@@ -115,4 +115,12 @@ public interface FriendsInfoDao extends IBaseMapper {
      * @param entity
      */
     void addFriendInfo(FriendsInfoEntity entity);
+
+    /**
+     * 查询是否被好友授权可见
+     * @param phoneNo
+     * @param friendPhoneNo
+     * @return
+     */
+    FriendsInfoDto checkIsAuthorizedVisible(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
 }

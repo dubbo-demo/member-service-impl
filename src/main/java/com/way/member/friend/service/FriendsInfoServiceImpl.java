@@ -6,7 +6,6 @@ import com.way.member.friend.dao.FriendsInfoDao;
 import com.way.member.friend.dto.FriendsInfoDto;
 import com.way.member.friend.dto.GroupInfoDto;
 import com.way.member.friend.entity.FriendsInfoEntity;
-import com.way.member.member.dto.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,12 +59,12 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
     /**
      * 取消查看好友实时坐标
      * @param phoneNo
-     * @param friendPhoneNo
+     * @param friendPhoneNos
      * @param state
      */
     @Override
-    public void updateIsCheckBeforeExitByFriendPhoneNo(String phoneNo, String friendPhoneNo, Integer state) {
-        friendsInfoDao.updateIsCheckBeforeExitByFriendPhoneNo(phoneNo, friendPhoneNo, state);
+    public void updateIsCheckBeforeExitByFriendPhoneNos(String phoneNo, List<String> friendPhoneNos, Integer state) {
+        friendsInfoDao.updateIsCheckBeforeExitByFriendPhoneNos(phoneNo, friendPhoneNos, state);
     }
 
     /**
@@ -188,6 +187,17 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
         FriendsInfoEntity entity = CommonUtils.transform(dto, FriendsInfoEntity.class);
         friendsInfoDao.addFriendInfo(entity);
         return ServiceResult.newSuccess();
+    }
+
+    /**
+     * 查询是否被好友授权可见
+     * @param phoneNo
+     * @param friendPhoneNo
+     * @return
+     */
+    @Override
+    public FriendsInfoDto checkIsAuthorizedVisible(String phoneNo, String friendPhoneNo) {
+        return friendsInfoDao.checkIsAuthorizedVisible(phoneNo, friendPhoneNo);
     }
 
 }

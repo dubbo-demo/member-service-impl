@@ -3,15 +3,18 @@
 <mapper namespace="com.way.member.friend.dao.GroupInfoDao" >
 
     <insert id="addGroupInfo">
-        insert into group_info (group_name, phone_no, create_time) values (#{groupName}, #{phoneNo}, now())
+        insert into group_info (group_name, phone_no,is_accredit_visible,accredit_startTime,accredit_endTime,accredit_weeks, create_time) values
+        (#{groupName}, #{phoneNo},#{isAccreditVisible},#{accreditStartTime},#{accreditEndTime},#{accreditWeeks}, now())
     </insert>
 
     <select id="getGroupInfo" resultType="com.way.member.friend.entity.GroupInfoEntity">
-        select id groupId,group_name groupName from group_info where id = #{groupId}
+        select id groupId,group_name groupName,is_accredit_visible isAccreditVisible,accredit_startTime accreditStartTime,
+        accredit_endTime accreditEndTime,accredit_weeks accreditWeeks from group_info where id = #{groupId}
     </select>
 
     <update id="modifyGroupInfo">
-        update group_info set group_name = #{groupName} where id = #{groupId}
+        update group_info set group_name = #{groupName},is_accredit_visible = #{isAccreditVisible},accredit_startTime = #{accreditStartTime},
+        accredit_endTime = #{accreditEndTime},accredit_weeks = #{accreditWeeks} where id = #{groupId}
     </update>
 
     <delete id="deleteGroupInfo">

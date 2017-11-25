@@ -1,10 +1,11 @@
 package com.way.member.position.dao;
 
-import com.way.common.result.ServiceResult;
 import com.way.common.rom.IBaseMapper;
 import com.way.member.member.entity.PositionInfoPo;
 import com.way.member.position.dto.PositionInfoDto;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 功能描述：定位信息Dao
@@ -33,7 +34,18 @@ public interface PositionInfoDao extends IBaseMapper {
      * 根据手机号获取用户实时坐标
      * @param phoneNo
      * @param flag
+     * @param modifyTime
      * @return
      */
-    ServiceResult<PositionInfoDto> getRealtimePositionByPhoneNo(@Param("phoneNo") String phoneNo, @Param("flag") String flag);
+    PositionInfoDto getRealtimePositionByPhoneNo(@Param("phoneNo") String phoneNo, @Param("flag") String flag, @Param("modifyTime") String modifyTime);
+
+    /**
+     * 查询用户历史轨迹坐标
+     * @param phoneNo
+     * @param flag
+     * @param startTime
+     *@param endTime @return
+     */
+    List<PositionInfoDto> getMemberHistoryPositions(@Param("phoneNo") String phoneNo, @Param("flag") String flag,
+                                                    @Param("startTime") String startTime, @Param("endTime") String endTime);
 }

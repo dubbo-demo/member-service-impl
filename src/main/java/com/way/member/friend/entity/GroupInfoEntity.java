@@ -28,4 +28,15 @@ public class GroupInfoEntity extends BaseEntity {
     /** 手机号 */
     private String phoneNo;
 
+    /** 是否授权可见 1:是,2:否 */
+    private Integer isAccreditVisible;
+
+    /** 授权开始时间 yyyy-MM-dd HH:mm */
+    private String accreditStartTime;
+
+    /** 授权结束时间 yyyy-MM-dd HH:mm */
+    private String accreditEndTime;
+
+    /** 授权日期 */
+    private String accreditWeeks;
 }

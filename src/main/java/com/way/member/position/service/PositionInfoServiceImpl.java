@@ -9,6 +9,8 @@ import com.way.member.position.dto.PositionInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 功能描述：定位信息ServiceImpl
  *
@@ -48,15 +50,32 @@ public class PositionInfoServiceImpl implements PositionInfoService {
 
     /**
      * 根据手机号获取用户实时坐标
+     *
      * @param phoneNo
+     * @param modifyTime
      * @return
      */
     @Override
-    public ServiceResult<PositionInfoDto> getRealtimePositionByPhoneNo(String phoneNo) {
+    public ServiceResult<PositionInfoDto> getRealtimePositionByPhoneNo(String phoneNo, String modifyTime) {
         ServiceResult<PositionInfoDto> serviceResult = ServiceResult.newSuccess();
         // 分20张表
         String flag = subTable(phoneNo);
-        return positionInfoDao.getRealtimePositionByPhoneNo(phoneNo, flag);
+        serviceResult.setData(positionInfoDao.getRealtimePositionByPhoneNo(phoneNo, flag, modifyTime));
+        return serviceResult;
+    }
+
+    /**
+     * 查询用户历史轨迹坐标
+     * @param phoneNo
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Override
+    public List<PositionInfoDto> getMemberHistoryPositions(String phoneNo, String startTime, String endTime) {
+        // 分20张表
+        String flag = subTable(phoneNo);
+        return positionInfoDao.getMemberHistoryPositions(phoneNo, flag, startTime, endTime);
     }
 
     /**

@@ -26,8 +26,12 @@
         update friends_info set is_check_before_exit=#{state} where group_id = #{groupId} and phone_no = #{phoneNo}
     </update>
 
-    <update id="updateIsCheckBeforeExitByFriendPhoneNo">
-        update friends_info set is_check_before_exit=#{state} where friend_phone_no = #{friendPhoneNo} and phone_no = #{phoneNo}
+    <update id="updateIsCheckBeforeExitByFriendPhoneNos">
+        update friends_info set is_check_before_exit=#{state} where phone_no = #{phoneNo} and friend_phone_no in
+        <foreach collection="friendPhoneNos" index="index" item="friendPhoneNo"
+                 separator="," open="(" close=")">
+            ${friendPhoneNo}
+        </foreach>
     </update>
 
     <select id="getFriendInfo" resultType="com.way.member.friend.dto.FriendsInfoDto">
@@ -41,7 +45,7 @@
     </select>
     <select id="getFriendList" resultType="com.way.member.friend.dto.FriendsInfoDto">
         select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
-        friends.group_id groupId,friends.group_name groupName,
+        friends.group_id groupId,friends.group_name groupName,friends.is_check_before_exit isCheckBeforeExit,
         member.head_pic headPic,member.nick_name friendNickName
         from friends_info friends
         left join member_info member on member.phone_no = friends.friend_phone_no
@@ -51,13 +55,15 @@
 
     <update id="modifyFriendInfo">
         update friends_info set friend_remark_name = #{friendRemarkName}, is_accredit_visible = #{isAccreditVisible},
-        accredit_startTime = #{accreditStartTime}, accredit_endTime = #{accreditEndTime},friend_remark_name=#{friendRemarkName}
+        accredit_startTime = #{accreditStartTime}, accredit_endTime = #{accreditEndTime},friend_remark_name=#{friendRemarkName},
+        accredit_weeks = #{accreditWeeks}
         where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
     </update>
 
     <update id="modifyAuthorizedFriendInfo">
         update friends_info set friend_remark_name = #{friendRemarkName}, is_authorized_visible = #{isAuthorizedVisible},
-        authorized_accredit_startTime = #{authorizedAccreditStartTime}, authorized_accredit_endTime = #{authorizedAccreditEndTime}
+        authorized_accredit_startTime = #{authorizedAccreditStartTime}, authorized_accredit_endTime = #{authorizedAccreditEndTime},
+        authorized_weeks = #{authorizedWeeks}
         where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
     </update>
 
@@ -91,4 +97,10 @@
         VALUES (#{phoneNo},#{friendPhoneNo},#{friendRemarkName},#{isAccreditVisible},#{accreditStartTime},#{accreditEndTime},#{accreditWeeks},
         #{isAuthorizedVisible},#{authorizedAccreditStartTime},#{authorizedAccreditEndTime},#{authorizedWeeks},#{isCheckBeforeExit})
     </insert>
+
+    <select id="checkIsAuthorizedVisible" resultType="com.way.member.friend.dto.FriendsInfoDto">
+        select is_authorized_visible isAuthorizedVisible,authorized_accredit_startTime authorizedAccreditStartTime,
+        authorized_accredit_endTime authorizedAccreditEndTime,authorized_weeks authorizedWeeks
+        from friends_info where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
+    </select>
 </mapper>

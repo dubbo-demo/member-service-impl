@@ -29,14 +29,23 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
     private FriendsInfoService friendsInfoService;
 
     /**
-     * 增加被申请记录
+     * 申请添加好友
      * @param phoneNo
      * @param friendPhoneNo
      * @param applyInfo
      */
     @Override
     public void applyForAddFriend(String phoneNo, String friendPhoneNo, String applyInfo) {
-        applyFriendInfoDao.applyForAddFriend(phoneNo, friendPhoneNo, applyInfo);
+        // 查询被申请人是否有被申请记录
+        int count = applyFriendInfoDao.getAddFriendInfo(phoneNo, friendPhoneNo);
+        // 有更新没有新增
+        if(count == 0){
+            // 增加被申请记录
+            applyFriendInfoDao.addApplyFriendInfo(phoneNo, friendPhoneNo, applyInfo);
+        }else{
+            // 更新被申请记录
+            applyFriendInfoDao.updateApplyFriendInfo(phoneNo, friendPhoneNo, applyInfo);
+        }
     }
 
     /**
@@ -62,26 +71,30 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
     public ServiceResult<Object> agreeToAddFriend(String phoneNo, String friendPhoneNo, String isApprove, String applicationId) {
         // 如果通过则互为好友
         if(isApprove.equals(Constants.YES)){
-            FriendsInfoDto dto = new FriendsInfoDto();
-            // 添加好友
-            dto.setPhoneNo(phoneNo);// 手机号
-            dto.setFriendPhoneNo(friendPhoneNo);// 好友手机号
-            dto.setFriendRemarkName(friendPhoneNo);// 好友备注名
-            dto.setIsAccreditVisible(Constants.YES_INT);// 是否授权可见 1:是,2:否
-            dto.setAccreditStartTime(Constants.ACCREDIT_STARTTIME);// 授权开始时间
-            dto.setAccreditEndTime(Constants.ACCREDIT_ENDTIME);// 授权结束时间
-            dto.setAccreditWeeks(Constants.WEEKS);// 授权日期
-            dto.setIsAuthorizedVisible(Constants.YES_INT);// 是否被授权可见 1:是,2:否
-            dto.setAuthorizedAccreditStartTime(Constants.ACCREDIT_STARTTIME);// 被授权开始时间
-            dto.setAuthorizedAccreditEndTime(Constants.ACCREDIT_ENDTIME);// 被授权结束时间
-            dto.setAuthorizedWeeks(Constants.WEEKS);// 被授权日期
-            dto.setIsCheckBeforeExit(Constants.NO_INT);// 是否退出前查看 1:是,2:否
-            friendsInfoService.addFriendInfo(dto);
-            // 申请人好友列表添加数据
-            dto.setPhoneNo(friendPhoneNo);// 手机号
-            dto.setFriendPhoneNo(phoneNo);// 好友手机号
-            dto.setFriendRemarkName(phoneNo);// 好友备注名
-            friendsInfoService.addFriendInfo(dto);
+            // 校验双方是否互为好友
+            ServiceResult<FriendsInfoDto> friendsInfoDto = friendsInfoService.getFriendInfo(phoneNo, friendPhoneNo);
+            if(null == friendsInfoDto.getData()){
+                FriendsInfoDto dto = new FriendsInfoDto();
+                // 添加好友
+                dto.setPhoneNo(phoneNo);// 手机号
+                dto.setFriendPhoneNo(friendPhoneNo);// 好友手机号
+                dto.setFriendRemarkName(friendPhoneNo);// 好友备注名
+                dto.setIsAccreditVisible(Constants.YES_INT);// 是否授权可见 1:是,2:否
+                dto.setAccreditStartTime(Constants.ACCREDIT_STARTTIME);// 授权开始时间
+                dto.setAccreditEndTime(Constants.ACCREDIT_ENDTIME);// 授权结束时间
+                dto.setAccreditWeeks(Constants.WEEKS);// 授权日期
+                dto.setIsAuthorizedVisible(Constants.YES_INT);// 是否被授权可见 1:是,2:否
+                dto.setAuthorizedAccreditStartTime(Constants.ACCREDIT_STARTTIME);// 被授权开始时间
+                dto.setAuthorizedAccreditEndTime(Constants.ACCREDIT_ENDTIME);// 被授权结束时间
+                dto.setAuthorizedWeeks(Constants.WEEKS);// 被授权日期
+                dto.setIsCheckBeforeExit(Constants.NO_INT);// 是否退出前查看 1:是,2:否
+                friendsInfoService.addFriendInfo(dto);
+                // 申请人好友列表添加数据
+                dto.setPhoneNo(friendPhoneNo);// 手机号
+                dto.setFriendPhoneNo(phoneNo);// 好友手机号
+                dto.setFriendRemarkName(phoneNo);// 好友备注名
+                friendsInfoService.addFriendInfo(dto);
+            }
         }
         applyFriendInfoDao.agreeToAddFriend(applicationId, isApprove);
         return ServiceResult.newSuccess();
