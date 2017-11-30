@@ -9,7 +9,7 @@
         date_format(friends.authorized_accredit_endTime,'%Y-%m-%d %h:%i:%s') authorizedAccreditEndTime,
         member.head_pic headPic from friends_info friends
         left join member_info member on member.phone_no = friends.friend_phone_no
-        where friends.is_check_before_exit = 1
+        where friends.is_check_before_exit = 1 and friends.phone_no = #{phoneNo}
     </select>
 
     <select id="getRealtimePositionByGroupId" resultType="com.way.member.friend.dto.FriendsInfoDto">
