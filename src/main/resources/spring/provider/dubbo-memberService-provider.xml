@@ -17,4 +17,7 @@
     <dubbo:service interface="com.way.member.friend.service.ApplyFriendInfoService" ref="applyFriendInfoServiceImpl"/>
 
     <dubbo:service interface="com.way.member.friend.service.GroupInfoService" ref="groupInfoServiceImpl"/>
+
+    <dubbo:service interface="com.way.member.rewardScore.service.RewardScoreService" ref="rewardScoreServiceImpl"/>
+
 </beans>

@@ -31,7 +31,7 @@
 	
 	<!-- 根据手机号查询用户信息 -->
 	<select id="selectUserInfoByMobile" parameterType="java.lang.String" resultMap="memberInfoMap">
-		SELECT phone_no,member_type,valueAdded_service FROM MEMBER_INFO
+		SELECT phone_no,member_type,valueAdded_service,invitation_code FROM MEMBER_INFO
 		WHERE phone_no = #{phoneNo}
 	</select>
 
@@ -80,5 +80,9 @@
 			</if>
 		</set>
 		where phone_no = #{phoneNo}
+	</update>
+
+	<update id="updateRewardScore">
+		update member_info set reward_score = reward_score + #{rewardScore} where phone_no = #{phoneNo}
 	</update>
 </mapper>

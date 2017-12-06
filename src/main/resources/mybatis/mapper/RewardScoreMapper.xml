@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.way.member.rewardScore.dao.RewardScoreDao" >
+
+    <insert id="saveRewardScore">
+        insert into reward_detail_info (phone_no,reward_score_type,detail_info,reward_score,create_time,modify_time)
+        values (#{phoneNo}, #{rewardScoreType}, #{detailInfo}, #{rewardScore}, now(), now())
+    </insert>
+</mapper>

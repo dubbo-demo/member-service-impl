@@ -68,4 +68,11 @@ public interface MemberDao extends IBaseMapper {
 	 * @param dto
 	 */
 	void modifyMemberInfo(MemberDto dto);
+
+	/**
+	 * 更新推荐人总积分
+	 * @param phoneNo
+	 * @param rewardScore
+	 */
+    void updateRewardScore(@Param("phoneNo") String phoneNo, @Param("rewardScore") Integer rewardScore);
 }

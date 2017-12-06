@@ -7,6 +7,8 @@ import com.way.common.util.PingYinUtil;
 import com.way.member.member.dao.MemberDao;
 import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberInfoEntity;
+import com.way.member.rewardScore.dto.RewardScoreDto;
+import com.way.member.rewardScore.service.RewardScoreService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,12 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	private MemberDao memberDao;
 	@Autowired
 	private PasswordService passwordService;
+	@Autowired
+	private RewardScoreService rewardScoreService;
+
+	public static final Integer ONELEVEL_REWARDSCORE = 20;
+
+	public static final Integer TWOLEVEL_REWARDSCORE = 10;
 
 	/**
 	 * 保存用户信息
@@ -94,6 +102,35 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		saveMemberInfo(memberDto);
 		// 保存密码表
 		passwordService.savePasswordInfo(memberDto);
+		// 根据推荐人手机号判断推荐人是否为会员
+		ServiceResult<MemberDto> oneLevelMember = loadMapByMobile(memberDto.getInvitationCode());
+		// 如果推荐人是会员则加积分
+		// 会员类型 1:非会员,2:正式会员,3:试用期会员
+		if (oneLevelMember.getData().getMemberType().equals("2")) {
+			RewardScoreDto rewardScoreDto = new RewardScoreDto();
+			rewardScoreDto.setPhoneNo(oneLevelMember.getData().getPhoneNo());
+			rewardScoreDto.setRewardScoreType(2);
+			rewardScoreDto.setDetailInfo("邀请用户：" + memberDto.getPhoneNo());
+			rewardScoreDto.setRewardScore(ONELEVEL_REWARDSCORE);
+			// 推荐人增加积分记录
+			rewardScoreService.saveRewardScore(rewardScoreDto);
+			// 推荐人总积分增加
+			memberDao.updateRewardScore(oneLevelMember.getData().getPhoneNo(), TWOLEVEL_REWARDSCORE);
+			// 根据推荐人父级手机号判断推荐人父级是否为会员
+			ServiceResult<MemberDto> twoLevelMember = loadMapByMobile(oneLevelMember.getData().getInvitationCode());
+			// 如果推荐人父级是会员则加积分
+			if (twoLevelMember.getData().getMemberType().equals("2")) {
+				// 推荐人父级增加积分记录
+				rewardScoreDto.setPhoneNo(twoLevelMember.getData().getPhoneNo());
+				rewardScoreDto.setRewardScoreType(2);
+				rewardScoreDto.setDetailInfo(oneLevelMember.getData().getPhoneNo() + "邀请用户：" + memberDto.getPhoneNo());
+				rewardScoreDto.setRewardScore(TWOLEVEL_REWARDSCORE);
+				// 推荐人增加积分记录
+				rewardScoreService.saveRewardScore(rewardScoreDto);
+				// 推荐人父级总积分增加
+				memberDao.updateRewardScore(twoLevelMember.getData().getPhoneNo(), TWOLEVEL_REWARDSCORE);
+			}
+		}
 	}
 
 	/**
