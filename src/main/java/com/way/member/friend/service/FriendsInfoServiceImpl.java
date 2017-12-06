@@ -59,12 +59,12 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
     /**
      * 取消查看好友实时坐标
      * @param phoneNo
-     * @param friendPhoneNos
+     * @param friendPhoneNoList
      * @param state
      */
     @Override
-    public void updateIsCheckBeforeExitByFriendPhoneNos(String phoneNo, List<String> friendPhoneNos, Integer state) {
-        friendsInfoDao.updateIsCheckBeforeExitByFriendPhoneNos(phoneNo, friendPhoneNos, state);
+    public void updateIsCheckBeforeExitByFriendPhoneNos(String phoneNo, List<String> friendPhoneNoList, Integer state) {
+        friendsInfoDao.updateIsCheckBeforeExitByFriendPhoneNos(phoneNo, friendPhoneNoList, state);
     }
 
     /**

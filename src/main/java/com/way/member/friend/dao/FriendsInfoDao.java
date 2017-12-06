@@ -43,10 +43,10 @@ public interface FriendsInfoDao extends IBaseMapper {
     /**
      * 取消查看好友实时坐标
      * @param phoneNo
-     * @param friendPhoneNos
+     * @param friendPhoneNoList
      * @param state
      */
-    void updateIsCheckBeforeExitByFriendPhoneNos(@Param("phoneNo") String phoneNo, @Param("friendPhoneNos") List<String> friendPhoneNos, @Param("state") Integer state);
+    void updateIsCheckBeforeExitByFriendPhoneNos(@Param("phoneNo") String phoneNo, @Param("friendPhoneNoList") List<String> friendPhoneNoList, @Param("state") Integer state);
 
     /**
      * 查询好友信息

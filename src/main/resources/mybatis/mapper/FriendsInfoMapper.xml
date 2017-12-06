@@ -4,7 +4,7 @@
 
     <select id="getFriendsInfoBeforeExit" resultType="com.way.member.friend.dto.FriendsInfoDto">
         select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
-        friends.is_authorized_visible isAuthorizedVisible,
+        friends.is_authorized_visible isAuthorizedVisible,friends.group_id groupId,
         date_format(friends.authorized_accredit_startTime,'%Y-%m-%d %h:%i:%s') authorizedAccreditStartTime,
         date_format(friends.authorized_accredit_endTime,'%Y-%m-%d %h:%i:%s') authorizedAccreditEndTime,
         member.head_pic headPic from friends_info friends
@@ -28,7 +28,7 @@
 
     <update id="updateIsCheckBeforeExitByFriendPhoneNos">
         update friends_info set is_check_before_exit=#{state} where phone_no = #{phoneNo} and friend_phone_no in
-        <foreach collection="friendPhoneNos" index="index" item="friendPhoneNo"
+        <foreach collection="friendPhoneNoList" index="index" item="friendPhoneNo"
                  separator="," open="(" close=")">
             ${friendPhoneNo}
         </foreach>

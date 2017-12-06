@@ -6,4 +6,13 @@
         insert into reward_detail_info (phone_no,reward_score_type,detail_info,reward_score,create_time,modify_time)
         values (#{phoneNo}, #{rewardScoreType}, #{detailInfo}, #{rewardScore}, now(), now())
     </insert>
+
+    <select id="getRewardScoreDetailCount" resultType="java.lang.Integer">
+        select count(1) from reward_detail_info where phone_no = #{phoneNo}
+    </select>
+
+    <select id="getRewardScoreDetailList" resultType="com.way.member.rewardScore.entity.RewardScoreEntity">
+        select reward_score_type rewardScoreType ,detail_info detailInfo,reward_score rewardScore,create_time createTime from reward_detail_info where phone_no = #{phoneNo}
+        limit #{pageNumber},10
+    </select>
 </mapper>

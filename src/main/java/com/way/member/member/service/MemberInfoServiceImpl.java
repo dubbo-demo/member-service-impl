@@ -115,7 +115,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 			// 推荐人增加积分记录
 			rewardScoreService.saveRewardScore(rewardScoreDto);
 			// 推荐人总积分增加
-			memberDao.updateRewardScore(oneLevelMember.getData().getPhoneNo(), TWOLEVEL_REWARDSCORE);
+			memberDao.updateRewardScore(oneLevelMember.getData().getPhoneNo(), ONELEVEL_REWARDSCORE);
 			// 根据推荐人父级手机号判断推荐人父级是否为会员
 			ServiceResult<MemberDto> twoLevelMember = loadMapByMobile(oneLevelMember.getData().getInvitationCode());
 			// 如果推荐人父级是会员则加积分
