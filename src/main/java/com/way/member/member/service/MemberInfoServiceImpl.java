@@ -115,7 +115,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 			// 推荐人增加积分记录
 			rewardScoreService.saveRewardScore(rewardScoreDto);
 			// 推荐人总积分增加
-			memberDao.updateRewardScore(oneLevelMember.getData().getPhoneNo(), ONELEVEL_REWARDSCORE);
+			memberDao.addRewardScore(oneLevelMember.getData().getPhoneNo(), ONELEVEL_REWARDSCORE);
 			// 根据推荐人父级手机号判断推荐人父级是否为会员
 			ServiceResult<MemberDto> twoLevelMember = loadMapByMobile(oneLevelMember.getData().getInvitationCode());
 			// 如果推荐人父级是会员则加积分
@@ -128,7 +128,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 				// 推荐人增加积分记录
 				rewardScoreService.saveRewardScore(rewardScoreDto);
 				// 推荐人父级总积分增加
-				memberDao.updateRewardScore(twoLevelMember.getData().getPhoneNo(), TWOLEVEL_REWARDSCORE);
+				memberDao.addRewardScore(twoLevelMember.getData().getPhoneNo(), TWOLEVEL_REWARDSCORE);
 			}
 		}
 	}
@@ -188,6 +188,78 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		dto.setModifyTime(new Date());
 		memberDao.modifyMemberInfo(dto);
 		return ServiceResult.newSuccess();
+	}
+
+	/**
+	 * 积分购买会员
+	 * @param phoneNo
+	 * @param rewardScore
+	 * @param startTime
+	 * @param endTime
+	 * @param name
+	 */
+	@Override
+	@Transactional
+	public void buyMemberByRewardScore(String phoneNo, Integer rewardScore, Date startTime, Date endTime, String name) {
+		// 扣除积分并且给用户设置为会员/或者延期会员
+		memberDao.minusMemberTypeInfo(phoneNo, rewardScore, 2, startTime, endTime);
+		// 积分明细增加记录
+		RewardScoreDto rewardScoreDto = new RewardScoreDto();
+		rewardScoreDto.setPhoneNo(phoneNo);
+		rewardScoreDto.setRewardScoreType(1);
+		rewardScoreDto.setDetailInfo("购买" + name + "会员扣除积分：" + rewardScore);
+		rewardScoreDto.setRewardScore(rewardScore);
+		rewardScoreService.saveRewardScore(rewardScoreDto);
+	}
+
+	/**
+	 * 积分购买增值服务
+	 * @param phoneNo
+	 * @param rewardScore
+	 * @param startTime
+	 * @param endTime
+	 * @param name
+	 */
+	@Override
+	@Transactional
+	public void buyValueAddedServiceByRewardScore(String phoneNo, Integer rewardScore, Date startTime, Date endTime, String name) {
+		// 扣除积分并且给用户设置为会员/或者延期会员
+//		minusMemberTypeInfo(phoneNo, rewardScore, startTime, endTime);
+		// 积分明细增加记录
+//		RewardScoreDto rewardScoreDto = new RewardScoreDto();
+//		rewardScoreDto.setPhoneNo(phoneNo);
+//		rewardScoreDto.setRewardScoreType(5);
+//		rewardScoreDto.setDetailInfo("购买" + name + "增值服务扣除积分：" + rewardScore);
+//		rewardScoreDto.setRewardScore(rewardScore);
+//		rewardScoreService.saveRewardScore(rewardScoreDto);
+	}
+
+	/**
+	 * 积分转增
+	 * @param phoneNo
+	 * @param rewardScore
+	 * @param friendPhoneNo
+	 */
+	@Override
+	@Transactional
+	public void transferRewardScoreToFriend(String phoneNo, Integer rewardScore, String friendPhoneNo) {
+		RewardScoreDto rewardScoreDto = new RewardScoreDto();
+		// 删除自己积分
+		memberDao.minusMemberTypeInfo(phoneNo, rewardScore, null,null, null);
+		// 积分明细表增加记录
+		rewardScoreDto.setPhoneNo(phoneNo);
+		rewardScoreDto.setRewardScoreType(2);
+		rewardScoreDto.setDetailInfo("用户转赠：" + friendPhoneNo);
+		rewardScoreDto.setRewardScore(rewardScore);
+		rewardScoreService.saveRewardScore(rewardScoreDto);
+		// 增加转赠用户积分
+		memberDao.addRewardScore(friendPhoneNo, rewardScore);
+		// 积分明细表增加记录
+		rewardScoreDto.setPhoneNo(friendPhoneNo);
+		rewardScoreDto.setRewardScoreType(2);
+		rewardScoreDto.setDetailInfo(phoneNo + "用户转赠");
+		rewardScoreDto.setRewardScore(rewardScore);
+		rewardScoreService.saveRewardScore(rewardScoreDto);
 	}
 
 }

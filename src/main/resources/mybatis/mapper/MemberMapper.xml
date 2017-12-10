@@ -54,7 +54,8 @@
 		SELECT phone_no,head_pic,nick_name FROM member_info WHERE phone_no = #{phoneNo}
 	</select>
 	<select id="getMemberInfo" resultMap="memberInfoMap">
-		SELECT head_pic,nick_name,age,member_type,valueAdded_service,reward_score FROM MEMBER_INFO WHERE phone_no = #{phoneNo}
+		SELECT head_pic,nick_name,age,member_type,valueAdded_service,reward_score,member_startTime,member_endTime
+		FROM MEMBER_INFO WHERE phone_no = #{phoneNo}
 	</select>
 
 	<update id="modifyMemberInfo">
@@ -82,7 +83,26 @@
 		where phone_no = #{phoneNo}
 	</update>
 
-	<update id="updateRewardScore">
+	<update id="addRewardScore">
 		update member_info set reward_score = reward_score + #{rewardScore} where phone_no = #{phoneNo}
+	</update>
+
+	<update id="minusMemberTypeInfo">
+		update member_info
+		<set >
+			<if test="rewardScore != null" >
+				reward_score = reward_score - #{rewardScore},
+			</if>
+			<if test="memberType != null" >
+				member_type = #{memberType},
+			</if>
+			<if test="startTime != null" >
+				member_startTime=#{startTime},
+			</if>
+			<if test="endTime != null" >
+				member_endTime=#{endTime},
+			</if>
+		</set>
+		where phone_no = #{phoneNo}
 	</update>
 </mapper>
