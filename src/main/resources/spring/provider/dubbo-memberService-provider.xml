@@ -20,4 +20,6 @@
 
     <dubbo:service interface="com.way.member.rewardScore.service.RewardScoreService" ref="rewardScoreServiceImpl"/>
 
+    <dubbo:service interface="com.way.member.withdrawal.service.WithdrawalInfoService" ref="withdrawalInfoServiceImpl"/>
+
 </beans>

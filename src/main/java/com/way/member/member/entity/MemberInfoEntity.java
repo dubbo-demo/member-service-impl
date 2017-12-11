@@ -44,7 +44,7 @@ public class MemberInfoEntity extends BaseEntity {
 	/** 增值服务结束时间 */
 	private Date valueAddedServiceEndTime;
 	/** 积分 */
-	private String rewardScore;
+	private Double rewardScore;
 	/** 邀请码 */
 	private String invitationCode;
 

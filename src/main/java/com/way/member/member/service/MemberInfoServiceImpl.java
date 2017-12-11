@@ -4,6 +4,8 @@ import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
 import com.way.common.util.DateUtils;
 import com.way.common.util.PingYinUtil;
+import com.way.member.withdrawal.dto.WithdrawalInfoDto;
+import com.way.member.withdrawal.service.WithdrawalInfoService;
 import com.way.member.member.dao.MemberDao;
 import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberInfoEntity;
@@ -28,14 +30,19 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 
 	@Autowired
 	private MemberDao memberDao;
+
 	@Autowired
 	private PasswordService passwordService;
+
 	@Autowired
 	private RewardScoreService rewardScoreService;
 
-	public static final Integer ONELEVEL_REWARDSCORE = 20;
+	@Autowired
+	private WithdrawalInfoService withdrawalInfoService;
 
-	public static final Integer TWOLEVEL_REWARDSCORE = 10;
+	public static final Double ONELEVEL_REWARDSCORE = 20.0;
+
+	public static final Double TWOLEVEL_REWARDSCORE = 10.0;
 
 	/**
 	 * 保存用户信息
@@ -200,9 +207,15 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 */
 	@Override
 	@Transactional
-	public void buyMemberByRewardScore(String phoneNo, Integer rewardScore, Date startTime, Date endTime, String name) {
+	public void buyMemberByRewardScore(String phoneNo, Double rewardScore, Date startTime, Date endTime, String name) {
+		MemberInfoEntity entity = new MemberInfoEntity();
+		entity.setPhoneNo(phoneNo);
+		entity.setRewardScore(rewardScore);
+		entity.setMemberType("2");
+		entity.setValueAddedServiceStartTime(startTime);
+		entity.setValueAddedServiceEndTime(endTime);
 		// 扣除积分并且给用户设置为会员/或者延期会员
-		memberDao.minusMemberTypeInfo(phoneNo, rewardScore, 2, startTime, endTime);
+		memberDao.minusMemberTypeInfo(entity);
 		// 积分明细增加记录
 		RewardScoreDto rewardScoreDto = new RewardScoreDto();
 		rewardScoreDto.setPhoneNo(phoneNo);
@@ -222,16 +235,22 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 */
 	@Override
 	@Transactional
-	public void buyValueAddedServiceByRewardScore(String phoneNo, Integer rewardScore, Date startTime, Date endTime, String name) {
+	public void buyValueAddedServiceByRewardScore(String phoneNo, Double rewardScore, Date startTime, Date endTime, String name) {
+		MemberInfoEntity entity = new MemberInfoEntity();
+		entity.setPhoneNo(phoneNo);
+		entity.setRewardScore(rewardScore);
+		entity.setValueAddedService("1");
+		entity.setValueAddedServiceStartTime(startTime);
+		entity.setValueAddedServiceEndTime(endTime);
 		// 扣除积分并且给用户设置为会员/或者延期会员
-//		minusMemberTypeInfo(phoneNo, rewardScore, startTime, endTime);
+		memberDao.minusMemberTypeInfo(entity);
 		// 积分明细增加记录
-//		RewardScoreDto rewardScoreDto = new RewardScoreDto();
-//		rewardScoreDto.setPhoneNo(phoneNo);
-//		rewardScoreDto.setRewardScoreType(5);
-//		rewardScoreDto.setDetailInfo("购买" + name + "增值服务扣除积分：" + rewardScore);
-//		rewardScoreDto.setRewardScore(rewardScore);
-//		rewardScoreService.saveRewardScore(rewardScoreDto);
+		RewardScoreDto rewardScoreDto = new RewardScoreDto();
+		rewardScoreDto.setPhoneNo(phoneNo);
+		rewardScoreDto.setRewardScoreType(5);
+		rewardScoreDto.setDetailInfo("购买" + name + "增值服务扣除积分：" + rewardScore);
+		rewardScoreDto.setRewardScore(rewardScore);
+		rewardScoreService.saveRewardScore(rewardScoreDto);
 	}
 
 	/**
@@ -242,10 +261,13 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 */
 	@Override
 	@Transactional
-	public void transferRewardScoreToFriend(String phoneNo, Integer rewardScore, String friendPhoneNo) {
+	public void transferRewardScoreToFriend(String phoneNo, Double rewardScore, String friendPhoneNo) {
 		RewardScoreDto rewardScoreDto = new RewardScoreDto();
+		MemberInfoEntity entity = new MemberInfoEntity();
+		entity.setPhoneNo(phoneNo);
+		entity.setRewardScore(rewardScore);
 		// 删除自己积分
-		memberDao.minusMemberTypeInfo(phoneNo, rewardScore, null,null, null);
+		memberDao.minusMemberTypeInfo(entity);
 		// 积分明细表增加记录
 		rewardScoreDto.setPhoneNo(phoneNo);
 		rewardScoreDto.setRewardScoreType(2);
@@ -259,6 +281,31 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setRewardScoreType(2);
 		rewardScoreDto.setDetailInfo(phoneNo + "用户转赠");
 		rewardScoreDto.setRewardScore(rewardScore);
+		rewardScoreService.saveRewardScore(rewardScoreDto);
+	}
+
+	/**
+	 * 积分提现
+	 * @param withdrawalInfoDto
+	 */
+	@Override
+	@Transactional
+	public void withdrawalRewardScore(WithdrawalInfoDto withdrawalInfoDto) {
+		// 增加积分提现记录
+		withdrawalInfoDto.setStatus(1);
+		withdrawalInfoService.withdrawalRewardScore(withdrawalInfoDto);
+		// 用户扣除积分
+		MemberInfoEntity entity = new MemberInfoEntity();
+		entity.setPhoneNo(withdrawalInfoDto.getPhoneNo());
+		entity.setRewardScore(withdrawalInfoDto.getRewardScore());
+		memberDao.minusMemberTypeInfo(entity);
+
+		// 积分明细表增加记录
+		RewardScoreDto rewardScoreDto = new RewardScoreDto();
+		rewardScoreDto.setPhoneNo(withdrawalInfoDto.getPhoneNo());
+		rewardScoreDto.setRewardScoreType(3);
+		rewardScoreDto.setDetailInfo("用户提现" + withdrawalInfoDto.getRewardScore() + "积分，到银行卡：" + withdrawalInfoDto.getBankNumber());
+		rewardScoreDto.setRewardScore(withdrawalInfoDto.getRewardScore());
 		rewardScoreService.saveRewardScore(rewardScoreDto);
 	}
 

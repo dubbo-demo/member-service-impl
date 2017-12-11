@@ -102,6 +102,15 @@
 			<if test="endTime != null" >
 				member_endTime=#{endTime},
 			</if>
+			<if test="valueAddedService != null" >
+				member_type = #{valueAddedService},
+			</if>
+			<if test="valueAddedServiceStartTime != null" >
+				member_startTime=#{valueAddedServiceStartTime},
+			</if>
+			<if test="valueAddedServiceEndTime != null" >
+				member_endTime=#{valueAddedServiceEndTime},
+			</if>
 		</set>
 		where phone_no = #{phoneNo}
 	</update>

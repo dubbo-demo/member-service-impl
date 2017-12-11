@@ -5,8 +5,6 @@ import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
-
 /**
  * 功能描述：用户信息Dao
  *
@@ -76,15 +74,10 @@ public interface MemberDao extends IBaseMapper {
 	 * @param phoneNo
 	 * @param rewardScore
 	 */
-    void addRewardScore(@Param("phoneNo") String phoneNo, @Param("rewardScore") Integer rewardScore);
+    void addRewardScore(@Param("phoneNo") String phoneNo, @Param("rewardScore") Double rewardScore);
 
 	/**
 	 * 扣除积分并且给用户设置为会员/或者延期会员
-	 * @param phoneNo
-	 * @param rewardScore
-	 * @param startTime
-	 * @param endTime
 	 */
-	void minusMemberTypeInfo(@Param("phoneNo") String phoneNo, @Param("rewardScore") Integer rewardScore, @Param("memberType") Integer memberType,
-							 @Param("startTime") Date startTime, @Param("endTime") Date endTime);
+	void minusMemberTypeInfo(MemberInfoEntity entity);
 }

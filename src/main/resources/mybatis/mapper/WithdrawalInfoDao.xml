@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.way.member.withdrawal.dao.WithdrawalInfoDao" >
+
+    <insert id="withdrawalRewardScore">
+        insert into withdrawal_info (phone_no, bank_name, bank_number, name, bank_branch, reward_score, status, remark, create_time, modify_time)
+        values (#{phoneNo}, #{bankName}, #{bankNumber}, #{name}, #{bankBranch}, #{rewardScore}, #{status}, #{remark}, now(), now())
+    </insert>
+</mapper>
