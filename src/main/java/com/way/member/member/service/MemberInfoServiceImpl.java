@@ -100,11 +100,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	@Transactional
 	public void memberRegist(MemberDto memberDto){
 		memberDto.setMemberType("2");
-		memberDto.setValueAddedService("1");
-		memberDto.setMemberStartTime(new Date());
-		memberDto.setMemberEndTime(DateUtils.addDays(memberDto.getMemberStartTime(), 30));
-		memberDto.setValueAddedServiceStartTime(memberDto.getMemberStartTime());
-		memberDto.setValueAddedServiceEndTime(memberDto.getMemberEndTime());
+		memberDto.setValueAddedService("2");
 		// 保存客户信息表
 		saveMemberInfo(memberDto);
 		// 保存密码表
@@ -251,6 +247,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setDetailInfo("购买" + name + "增值服务扣除积分：" + rewardScore);
 		rewardScoreDto.setRewardScore(rewardScore);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
+		//
 	}
 
 	/**

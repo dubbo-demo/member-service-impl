@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.way.member.recharge.dao.RechargeInfoDao" >
+
+    <select id="getRechargeInfoCount" resultType="java.lang.Integer">
+        select count(1) from reward_detail_info where phone_no = #{phoneNo}
+    </select>
+
+    <select id="getRechargeInfoList" resultType="com.way.member.recharge.entity.RechargeInfoEntity">
+        select phone_no phoneNo, type, amount, status from recharge_detail_info where phone_no =#{phoneNo}
+    </select>
+</mapper>

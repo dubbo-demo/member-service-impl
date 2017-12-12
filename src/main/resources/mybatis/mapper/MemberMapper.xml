@@ -96,20 +96,20 @@
 			<if test="memberType != null" >
 				member_type = #{memberType},
 			</if>
-			<if test="startTime != null" >
-				member_startTime=#{startTime},
+			<if test="memberStartTime != null" >
+				member_startTime=#{memberStartTime},
 			</if>
-			<if test="endTime != null" >
-				member_endTime=#{endTime},
+			<if test="memberEndTime != null" >
+				member_endTime=#{memberEndTime},
 			</if>
 			<if test="valueAddedService != null" >
-				member_type = #{valueAddedService},
+				valueAdded_service = #{valueAddedService},
 			</if>
 			<if test="valueAddedServiceStartTime != null" >
-				member_startTime=#{valueAddedServiceStartTime},
+				valueAdded_service_startTime=#{valueAddedServiceStartTime},
 			</if>
 			<if test="valueAddedServiceEndTime != null" >
-				member_endTime=#{valueAddedServiceEndTime},
+				valueAdded_service_endTime=#{valueAddedServiceEndTime},
 			</if>
 		</set>
 		where phone_no = #{phoneNo}
