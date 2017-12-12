@@ -2,7 +2,6 @@ package com.way.member.member.service;
 
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
-import com.way.common.util.DateUtils;
 import com.way.common.util.PingYinUtil;
 import com.way.member.withdrawal.dto.WithdrawalInfoDto;
 import com.way.member.withdrawal.service.WithdrawalInfoService;
@@ -100,7 +99,8 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	@Transactional
 	public void memberRegist(MemberDto memberDto){
 		memberDto.setMemberType("2");
-		memberDto.setValueAddedService("2");
+		memberDto.setTrajectoryService("2");
+		memberDto.setFenceService("2");
 		// 保存客户信息表
 		saveMemberInfo(memberDto);
 		// 保存密码表
@@ -228,10 +228,11 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 * @param startTime
 	 * @param endTime
 	 * @param name
+	 * @param type
 	 */
 	@Override
 	@Transactional
-	public void buyValueAddedServiceByRewardScore(String phoneNo, Double rewardScore, Date startTime, Date endTime, String name) {
+	public void buyValueAddedServiceByRewardScore(String phoneNo, Double rewardScore, Date startTime, Date endTime, String name, String type) {
 		MemberInfoEntity entity = new MemberInfoEntity();
 		entity.setPhoneNo(phoneNo);
 		entity.setRewardScore(rewardScore);

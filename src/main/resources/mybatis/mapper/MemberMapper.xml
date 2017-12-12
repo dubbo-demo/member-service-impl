@@ -8,13 +8,12 @@
 		<result property="nickSpell" column="nick_spell" />
 		<result property="gender" column="gender" />
 		<result property="memberType" column="member_type" />
-		<result property="valueAddedService" column="valueAdded_service" />
+		<result property="trajectoryService" column="trajectory_service" />
+		<result property="fenceService" column="fence_service" />
 		<result property="age" column="age" />
 		<result property="headPic" column="head_pic" />
 		<result property="memberStartTime" column="member_startTime" />
 		<result property="memberEndTime" column="member_endTime" />
-		<result property="valueAddedServiceStartTime" column="valueAdded_service_startTime" />
-		<result property="valueAddedServiceEndTime" column="valueAdded_service_endTime" />
 		<result property="rewardScore" column="reward_score" />
 		<result property="invitationCode" column="invitation_code" />
 		<result property="createTime" column="create_time" />
@@ -23,15 +22,15 @@
 
 	<!-- 保存用户信息 -->
 	<insert id="insert" parameterType="com.way.member.member.entity.MemberInfoEntity" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO member_info (phone_no,nick_name,nick_spell,gender, member_type, valueAdded_service, reward_score, invitation_code, create_time, modify_time,
-		member_startTime, member_endTime, valueAdded_service_startTime, valueAdded_service_endTime)
-		VALUES (#{phoneNo},#{phoneNo}, #{phoneNo},1, #{memberType}, #{valueAddedService},0,#{invitationCode},now(),now(),#{memberStartTime},
-		#{memberEndTime},#{valueAddedServiceStartTime}, #{valueAddedServiceEndTime})
+		INSERT INTO member_info (phone_no,nick_name,nick_spell,gender, member_type, trajectory_service, fence_service, reward_score,
+		invitation_code, create_time, modify_time, member_startTime, member_endTime)
+		VALUES (#{phoneNo}, #{phoneNo}, #{phoneNo}, 1, #{memberType}, #{trajectoryService}, #{fenceService},0.0, #{invitationCode},
+		#{createTime}, #{modifyTime}, #{memberStartTime}, #{memberEndTime})
 	</insert>
 	
 	<!-- 根据手机号查询用户信息 -->
 	<select id="selectUserInfoByMobile" parameterType="java.lang.String" resultMap="memberInfoMap">
-		SELECT phone_no,member_type,valueAdded_service,invitation_code FROM MEMBER_INFO
+		SELECT phone_no,member_type,trajectory_service,fence_service,invitation_code FROM MEMBER_INFO
 		WHERE phone_no = #{phoneNo}
 	</select>
 
@@ -54,7 +53,7 @@
 		SELECT phone_no,head_pic,nick_name FROM member_info WHERE phone_no = #{phoneNo}
 	</select>
 	<select id="getMemberInfo" resultMap="memberInfoMap">
-		SELECT head_pic,nick_name,age,member_type,valueAdded_service,reward_score,member_startTime,member_endTime
+		SELECT head_pic,nick_name,age,member_type,trajectory_service,fence_service,reward_score,member_startTime,member_endTime
 		FROM MEMBER_INFO WHERE phone_no = #{phoneNo}
 	</select>
 
@@ -102,14 +101,11 @@
 			<if test="memberEndTime != null" >
 				member_endTime=#{memberEndTime},
 			</if>
-			<if test="valueAddedService != null" >
-				valueAdded_service = #{valueAddedService},
+			<if test="trajectory_service != null" >
+				trajectory_service = #{trajectory_service},
 			</if>
-			<if test="valueAddedServiceStartTime != null" >
-				valueAdded_service_startTime=#{valueAddedServiceStartTime},
-			</if>
-			<if test="valueAddedServiceEndTime != null" >
-				valueAdded_service_endTime=#{valueAddedServiceEndTime},
+			<if test="fence_service != null" >
+				fence_service=#{fence_service},
 			</if>
 		</set>
 		where phone_no = #{phoneNo}

@@ -29,8 +29,10 @@ public class MemberInfoEntity extends BaseEntity {
 	private String gender;
 	/** 会员类型 1:非会员,2:正式会员,3:试用期会员 */
 	private String memberType;
-	/** 是否开通增值服务1是2否 */
-	private String valueAddedService;
+	/** 是否开通轨迹回放服务1是2否 */
+	private String trajectoryService;
+	/** 是否开通电子围栏服务1是2否 */
+	private String fenceService;
 	/** 年龄 */
 	private String age;
 	/** 头像ID */
@@ -39,10 +41,6 @@ public class MemberInfoEntity extends BaseEntity {
 	private Date memberStartTime;
 	/** 会员结束时间 */
 	private Date memberEndTime;
-	/** 增值服务开始时间 */
-	private Date valueAddedServiceStartTime;
-	/** 增值服务结束时间 */
-	private Date valueAddedServiceEndTime;
 	/** 积分 */
 	private Double rewardScore;
 	/** 邀请码 */
