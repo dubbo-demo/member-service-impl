@@ -3,13 +3,15 @@ package com.way.member.member.service;
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
 import com.way.common.util.PingYinUtil;
-import com.way.member.withdrawal.dto.WithdrawalInfoDto;
-import com.way.member.withdrawal.service.WithdrawalInfoService;
 import com.way.member.member.dao.MemberDao;
 import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberInfoEntity;
 import com.way.member.rewardScore.dto.RewardScoreDto;
 import com.way.member.rewardScore.service.RewardScoreService;
+import com.way.member.valueAdded.dto.MemberValueAddedInfoDto;
+import com.way.member.valueAdded.service.MemberValueAddedInfoService;
+import com.way.member.withdrawal.dto.WithdrawalInfoDto;
+import com.way.member.withdrawal.service.WithdrawalInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,9 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 
 	@Autowired
 	private WithdrawalInfoService withdrawalInfoService;
+
+	@Autowired
+	private MemberValueAddedInfoService memberValueAddedInfoService;
 
 	public static final Double ONELEVEL_REWARDSCORE = 20.0;
 
@@ -105,36 +110,52 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		saveMemberInfo(memberDto);
 		// 保存密码表
 		passwordService.savePasswordInfo(memberDto);
+		// 积分奖励机制
+		rewardScoreRule(memberDto.getPhoneNo(), memberDto.getInvitationCode(), 2, "邀请用户：", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
+	}
+
+	/**
+	 * 积分奖励机制
+	 * @param phoneNo
+	 * @param invitationCode
+	 * @param type
+	 * @param detail
+	 * @param oneLevelScore
+	 * @param twoLevelScore
+	 */
+	private void rewardScoreRule(String phoneNo, String invitationCode, int type, String detail, Double oneLevelScore, Double twoLevelScore) {
 		// 根据推荐人手机号判断推荐人是否为会员
-		ServiceResult<MemberDto> oneLevelMember = loadMapByMobile(memberDto.getInvitationCode());
+		ServiceResult<MemberDto> oneLevelMember = loadMapByMobile(invitationCode);
 		// 如果推荐人是会员则加积分
 		// 会员类型 1:非会员,2:正式会员,3:试用期会员
 		if (oneLevelMember.getData().getMemberType().equals("2")) {
 			RewardScoreDto rewardScoreDto = new RewardScoreDto();
 			rewardScoreDto.setPhoneNo(oneLevelMember.getData().getPhoneNo());
-			rewardScoreDto.setRewardScoreType(2);
-			rewardScoreDto.setDetailInfo("邀请用户：" + memberDto.getPhoneNo());
-			rewardScoreDto.setRewardScore(ONELEVEL_REWARDSCORE);
+			rewardScoreDto.setRewardScoreType(type);
+			rewardScoreDto.setDetailInfo(detail + phoneNo);
+			rewardScoreDto.setRewardScore(oneLevelScore);
 			// 推荐人增加积分记录
 			rewardScoreService.saveRewardScore(rewardScoreDto);
 			// 推荐人总积分增加
-			memberDao.addRewardScore(oneLevelMember.getData().getPhoneNo(), ONELEVEL_REWARDSCORE);
-			// 根据推荐人父级手机号判断推荐人父级是否为会员
-			ServiceResult<MemberDto> twoLevelMember = loadMapByMobile(oneLevelMember.getData().getInvitationCode());
-			// 如果推荐人父级是会员则加积分
-			if (twoLevelMember.getData().getMemberType().equals("2")) {
-				// 推荐人父级增加积分记录
-				rewardScoreDto.setPhoneNo(twoLevelMember.getData().getPhoneNo());
-				rewardScoreDto.setRewardScoreType(2);
-				rewardScoreDto.setDetailInfo(oneLevelMember.getData().getPhoneNo() + "邀请用户：" + memberDto.getPhoneNo());
-				rewardScoreDto.setRewardScore(TWOLEVEL_REWARDSCORE);
-				// 推荐人增加积分记录
-				rewardScoreService.saveRewardScore(rewardScoreDto);
-				// 推荐人父级总积分增加
-				memberDao.addRewardScore(twoLevelMember.getData().getPhoneNo(), TWOLEVEL_REWARDSCORE);
-			}
+			memberDao.addRewardScore(oneLevelMember.getData().getPhoneNo(), oneLevelScore);
+		}
+		// 根据推荐人父级手机号判断推荐人父级是否为会员
+		ServiceResult<MemberDto> twoLevelMember = loadMapByMobile(oneLevelMember.getData().getInvitationCode());
+		// 如果推荐人父级是会员则加积分
+		if (twoLevelMember.getData().getMemberType().equals("2")) {
+			RewardScoreDto rewardScoreDto = new RewardScoreDto();
+			// 推荐人父级增加积分记录
+			rewardScoreDto.setPhoneNo(twoLevelMember.getData().getPhoneNo());
+			rewardScoreDto.setRewardScoreType(type);
+			rewardScoreDto.setDetailInfo(oneLevelMember.getData().getPhoneNo() + detail + phoneNo);
+			rewardScoreDto.setRewardScore(twoLevelScore);
+			// 推荐人增加积分记录
+			rewardScoreService.saveRewardScore(rewardScoreDto);
+			// 推荐人父级总积分增加
+			memberDao.addRewardScore(twoLevelMember.getData().getPhoneNo(), twoLevelScore);
 		}
 	}
+
 
 	/**
 	 * 根据手机号更新用户头像id
@@ -196,6 +217,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	/**
 	 * 积分购买会员
 	 * @param phoneNo
+	 * @param invitationCode
 	 * @param rewardScore
 	 * @param startTime
 	 * @param endTime
@@ -203,13 +225,13 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 */
 	@Override
 	@Transactional
-	public void buyMemberByRewardScore(String phoneNo, Double rewardScore, Date startTime, Date endTime, String name) {
+	public void buyMemberByRewardScore(String phoneNo, String invitationCode, Double rewardScore, Date startTime, Date endTime, String name) {
 		MemberInfoEntity entity = new MemberInfoEntity();
 		entity.setPhoneNo(phoneNo);
 		entity.setRewardScore(rewardScore);
 		entity.setMemberType("2");
-		entity.setValueAddedServiceStartTime(startTime);
-		entity.setValueAddedServiceEndTime(endTime);
+		entity.setMemberStartTime(startTime);
+		entity.setMemberEndTime(endTime);
 		// 扣除积分并且给用户设置为会员/或者延期会员
 		memberDao.minusMemberTypeInfo(entity);
 		// 积分明细增加记录
@@ -219,28 +241,54 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setDetailInfo("购买" + name + "会员扣除积分：" + rewardScore);
 		rewardScoreDto.setRewardScore(rewardScore);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
+
+		// 积分奖励机制
+		rewardScoreRule(phoneNo, invitationCode, 2, "邀请用户：积分购买增值服务", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
 	}
 
 	/**
 	 * 积分购买增值服务
 	 * @param phoneNo
+	 * @param invitationCode
 	 * @param rewardScore
 	 * @param startTime
 	 * @param endTime
 	 * @param name
 	 * @param type
+	 * @param memberValueAddedInfoDto
 	 */
 	@Override
 	@Transactional
-	public void buyValueAddedServiceByRewardScore(String phoneNo, Double rewardScore, Date startTime, Date endTime, String name, String type) {
+	public void buyValueAddedServiceByRewardScore(String phoneNo, String invitationCode, Double rewardScore, Date startTime, Date endTime, String name, String type, MemberValueAddedInfoDto memberValueAddedInfoDto) {
 		MemberInfoEntity entity = new MemberInfoEntity();
 		entity.setPhoneNo(phoneNo);
 		entity.setRewardScore(rewardScore);
-		entity.setValueAddedService("1");
-		entity.setValueAddedServiceStartTime(startTime);
-		entity.setValueAddedServiceEndTime(endTime);
+		if("1".equals(type)){
+			entity.setTrajectoryService("1");
+		}
+		if("2".equals(type)){
+			entity.setFenceService("1");
+		}
 		// 扣除积分并且给用户设置为会员/或者延期会员
 		memberDao.minusMemberTypeInfo(entity);
+		if(null == memberValueAddedInfoDto){
+			memberValueAddedInfoDto = new MemberValueAddedInfoDto();
+			memberValueAddedInfoDto.setPhoneNo(phoneNo);
+			memberValueAddedInfoDto.setType(Integer.valueOf(type));
+			memberValueAddedInfoDto.setStartTime(startTime);
+			memberValueAddedInfoDto.setEndTime(endTime);
+			memberValueAddedInfoDto.setIsOpen(1);
+			// 新增用户增值服务信息
+			memberValueAddedInfoService.saveMemberValueAddedInfo(memberValueAddedInfoDto);
+		}else{
+			memberValueAddedInfoDto.setPhoneNo(phoneNo);
+			memberValueAddedInfoDto.setType(Integer.valueOf(type));
+			memberValueAddedInfoDto.setStartTime(startTime);
+			memberValueAddedInfoDto.setEndTime(endTime);
+			memberValueAddedInfoDto.setIsOpen(1);
+			// 更新用户增值服务信息
+			memberValueAddedInfoService.updateMemberValueAddedInfo(memberValueAddedInfoDto);
+		}
 		// 积分明细增加记录
 		RewardScoreDto rewardScoreDto = new RewardScoreDto();
 		rewardScoreDto.setPhoneNo(phoneNo);
@@ -248,7 +296,8 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setDetailInfo("购买" + name + "增值服务扣除积分：" + rewardScore);
 		rewardScoreDto.setRewardScore(rewardScore);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
-		//
+		// 积分奖励机制
+		rewardScoreRule(phoneNo, invitationCode, 2, "邀请用户：积分购买增值服务", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
 	}
 
 	/**

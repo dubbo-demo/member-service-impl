@@ -30,7 +30,7 @@
 	
 	<!-- 根据手机号查询用户信息 -->
 	<select id="selectUserInfoByMobile" parameterType="java.lang.String" resultMap="memberInfoMap">
-		SELECT phone_no,member_type,trajectory_service,fence_service,invitation_code FROM MEMBER_INFO
+		SELECT phone_no,member_type,trajectory_service,fence_service,invitation_code,member_startTime,member_endTime FROM MEMBER_INFO
 		WHERE phone_no = #{phoneNo}
 	</select>
 
@@ -96,16 +96,19 @@
 				member_type = #{memberType},
 			</if>
 			<if test="memberStartTime != null" >
-				member_startTime=#{memberStartTime},
+				member_startTime = #{memberStartTime},
 			</if>
 			<if test="memberEndTime != null" >
-				member_endTime=#{memberEndTime},
+				member_endTime = #{memberEndTime},
 			</if>
 			<if test="trajectory_service != null" >
-				trajectory_service = #{trajectory_service},
+				trajectory_service = #{trajectoryService},
 			</if>
 			<if test="fence_service != null" >
-				fence_service=#{fence_service},
+				fence_service = #{fenceService},
+			</if>
+			<if test="modifyTime != null" >
+				modify_time = #{modifyTime},
 			</if>
 		</set>
 		where phone_no = #{phoneNo}

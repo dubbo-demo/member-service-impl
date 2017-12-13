@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.way.member.valueAdded.dao.MemberValueAddedInfoDao" >
+
+    <select id="getMemberValueAddedInfoByType" resultType="com.way.member.valueAdded.entity.MemberValueAddedInfoEntity">
+        select is_open isOpen, start_time startTime, end_time endTime from member_valueadded_info where phone_no = #{phoneNo} and type = #{type}
+    </select>
+
+    <insert id="saveMemberValueAddedInfo">
+        insert into member_valueadded_info (phone_no, type, is_open, start_time, end_time) values (#{phoneNo}, #{type}, #{isOpen}, #{startTime}, #{endTime})
+    </insert>
+
+    <update id="updateMemberValueAddedInfo">
+        update member_valueadded_info set is_open = #{isOpen}, start_time = #{startTime}, end_time = #{endTime} where phone_no = #{phoneNo} and type = #{type}
+    </update>
+
+</mapper>
