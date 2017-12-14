@@ -1,5 +1,6 @@
 package com.way.member.valueAdded.dao;
 
+import com.way.common.rom.IBaseMapper;
 import com.way.member.valueAdded.entity.MemberValueAddedInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -7,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
  * @Description: 用户增值服务信息Dao
  * @author: xinpei.xu
  */
-public interface MemberValueAddedInfoDao {
+public interface MemberValueAddedInfoDao extends IBaseMapper {
 
     /**
      * 根据增值服务类型获取用户增值服务信息
