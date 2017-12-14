@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.way.member.order.dao.MemberOrderInfoDao" >
+
+    <insert id="saveMemberOrderInfo">
+        insert into member_order_info (order_number, phone_no, type, validityDurationType, amount, status, create_time, modify_time) values
+        (#{orderNumber}, #{phoneNo}, #{type}, #{validityDurationType}, #{amount}, #{status}, #{createTime}, #{modifyTime})
+    </insert>
+
+</mapper>
