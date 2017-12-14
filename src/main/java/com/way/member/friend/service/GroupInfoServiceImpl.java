@@ -9,6 +9,7 @@ import com.way.member.member.entity.MemberInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class GroupInfoServiceImpl implements GroupInfoService {
      */
     @Override
     public ServiceResult<Object> addGroupInfo(String phoneNo, String groupName) {
-        groupInfoDao.addGroupInfo(phoneNo, groupName);
+        groupInfoDao.addGroupInfo(phoneNo, groupName, new Date());
         return ServiceResult.newSuccess();
     }
 

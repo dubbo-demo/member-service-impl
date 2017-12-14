@@ -26,4 +26,6 @@
 
     <dubbo:service interface="com.way.member.valueAdded.service.MemberValueAddedInfoService" ref="memberValueAddedInfoServiceImpl"/>
 
+    <dubbo:service interface="com.way.member.order.service.MemberOrderInfoService" ref="memberOrderInfoServiceImpl"/>
+
 </beans>

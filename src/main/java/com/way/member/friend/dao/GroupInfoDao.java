@@ -5,6 +5,7 @@ import com.way.member.friend.dto.GroupInfoDto;
 import com.way.member.friend.entity.GroupInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,8 +21,9 @@ public interface GroupInfoDao  extends IBaseMapper{
      * 新建组
      * @param phoneNo
      * @param groupName
+     * @param createTime
      */
-    void addGroupInfo(@Param("phoneNo") String phoneNo, @Param("groupName") String groupName);
+    void addGroupInfo(@Param("phoneNo") String phoneNo, @Param("groupName") String groupName, @Param("createTime") Date createTime);
 
     /**
      * 查出组信息
