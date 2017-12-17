@@ -27,4 +27,15 @@ public class MemberOrderInfoServiceImpl implements MemberOrderInfoService {
         MemberOrderInfoEntity memberOrderInfoEntity = CommonUtils.transform(memberOrderInfoDto, MemberOrderInfoEntity.class);
         memberOrderInfoDao.saveMemberOrderInfo(memberOrderInfoEntity);
     }
+
+    /**
+     * 根据内部交易号查出交易信息
+     * @param out_trade_no
+     * @return
+     */
+    @Override
+    public MemberOrderInfoDto getOrderInfo(String out_trade_no) {
+        MemberOrderInfoEntity memberOrderInfoEntity = memberOrderInfoDao.getOrderInfo(out_trade_no);
+        return CommonUtils.transform(memberOrderInfoEntity, MemberOrderInfoDto.class);
+    }
 }

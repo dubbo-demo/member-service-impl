@@ -46,7 +46,7 @@
 	</update>
 
 	<update id="updateHeadPicIdByPhoneNo">
-		update member_info set head_pic = ${headPicId} where phone_no = #{phoneNo}
+		update member_info set head_pic = #{headPicId} where phone_no = #{phoneNo}
 	</update>
 
 	<select id="searchUserByPhoneNo" resultMap="memberInfoMap">
@@ -101,10 +101,10 @@
 			<if test="memberEndTime != null" >
 				member_endTime = #{memberEndTime},
 			</if>
-			<if test="trajectory_service != null" >
+			<if test="trajectoryService != null" >
 				trajectory_service = #{trajectoryService},
 			</if>
-			<if test="fence_service != null" >
+			<if test="fenceService != null" >
 				fence_service = #{fenceService},
 			</if>
 			<if test="modifyTime != null" >

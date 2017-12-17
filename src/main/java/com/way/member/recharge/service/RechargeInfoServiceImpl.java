@@ -41,4 +41,13 @@ public class RechargeInfoServiceImpl implements RechargeInfoService {
         List<RechargeInfoEntity> list = rechargeInfoDao.getRechargeInfoList(phoneNo, pageNumber);
         return CommonUtils.transformList(list, RechargeInfoDto.class);
     }
+
+    /**
+     * 更新充值记录表
+     * @param dto
+     */
+    @Override
+    public void addRechargeInfoDto(RechargeInfoDto dto) {
+        rechargeInfoDao.addRechargeInfoDto(dto);
+    }
 }

@@ -12,7 +12,7 @@
     </select>
 
     <select id="getRewardScoreDetailList" resultType="com.way.member.rewardScore.entity.RewardScoreEntity">
-        select reward_score_type rewardScoreType ,detail_info detailInfo,reward_score rewardScore,create_time createTime from reward_detail_info where phone_no = #{phoneNo}
-        limit #{pageNumber},10
+        select reward_score_type rewardScoreType ,detail_info detailInfo,reward_score rewardScore,create_time createTime from reward_detail_info
+        where phone_no = #{phoneNo} order by id desc limit #{pageNumber},10
     </select>
 </mapper>

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName: MemberServiceImpl
@@ -354,6 +355,68 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setDetailInfo("用户提现" + withdrawalInfoDto.getRewardScore() + "积分，到银行卡：" + withdrawalInfoDto.getBankNumber());
 		rewardScoreDto.setRewardScore(withdrawalInfoDto.getRewardScore());
 		rewardScoreService.saveRewardScore(rewardScoreDto);
+	}
+
+	/**
+	 * 获取积分提现记录
+	 * @param phoneNo
+	 * @return
+	 */
+	@Override
+	public List<WithdrawalInfoDto> getWithdrawalRewardScoreInfo(String phoneNo) {
+		return withdrawalInfoService.getWithdrawalRewardScoreInfo(phoneNo);
+	}
+
+	/**
+	 * 充值购买会员/增值服务
+	 * @param phoneNo
+	 * @param type
+	 * @param invitationCode
+	 * @param amount
+	 * @param startTime
+	 * @param endTime
+	 * @param name
+	 */
+	@Override
+	@Transactional
+	public void buyServiceByRecharge(String phoneNo, String type, String invitationCode, Double amount, Date startTime, Date endTime, String name) {
+		MemberInfoEntity entity = new MemberInfoEntity();
+		entity.setPhoneNo(phoneNo);
+		if("0".equals(type)){
+			entity.setMemberType("2");
+		}
+		if("1".equals(type)){
+			entity.setTrajectoryService("1");
+		}
+		if("2".equals(type)){
+			entity.setFenceService("1");
+		}
+		// 扣除积分并且给用户设置为会员/或者延期会员
+		memberDao.minusMemberTypeInfo(entity);
+		if("1".equals(type) || "2".equals(type)){
+			// 根据增值服务类型获取用户增值服务信息
+			MemberValueAddedInfoDto memberValueAddedInfoDto = memberValueAddedInfoService.getMemberValueAddedInfoByType(phoneNo, type);
+			if(null == memberValueAddedInfoDto){
+				memberValueAddedInfoDto = new MemberValueAddedInfoDto();
+				memberValueAddedInfoDto.setPhoneNo(phoneNo);
+				memberValueAddedInfoDto.setType(Integer.valueOf(type));
+				memberValueAddedInfoDto.setStartTime(startTime);
+				memberValueAddedInfoDto.setEndTime(endTime);
+				memberValueAddedInfoDto.setIsOpen(1);
+				// 新增用户增值服务信息
+				memberValueAddedInfoService.saveMemberValueAddedInfo(memberValueAddedInfoDto);
+			}else{
+				memberValueAddedInfoDto.setPhoneNo(phoneNo);
+				memberValueAddedInfoDto.setType(Integer.valueOf(type));
+				memberValueAddedInfoDto.setStartTime(startTime);
+				memberValueAddedInfoDto.setEndTime(endTime);
+				memberValueAddedInfoDto.setIsOpen(1);
+				// 更新用户增值服务信息
+				memberValueAddedInfoService.updateMemberValueAddedInfo(memberValueAddedInfoDto);
+			}
+		}
+		// 积分奖励机制
+		rewardScoreRule(phoneNo, invitationCode, 2, "邀请用户：", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
 	}
 
 }

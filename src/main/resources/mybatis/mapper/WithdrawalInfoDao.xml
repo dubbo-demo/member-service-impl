@@ -6,4 +6,12 @@
         insert into withdrawal_info (phone_no, bank_name, bank_number, name, bank_branch, reward_score, status, remark, create_time, modify_time)
         values (#{phoneNo}, #{bankName}, #{bankNumber}, #{name}, #{bankBranch}, #{rewardScore}, #{status}, #{remark}, now(), now())
     </insert>
+
+    <select id="getWithdrawalRewardScoreInfo"
+            resultType="com.way.member.withdrawal.entity.WithdrawalInfoEntity">
+        select phone_no phoneNo, bank_name bankName, bank_number bankNumber, name, bank_branch bankBranch, reward_score rewardScore, status, remark,
+        create_time createTime, modify_time modifyTime from withdrawal_info
+        where phone_no = #{phoneNo} order by id desc
+    </select>
+
 </mapper>

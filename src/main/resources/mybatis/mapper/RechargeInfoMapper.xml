@@ -9,4 +9,10 @@
     <select id="getRechargeInfoList" resultType="com.way.member.recharge.entity.RechargeInfoEntity">
         select phone_no phoneNo, type, amount, status from recharge_detail_info where phone_no =#{phoneNo}
     </select>
+
+    <insert id="addRechargeInfoDto">
+        insert into recharge_detail_info (phone_no, type, amount, status, order_number, create_time, modify_time)
+        values (#{phoneNo}, #{type}, #{amount}, 1, #{orderNumber}, #{createTime}, #{modifyTime})
+    </insert>
+
 </mapper>

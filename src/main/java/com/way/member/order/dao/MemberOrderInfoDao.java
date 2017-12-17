@@ -15,4 +15,11 @@ public interface MemberOrderInfoDao extends IBaseMapper {
      * @param memberOrderInfoEntity
      */
     void saveMemberOrderInfo(MemberOrderInfoEntity memberOrderInfoEntity);
+
+    /**
+     * 根据内部交易号查出交易信息
+     * @param out_trade_no
+     * @return
+     */
+    MemberOrderInfoEntity getOrderInfo(String out_trade_no);
 }

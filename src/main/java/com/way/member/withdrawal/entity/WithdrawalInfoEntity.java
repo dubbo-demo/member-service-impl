@@ -17,6 +17,8 @@ public class WithdrawalInfoEntity extends BaseEntity {
 
     private static final long serialVersionUID = -1465098103115202016L;
 
+    private String phoneNo;// 手机号
+
     private String bankName;// 银行名称
 
     private String bankNumber;// 银行卡号

@@ -1,6 +1,7 @@
 package com.way.member.recharge.dao;
 
 import com.way.common.rom.IBaseMapper;
+import com.way.member.recharge.dto.RechargeInfoDto;
 import com.way.member.recharge.entity.RechargeInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +28,10 @@ public interface RechargeInfoDao extends IBaseMapper {
      * @return
      */
     List<RechargeInfoEntity> getRechargeInfoList(@Param("phoneNo") String phoneNo, @Param("pageNumber") int pageNumber);
+
+    /**
+     * 更新充值记录表
+     * @param dto
+     */
+    void addRechargeInfoDto(RechargeInfoDto dto);
 }

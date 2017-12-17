@@ -7,4 +7,9 @@
         (#{orderNumber}, #{phoneNo}, #{type}, #{validityDurationType}, #{amount}, #{status}, #{createTime}, #{modifyTime})
     </insert>
 
+    <select id="getOrderInfo" resultType="com.way.member.order.entity.MemberOrderInfoEntity">
+        select phone_no phoneNo, type, validityDurationType, amount, status from member_order_info
+        where order_number= #{out_trade_no}
+    </select>
+
 </mapper>
