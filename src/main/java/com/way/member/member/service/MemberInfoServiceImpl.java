@@ -129,7 +129,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		ServiceResult<MemberDto> oneLevelMember = loadMapByMobile(invitationCode);
 		// 如果推荐人是会员则加积分
 		// 会员类型 1:非会员,2:正式会员,3:试用期会员
-		if (oneLevelMember.getData().getMemberType().equals("2")) {
+		if (null != oneLevelMember.getData() && oneLevelMember.getData().getMemberType().equals("2")) {
 			RewardScoreDto rewardScoreDto = new RewardScoreDto();
 			rewardScoreDto.setPhoneNo(oneLevelMember.getData().getPhoneNo());
 			rewardScoreDto.setRewardScoreType(type);
@@ -143,7 +143,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		// 根据推荐人父级手机号判断推荐人父级是否为会员
 		ServiceResult<MemberDto> twoLevelMember = loadMapByMobile(oneLevelMember.getData().getInvitationCode());
 		// 如果推荐人父级是会员则加积分
-		if (twoLevelMember.getData().getMemberType().equals("2")) {
+		if (null != twoLevelMember.getData() && twoLevelMember.getData().getMemberType().equals("2")) {
 			RewardScoreDto rewardScoreDto = new RewardScoreDto();
 			// 推荐人父级增加积分记录
 			rewardScoreDto.setPhoneNo(twoLevelMember.getData().getPhoneNo());
