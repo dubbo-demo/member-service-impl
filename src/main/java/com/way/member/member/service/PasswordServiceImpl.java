@@ -9,6 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @ClassName: PasswordServiceImpl
  * @Description: 会员密码PasswordServiceImpl
@@ -28,6 +30,8 @@ public class PasswordServiceImpl implements PasswordService {
 	 * @return
 	 */
 	public void savePasswordInfo(MemberDto memberDto) {
+		memberDto.setCreateTime(new Date());
+		memberDto.setModifyTime(new Date());
 		PasswordPo passwordPo = CommonUtils.transform(memberDto, PasswordPo.class);
 		passwordDao.insert(passwordPo);
 	}

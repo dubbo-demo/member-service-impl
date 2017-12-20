@@ -19,7 +19,7 @@ public interface MemberDao extends IBaseMapper {
 	 * @param record
 	 * @return
 	 */
-	Long insert(MemberInfoEntity record);
+	void insert(MemberInfoEntity record);
 	
 	/**
 	 * @Title: selectUserInfoByMobile

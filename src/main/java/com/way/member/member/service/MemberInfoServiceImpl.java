@@ -53,7 +53,10 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 * 保存用户信息
 	 * @param memberDto
 	 */
+	@Override
 	public void saveMemberInfo(MemberDto memberDto) {
+		memberDto.setCreateTime(new Date());
+		memberDto.setModifyTime(new Date());
 		MemberInfoEntity memberInfoEntity = CommonUtils.transform(memberDto, MemberInfoEntity.class);
 		memberDao.insert(memberInfoEntity);
 	}
@@ -63,6 +66,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 * @Description: 根据手机号查询用户信息
 	 * @return: Map<String,Object>
 	 */
+	@Override
 	public ServiceResult<MemberDto> loadMapByMobile(String phoneNo) {
 		MemberInfoEntity memberInfoEntity = memberDao.selectUserInfoByMobile(phoneNo);
 		if(memberInfoEntity != null){
@@ -78,6 +82,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 * @Description: 根据手机号查询会员信息
 	 * @return: Map<String, String>
 	 */
+	@Override
 	public ServiceResult<MemberDto> queryMemberInfo(String phoneNo) {
 		MemberInfoEntity memberInfoEntity = memberDao.queryMemberInfo(phoneNo);
 		if(memberInfoEntity != null){
@@ -93,6 +98,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 * @Description: 更新密码
 	 * @return: void
 	 */
+	@Override
 	public void updatePassword(String phoneNo, String newPassword) {
 		memberDao.updatePassword(phoneNo, newPassword);
 	}
@@ -102,6 +108,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 * @param memberDto
 	 * @return
 	 */
+	@Override
 	@Transactional
 	public void memberRegist(MemberDto memberDto){
 		memberDto.setMemberType("2");
@@ -358,13 +365,24 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	}
 
 	/**
-	 * 获取积分提现记录
+	 * 查询总页数
 	 * @param phoneNo
 	 * @return
 	 */
 	@Override
-	public List<WithdrawalInfoDto> getWithdrawalRewardScoreInfo(String phoneNo) {
-		return withdrawalInfoService.getWithdrawalRewardScoreInfo(phoneNo);
+	public Integer getWithdrawalRewardScoreCount(String phoneNo) {
+		return withdrawalInfoService.getWithdrawalRewardScoreCount(phoneNo);
+	}
+
+	/**
+	 * 获取积分提现记录
+	 * @param phoneNo
+	 * @param pageNumber
+	 * @return
+	 */
+	@Override
+	public List<WithdrawalInfoDto> getWithdrawalRewardScoreInfo(String phoneNo, int pageNumber) {
+		return withdrawalInfoService.getWithdrawalRewardScoreInfo(phoneNo, pageNumber);
 	}
 
 	/**

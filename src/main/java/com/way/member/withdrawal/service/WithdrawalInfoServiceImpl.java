@@ -30,13 +30,24 @@ public class WithdrawalInfoServiceImpl implements WithdrawalInfoService {
     }
 
     /**
-     * 获取积分提现记录
+     * 查询总页数
      * @param phoneNo
      * @return
      */
     @Override
-    public List<WithdrawalInfoDto> getWithdrawalRewardScoreInfo(String phoneNo) {
-        List<WithdrawalInfoEntity> entity = withdrawalInfoDao.getWithdrawalRewardScoreInfo(phoneNo);
+    public Integer getWithdrawalRewardScoreCount(String phoneNo) {
+        return withdrawalInfoDao.getWithdrawalRewardScoreCount(phoneNo);
+    }
+
+    /**
+     * 获取积分提现记录
+     * @param phoneNo
+     * @param pageNumber
+     * @return
+     */
+    @Override
+    public List<WithdrawalInfoDto> getWithdrawalRewardScoreInfo(String phoneNo, int pageNumber) {
+        List<WithdrawalInfoEntity> entity = withdrawalInfoDao.getWithdrawalRewardScoreInfo(phoneNo, pageNumber);
         return CommonUtils.transformList(entity, WithdrawalInfoDto.class);
     }
 

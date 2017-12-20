@@ -3,6 +3,7 @@ package com.way.member.withdrawal.dao;
 import com.way.common.rom.IBaseMapper;
 import com.way.member.withdrawal.dto.WithdrawalInfoDto;
 import com.way.member.withdrawal.entity.WithdrawalInfoEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,9 +21,17 @@ public interface WithdrawalInfoDao extends IBaseMapper {
     void withdrawalRewardScore(WithdrawalInfoDto withdrawalInfoDto);
 
     /**
-     * 获取积分提现记录
+     * 查询总页数
      * @param phoneNo
      * @return
      */
-    List<WithdrawalInfoEntity> getWithdrawalRewardScoreInfo(String phoneNo);
+    Integer getWithdrawalRewardScoreCount(String phoneNo);
+
+    /**
+     * 获取积分提现记录
+     * @param phoneNo
+     * @param pageNumber
+     * @return
+     */
+    List<WithdrawalInfoEntity> getWithdrawalRewardScoreInfo(@Param("phoneNo") String phoneNo, @Param("pageNumber") int pageNumber);
 }
