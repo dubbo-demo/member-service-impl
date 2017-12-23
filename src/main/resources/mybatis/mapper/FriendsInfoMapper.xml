@@ -61,7 +61,7 @@
     </update>
 
     <update id="modifyAuthorizedFriendInfo">
-        update friends_info set friend_remark_name = #{friendRemarkName}, is_authorized_visible = #{isAuthorizedVisible},
+        update friends_info set is_authorized_visible = #{isAuthorizedVisible},
         authorized_accredit_startTime = #{authorizedAccreditStartTime}, authorized_accredit_endTime = #{authorizedAccreditEndTime},
         authorized_weeks = #{authorizedWeeks}
         where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
