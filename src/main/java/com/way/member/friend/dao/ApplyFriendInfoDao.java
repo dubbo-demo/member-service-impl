@@ -20,7 +20,7 @@ public interface ApplyFriendInfoDao extends IBaseMapper {
      * @param phoneNo
      * @param friendPhoneNo
      */
-    int getAddFriendInfo(String phoneNo, String friendPhoneNo);
+    int getAddFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
 
     /**
      * 增加被申请记录

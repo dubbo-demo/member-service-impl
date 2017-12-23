@@ -7,7 +7,8 @@
     </select>
 
     <select id="getRechargeInfoList" resultType="com.way.member.recharge.entity.RechargeInfoEntity">
-        select phone_no phoneNo, type, amount, status from recharge_detail_info where phone_no =#{phoneNo}
+        select phone_no phoneNo, type, amount, status, order_number orderNumber,create_time createTime from recharge_detail_info
+        where phone_no =#{phoneNo} order by id desc limit #{pageNumber},10
     </select>
 
     <insert id="addRechargeInfoDto">

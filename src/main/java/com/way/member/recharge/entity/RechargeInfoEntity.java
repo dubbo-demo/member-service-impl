@@ -20,4 +20,5 @@ public class RechargeInfoEntity extends BaseEntity {
 
     private Integer status;// 状态 0:待处理,1:成功,2:失败
 
+    private String orderNumber;
 }
