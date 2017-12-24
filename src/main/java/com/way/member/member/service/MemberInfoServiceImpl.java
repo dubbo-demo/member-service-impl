@@ -111,7 +111,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	@Override
 	@Transactional
 	public void memberRegist(MemberDto memberDto){
-		memberDto.setMemberType("2");
+		memberDto.setMemberType("1");
 		memberDto.setTrajectoryService("2");
 		memberDto.setFenceService("2");
 		// 保存客户信息表
@@ -119,7 +119,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		// 保存密码表
 		passwordService.savePasswordInfo(memberDto);
 		// 积分奖励机制
-		rewardScoreRule(memberDto.getPhoneNo(), memberDto.getInvitationCode(), 2, "邀请用户：", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
+		// rewardScoreRule(memberDto.getPhoneNo(), memberDto.getInvitationCode(), 2, "邀请用户：", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
 	}
 
 	/**

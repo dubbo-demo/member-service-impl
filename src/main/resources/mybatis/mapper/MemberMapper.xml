@@ -30,7 +30,7 @@
 	
 	<!-- 根据手机号查询用户信息 -->
 	<select id="selectUserInfoByMobile" parameterType="java.lang.String" resultMap="memberInfoMap">
-		SELECT phone_no,member_type,trajectory_service,fence_service,invitation_code,member_startTime,member_endTime FROM MEMBER_INFO
+		SELECT phone_no,member_type,reward_score,trajectory_service,fence_service,invitation_code,member_startTime,member_endTime FROM MEMBER_INFO
 		WHERE phone_no = #{phoneNo}
 	</select>
 
