@@ -24,7 +24,7 @@
 	<insert id="insert" parameterType="com.way.member.member.entity.MemberInfoEntity">
 		INSERT INTO member_info (phone_no,nick_name,nick_spell,gender, member_type, trajectory_service, fence_service, reward_score,
 		invitation_code, create_time, modify_time)
-		VALUES (#{phoneNo}, #{phoneNo}, #{phoneNo}, '1', #{memberType}, #{trajectoryService}, #{fenceService},'0.0', #{invitationCode},
+		VALUES (#{phoneNo}, #{nickName}, #{nickSpell}, '1', #{memberType}, #{trajectoryService}, #{fenceService},'0.0', #{invitationCode},
 		#{createTime}, #{modifyTime})
 	</insert>
 	
@@ -53,7 +53,7 @@
 		SELECT phone_no,head_pic,nick_name FROM member_info WHERE phone_no = #{phoneNo}
 	</select>
 	<select id="getMemberInfo" resultMap="memberInfoMap">
-		SELECT head_pic,nick_name,age,member_type,trajectory_service,fence_service,reward_score,member_startTime,member_endTime
+		SELECT head_pic,nick_name,age,member_type,trajectory_service,fence_service,reward_score,member_startTime,member_endTime,invitation_code
 		FROM MEMBER_INFO WHERE phone_no = #{phoneNo}
 	</select>
 
