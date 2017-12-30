@@ -8,11 +8,11 @@
 
     <insert id="addApplyFriendInfo">
         insert into apply_friend_info (phone_no, friend_phone_no, apply_info, is_approve, create_time, modify_time)
-        values (#{friendPhoneNo}, #{phoneNo}, #{applyInfo}, 0, now(), now())
+        values (#{friendPhoneNo}, #{phoneNo}, #{applyInfo}, 0, #{createTime}, #{modifyTime})
     </insert>
 
     <update id="updateApplyFriendInfo">
-        update apply_friend_info set apply_info=#{applyInfo},modify_time=now() where phone_no=#{friendPhoneNo} and friend_phone_no=#{phoneNo}
+        update apply_friend_info set apply_info=#{applyInfo},is_approve=0 ,modify_time=#{modifyTime} where phone_no=#{friendPhoneNo} and friend_phone_no=#{phoneNo}
     </update>
 
     <select id="getApplicationRecordOfFriend" resultType="com.way.member.friend.dto.FriendsInfoDto">

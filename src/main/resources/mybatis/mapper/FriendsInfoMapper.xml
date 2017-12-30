@@ -50,7 +50,6 @@
         from friends_info friends
         left join member_info member on member.phone_no = friends.friend_phone_no
         where friends.phone_no = #{phoneNo}
-        order by friends.id asc
     </select>
 
     <update id="modifyFriendInfo">

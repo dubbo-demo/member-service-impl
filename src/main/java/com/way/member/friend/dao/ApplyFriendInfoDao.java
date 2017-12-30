@@ -4,6 +4,7 @@ import com.way.common.rom.IBaseMapper;
 import com.way.member.friend.dto.FriendsInfoDto;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,16 +28,19 @@ public interface ApplyFriendInfoDao extends IBaseMapper {
      * @param phoneNo
      * @param friendPhoneNo
      * @param applyInfo
+     * @param createTime
+     * @param modifyTime
      */
-    void addApplyFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo, @Param("applyInfo") String applyInfo);
+    void addApplyFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo, @Param("applyInfo") String applyInfo, @Param("createTime") Date createTime, @Param("modifyTime") Date modifyTime);
 
     /**
      * 更新被申请记录
      * @param phoneNo
      * @param friendPhoneNo
      * @param applyInfo
+     * @param modifyTime
      */
-    void updateApplyFriendInfo(String phoneNo, String friendPhoneNo, String applyInfo);
+    void updateApplyFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo, @Param("applyInfo") String applyInfo, @Param("modifyTime") Date modifyTime);
 
     /**
      * 获取被申请好友记录

@@ -1,5 +1,6 @@
 package com.way.member.friend.service;
 
+import com.way.common.constant.Constants;
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
 import com.way.member.friend.dao.FriendsInfoDao;
@@ -8,6 +9,7 @@ import com.way.member.friend.dto.GroupInfoDto;
 import com.way.member.friend.entity.FriendsInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -198,6 +200,25 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
     @Override
     public FriendsInfoDto checkIsAuthorizedVisible(String phoneNo, String friendPhoneNo) {
         return friendsInfoDao.checkIsAuthorizedVisible(phoneNo, friendPhoneNo);
+    }
+
+    /**
+     * 设置好友为退出前可见
+     * @param phoneNo
+     * @param setInvisibleFriendsList
+     * @param setVisibleFriendsList
+     */
+    @Override
+    @Transactional
+    public void setFriendsVisibleBeforeExiting(String phoneNo, List<String> setInvisibleFriendsList, List<String> setVisibleFriendsList) {
+        // 标记好友退出前查看为是：1
+        if(setVisibleFriendsList.size() > 0){
+            friendsInfoDao.updateIsCheckBeforeExitByFriendPhoneNos(phoneNo, setVisibleFriendsList, Constants.YES_INT);
+        }
+        // 标记好友退出前查看为否：2
+        if(setInvisibleFriendsList.size() > 0){
+            friendsInfoDao.updateIsCheckBeforeExitByFriendPhoneNos(phoneNo, setInvisibleFriendsList, Constants.NO_INT);
+        }
     }
 
 }

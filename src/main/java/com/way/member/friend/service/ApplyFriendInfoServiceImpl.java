@@ -2,14 +2,14 @@ package com.way.member.friend.service;
 
 import com.way.common.constant.Constants;
 import com.way.common.result.ServiceResult;
-import com.way.common.util.CommonUtils;
 import com.way.member.friend.dao.ApplyFriendInfoDao;
 import com.way.member.friend.dto.FriendsInfoDto;
-import com.way.member.friend.entity.FriendsInfoEntity;
+import com.way.member.member.service.MemberInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +28,9 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
     @Autowired
     private FriendsInfoService friendsInfoService;
 
+    @Autowired
+    private MemberInfoService memberInfoService;
+
     /**
      * 申请添加好友
      * @param phoneNo
@@ -41,10 +44,10 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
         // 有更新没有新增
         if(count == 0){
             // 增加被申请记录
-            applyFriendInfoDao.addApplyFriendInfo(phoneNo, friendPhoneNo, applyInfo);
+            applyFriendInfoDao.addApplyFriendInfo(phoneNo, friendPhoneNo, applyInfo, new Date(), new Date());
         }else{
             // 更新被申请记录
-            applyFriendInfoDao.updateApplyFriendInfo(phoneNo, friendPhoneNo, applyInfo);
+            applyFriendInfoDao.updateApplyFriendInfo(phoneNo, friendPhoneNo, applyInfo, new Date());
         }
     }
 
@@ -78,7 +81,7 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
                 // 添加好友
                 dto.setPhoneNo(phoneNo);// 手机号
                 dto.setFriendPhoneNo(friendPhoneNo);// 好友手机号
-                dto.setFriendRemarkName(friendPhoneNo);// 好友备注名
+                dto.setFriendRemarkName(memberInfoService.getMemberInfo(friendPhoneNo).getData().getNickName());// 好友备注名
                 dto.setIsAccreditVisible(Constants.YES_INT);// 是否授权可见 1:是,2:否
                 dto.setAccreditStartTime(Constants.ACCREDIT_STARTTIME);// 授权开始时间
                 dto.setAccreditEndTime(Constants.ACCREDIT_ENDTIME);// 授权结束时间
@@ -92,7 +95,7 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
                 // 申请人好友列表添加数据
                 dto.setPhoneNo(friendPhoneNo);// 手机号
                 dto.setFriendPhoneNo(phoneNo);// 好友手机号
-                dto.setFriendRemarkName(phoneNo);// 好友备注名
+                dto.setFriendRemarkName(memberInfoService.getMemberInfo(phoneNo).getData().getNickName());// 好友备注名
                 friendsInfoService.addFriendInfo(dto);
             }
         }
