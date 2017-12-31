@@ -339,7 +339,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		// 积分明细表增加记录
 		rewardScoreDto.setPhoneNo(phoneNo);
 		rewardScoreDto.setRewardScoreType(4);
-		rewardScoreDto.setDetailInfo("用户转赠：" + friendPhoneNo);
+		rewardScoreDto.setDetailInfo("转赠用户：" + friendPhoneNo);
 		rewardScoreDto.setRewardScore(rewardScore);
 		rewardScoreDto.setCreateTime(date);
 		rewardScoreDto.setModifyTime(date);
