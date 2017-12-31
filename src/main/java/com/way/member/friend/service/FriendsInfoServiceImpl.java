@@ -160,23 +160,29 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
 
     /**
      * 将好友添加到分组
-     * @param friendPhoneNo
+     * @param friendPhoneNos
      * @param groupInfoDto
      */
     @Override
-    public void moveFriendToGroup(String friendPhoneNo, GroupInfoDto groupInfoDto) {
-        friendsInfoDao.moveFriendToGroup(friendPhoneNo, groupInfoDto);
+    @Transactional
+    public void moveFriendToGroup(String friendPhoneNos, GroupInfoDto groupInfoDto) {
+        for(String friendPhoneNo : friendPhoneNos.split("\\|")){
+            friendsInfoDao.moveFriendToGroup(friendPhoneNo, groupInfoDto);
+        }
     }
 
     /**
      * 将好友从分组中移除
      * @param phoneNo
-     * @param friendPhoneNo
+     * @param friendPhoneNos
      * @return
      */
     @Override
-    public ServiceResult<Object> removeFriendFromGroup(String phoneNo, String friendPhoneNo) {
-        friendsInfoDao.removeFriendFromGroup(phoneNo, friendPhoneNo);
+    @Transactional
+    public ServiceResult<Object> removeFriendFromGroup(String phoneNo, String friendPhoneNos) {
+        for(String friendPhoneNo : friendPhoneNos.split("\\|")){
+            friendsInfoDao.removeFriendFromGroup(phoneNo, friendPhoneNo);
+        }
         return ServiceResult.newSuccess();
     }
 

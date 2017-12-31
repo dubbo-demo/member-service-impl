@@ -134,6 +134,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	private void rewardScoreRule(String phoneNo, String invitationCode, int type, String detail, Double oneLevelScore, Double twoLevelScore) {
 		// 根据推荐人手机号判断推荐人是否为会员
 		ServiceResult<MemberDto> oneLevelMember = loadMapByMobile(invitationCode);
+		Date date = new Date();
 		// 如果推荐人是会员则加积分
 		// 会员类型 1:非会员,2:正式会员,3:试用期会员
 		if (null != oneLevelMember.getData() && oneLevelMember.getData().getMemberType().equals("2")) {
@@ -142,10 +143,12 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 			rewardScoreDto.setRewardScoreType(type);
 			rewardScoreDto.setDetailInfo(detail + phoneNo);
 			rewardScoreDto.setRewardScore(oneLevelScore);
+			rewardScoreDto.setCreateTime(date);
+			rewardScoreDto.setModifyTime(date);
 			// 推荐人增加积分记录
 			rewardScoreService.saveRewardScore(rewardScoreDto);
 			// 推荐人总积分增加
-			memberDao.addRewardScore(oneLevelMember.getData().getPhoneNo(), oneLevelScore);
+			memberDao.addRewardScore(oneLevelMember.getData().getPhoneNo(), oneLevelScore, date);
 		}
 		// 根据推荐人父级手机号判断推荐人父级是否为会员
 		ServiceResult<MemberDto> twoLevelMember = loadMapByMobile(oneLevelMember.getData().getInvitationCode());
@@ -157,10 +160,12 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 			rewardScoreDto.setRewardScoreType(type);
 			rewardScoreDto.setDetailInfo(oneLevelMember.getData().getPhoneNo() + detail + phoneNo);
 			rewardScoreDto.setRewardScore(twoLevelScore);
+			rewardScoreDto.setCreateTime(date);
+			rewardScoreDto.setModifyTime(date);
 			// 推荐人增加积分记录
 			rewardScoreService.saveRewardScore(rewardScoreDto);
 			// 推荐人父级总积分增加
-			memberDao.addRewardScore(twoLevelMember.getData().getPhoneNo(), twoLevelScore);
+			memberDao.addRewardScore(twoLevelMember.getData().getPhoneNo(), twoLevelScore, date);
 		}
 	}
 
@@ -235,6 +240,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	@Transactional
 	public void buyMemberByRewardScore(String phoneNo, String invitationCode, Double rewardScore, Date startTime, Date endTime, String name) {
 		MemberInfoEntity entity = new MemberInfoEntity();
+		Date date = new Date();
 		entity.setPhoneNo(phoneNo);
 		entity.setRewardScore(rewardScore);
 		entity.setMemberType("2");
@@ -248,6 +254,8 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setRewardScoreType(1);
 		rewardScoreDto.setDetailInfo("购买" + name + "会员扣除积分：" + rewardScore);
 		rewardScoreDto.setRewardScore(rewardScore);
+		rewardScoreDto.setCreateTime(date);
+		rewardScoreDto.setModifyTime(date);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
 
 		// 积分奖励机制
@@ -269,6 +277,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	@Transactional
 	public void buyValueAddedServiceByRewardScore(String phoneNo, String invitationCode, Double rewardScore, Date startTime, Date endTime, String name, String type, MemberValueAddedInfoDto memberValueAddedInfoDto) {
 		MemberInfoEntity entity = new MemberInfoEntity();
+		Date date = new Date();
 		entity.setPhoneNo(phoneNo);
 		entity.setRewardScore(rewardScore);
 		if("1".equals(type)){
@@ -303,6 +312,8 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setRewardScoreType(5);
 		rewardScoreDto.setDetailInfo("购买" + name + "增值服务扣除积分：" + rewardScore);
 		rewardScoreDto.setRewardScore(rewardScore);
+		rewardScoreDto.setCreateTime(date);
+		rewardScoreDto.setModifyTime(date);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
 		// 积分奖励机制
 		rewardScoreRule(phoneNo, invitationCode, 2, "邀请用户：积分购买增值服务", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
@@ -319,21 +330,25 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	public void transferRewardScoreToFriend(String phoneNo, Double rewardScore, String friendPhoneNo) {
 		RewardScoreDto rewardScoreDto = new RewardScoreDto();
 		MemberInfoEntity entity = new MemberInfoEntity();
+		Date date = new Date();
 		entity.setPhoneNo(phoneNo);
 		entity.setRewardScore(rewardScore);
+		entity.setModifyTime(date);
 		// 删除自己积分
 		memberDao.minusMemberTypeInfo(entity);
 		// 积分明细表增加记录
 		rewardScoreDto.setPhoneNo(phoneNo);
-		rewardScoreDto.setRewardScoreType(2);
+		rewardScoreDto.setRewardScoreType(4);
 		rewardScoreDto.setDetailInfo("用户转赠：" + friendPhoneNo);
 		rewardScoreDto.setRewardScore(rewardScore);
+		rewardScoreDto.setCreateTime(date);
+		rewardScoreDto.setModifyTime(date);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
 		// 增加转赠用户积分
-		memberDao.addRewardScore(friendPhoneNo, rewardScore);
+		memberDao.addRewardScore(friendPhoneNo, rewardScore, date);
 		// 积分明细表增加记录
 		rewardScoreDto.setPhoneNo(friendPhoneNo);
-		rewardScoreDto.setRewardScoreType(2);
+		rewardScoreDto.setRewardScoreType(5);
 		rewardScoreDto.setDetailInfo(phoneNo + "用户转赠");
 		rewardScoreDto.setRewardScore(rewardScore);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
@@ -348,6 +363,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	public void withdrawalRewardScore(WithdrawalInfoDto withdrawalInfoDto) {
 		// 增加积分提现记录
 		withdrawalInfoDto.setStatus(1);
+		Date date = new Date();
 		withdrawalInfoService.withdrawalRewardScore(withdrawalInfoDto);
 		// 用户扣除积分
 		MemberInfoEntity entity = new MemberInfoEntity();
@@ -361,6 +377,8 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setRewardScoreType(3);
 		rewardScoreDto.setDetailInfo("用户提现" + withdrawalInfoDto.getRewardScore() + "积分，到银行卡：" + withdrawalInfoDto.getBankNumber());
 		rewardScoreDto.setRewardScore(withdrawalInfoDto.getRewardScore());
+		rewardScoreDto.setCreateTime(date);
+		rewardScoreDto.setModifyTime(date);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
 	}
 
