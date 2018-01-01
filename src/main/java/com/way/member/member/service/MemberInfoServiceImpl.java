@@ -1,5 +1,6 @@
 package com.way.member.member.service;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
 import com.way.common.util.PingYinUtil;
@@ -45,9 +46,9 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	@Autowired
 	private MemberValueAddedInfoService memberValueAddedInfoService;
 
-	public static final Double ONELEVEL_REWARDSCORE = 20.0;
+	public static final double ONELEVEL_REWARDSCORE = 0.3;
 
-	public static final Double TWOLEVEL_REWARDSCORE = 10.0;
+	public static final double TWOLEVEL_REWARDSCORE = 0.1;
 
 	/**
 	 * 保存用户信息
@@ -257,9 +258,8 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setCreateTime(date);
 		rewardScoreDto.setModifyTime(date);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
-
 		// 积分奖励机制
-		rewardScoreRule(phoneNo, invitationCode, 2, "邀请用户：积分购买增值服务", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
+		rewardScoreRule(phoneNo, invitationCode, 2, "邀请用户：积分购买" + name + "会员", rewardScore * ONELEVEL_REWARDSCORE, rewardScore * TWOLEVEL_REWARDSCORE);
 	}
 
 	/**
@@ -309,14 +309,20 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		// 积分明细增加记录
 		RewardScoreDto rewardScoreDto = new RewardScoreDto();
 		rewardScoreDto.setPhoneNo(phoneNo);
-		rewardScoreDto.setRewardScoreType(5);
-		rewardScoreDto.setDetailInfo("购买" + name + "增值服务扣除积分：" + rewardScore);
+		if("1".equals(type)){
+			rewardScoreDto.setRewardScoreType(6);
+		}
+		if("2".equals(type)){
+			rewardScoreDto.setRewardScoreType(7);
+		}
+
+		rewardScoreDto.setDetailInfo("购买" + name + "扣除积分：" + rewardScore);
 		rewardScoreDto.setRewardScore(rewardScore);
 		rewardScoreDto.setCreateTime(date);
 		rewardScoreDto.setModifyTime(date);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
 		// 积分奖励机制
-		rewardScoreRule(phoneNo, invitationCode, 2, "邀请用户：积分购买增值服务", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
+		rewardScoreRule(phoneNo, invitationCode, 2, "邀请用户：积分购买" + name, rewardScore * ONELEVEL_REWARDSCORE, rewardScore * TWOLEVEL_REWARDSCORE);
 	}
 
 	/**

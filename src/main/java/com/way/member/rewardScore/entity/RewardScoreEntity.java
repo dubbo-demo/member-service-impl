@@ -24,6 +24,6 @@ public class RewardScoreEntity extends BaseEntity {
 
     private String detailInfo; // 积分使用/获得详情
 
-    private Integer rewardScore; // 使用/获得积分数
+    private Double rewardScore; // 使用/获得积分数
 
 }
