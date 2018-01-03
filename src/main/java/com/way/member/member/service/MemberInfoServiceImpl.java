@@ -1,6 +1,5 @@
 package com.way.member.member.service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
 import com.way.common.util.PingYinUtil;
@@ -231,7 +230,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	/**
 	 * 积分购买会员
 	 * @param phoneNo
-	 * @param invitationCode
+	 * @param memberDto
 	 * @param rewardScore
 	 * @param startTime
 	 * @param endTime
@@ -239,14 +238,17 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 */
 	@Override
 	@Transactional
-	public void buyMemberByRewardScore(String phoneNo, String invitationCode, Double rewardScore, Date startTime, Date endTime, String name) {
+	public void buyMemberByRewardScore(String phoneNo, MemberDto memberDto, Double rewardScore, Date startTime, Date endTime, String name) {
 		MemberInfoEntity entity = new MemberInfoEntity();
 		Date date = new Date();
 		entity.setPhoneNo(phoneNo);
 		entity.setRewardScore(rewardScore);
 		entity.setMemberType("2");
-		entity.setMemberStartTime(startTime);
+		if(!"2".equals(memberDto.getMemberType())){
+			entity.setMemberStartTime(startTime);
+		}
 		entity.setMemberEndTime(endTime);
+		entity.setModifyTime(new Date());
 		// 扣除积分并且给用户设置为会员/或者延期会员
 		memberDao.minusMemberTypeInfo(entity);
 		// 积分明细增加记录
@@ -259,13 +261,13 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setModifyTime(date);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
 		// 积分奖励机制
-		rewardScoreRule(phoneNo, invitationCode, 2, "邀请用户：积分购买" + name + "会员", rewardScore * ONELEVEL_REWARDSCORE, rewardScore * TWOLEVEL_REWARDSCORE);
+		rewardScoreRule(phoneNo, memberDto.getInvitationCode(), 2, "邀请用户：积分购买" + name + "会员", rewardScore * ONELEVEL_REWARDSCORE, rewardScore * TWOLEVEL_REWARDSCORE);
 	}
 
 	/**
 	 * 积分购买增值服务
 	 * @param phoneNo
-	 * @param invitationCode
+	 * @param memberDto
 	 * @param rewardScore
 	 * @param startTime
 	 * @param endTime
@@ -275,7 +277,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 */
 	@Override
 	@Transactional
-	public void buyValueAddedServiceByRewardScore(String phoneNo, String invitationCode, Double rewardScore, Date startTime, Date endTime, String name, String type, MemberValueAddedInfoDto memberValueAddedInfoDto) {
+	public void buyValueAddedServiceByRewardScore(String phoneNo, MemberDto memberDto, Double rewardScore, Date startTime, Date endTime, String name, String type, MemberValueAddedInfoDto memberValueAddedInfoDto) {
 		MemberInfoEntity entity = new MemberInfoEntity();
 		Date date = new Date();
 		entity.setPhoneNo(phoneNo);
@@ -286,6 +288,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		if("2".equals(type)){
 			entity.setFenceService("1");
 		}
+		entity.setModifyTime(new Date());
 		// 扣除积分并且给用户设置为会员/或者延期会员
 		memberDao.minusMemberTypeInfo(entity);
 		if(null == memberValueAddedInfoDto){
@@ -300,7 +303,9 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		}else{
 			memberValueAddedInfoDto.setPhoneNo(phoneNo);
 			memberValueAddedInfoDto.setType(Integer.valueOf(type));
-			memberValueAddedInfoDto.setStartTime(startTime);
+			if("2".equals(memberDto.getTrajectoryService()) || "2".equals(memberDto.getFenceService())){
+				memberValueAddedInfoDto.setStartTime(startTime);
+			}
 			memberValueAddedInfoDto.setEndTime(endTime);
 			memberValueAddedInfoDto.setIsOpen(1);
 			// 更新用户增值服务信息
@@ -322,7 +327,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setModifyTime(date);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
 		// 积分奖励机制
-		rewardScoreRule(phoneNo, invitationCode, 2, "邀请用户：积分购买" + name, rewardScore * ONELEVEL_REWARDSCORE, rewardScore * TWOLEVEL_REWARDSCORE);
+		rewardScoreRule(phoneNo, memberDto.getInvitationCode(), 2, "邀请用户：积分购买" + name, rewardScore * ONELEVEL_REWARDSCORE, rewardScore * TWOLEVEL_REWARDSCORE);
 	}
 
 	/**
@@ -413,7 +418,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 * 充值购买会员/增值服务
 	 * @param phoneNo
 	 * @param type
-	 * @param invitationCode
+	 * @param memberDto
 	 * @param amount
 	 * @param startTime
 	 * @param endTime
@@ -421,7 +426,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	 */
 	@Override
 	@Transactional
-	public void buyServiceByRecharge(String phoneNo, String type, String invitationCode, Double amount, Date startTime, Date endTime, String name) {
+	public void buyServiceByRecharge(String phoneNo, String type, MemberDto memberDto, Double amount, Date startTime, Date endTime, String name) {
 		MemberInfoEntity entity = new MemberInfoEntity();
 		entity.setPhoneNo(phoneNo);
 		if("0".equals(type)){
@@ -433,7 +438,12 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		if("2".equals(type)){
 			entity.setFenceService("1");
 		}
-		// 扣除积分并且给用户设置为会员/或者延期会员
+		if(!"2".equals(memberDto.getMemberType())){
+			entity.setMemberStartTime(startTime);
+		}
+		entity.setMemberEndTime(endTime);
+		entity.setModifyTime(new Date());
+		// 给用户设置为会员/或者延期会员
 		memberDao.minusMemberTypeInfo(entity);
 		if("1".equals(type) || "2".equals(type)){
 			// 根据增值服务类型获取用户增值服务信息
@@ -450,7 +460,9 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 			}else{
 				memberValueAddedInfoDto.setPhoneNo(phoneNo);
 				memberValueAddedInfoDto.setType(Integer.valueOf(type));
-				memberValueAddedInfoDto.setStartTime(startTime);
+				if("2".equals(memberDto.getTrajectoryService()) || "2".equals(memberDto.getFenceService())){
+					memberValueAddedInfoDto.setStartTime(startTime);
+				}
 				memberValueAddedInfoDto.setEndTime(endTime);
 				memberValueAddedInfoDto.setIsOpen(1);
 				// 更新用户增值服务信息
@@ -458,7 +470,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 			}
 		}
 		// 积分奖励机制
-		rewardScoreRule(phoneNo, invitationCode, 2, "邀请用户：", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
+		rewardScoreRule(phoneNo, memberDto.getInvitationCode(), 2, "邀请用户：", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
 	}
 
 }

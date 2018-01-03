@@ -11,7 +11,19 @@
     </insert>
 
     <update id="updateMemberValueAddedInfo">
-        update member_valueadded_info set is_open = #{isOpen}, start_time = #{startTime}, end_time = #{endTime} where phone_no = #{phoneNo} and type = #{type}
+        update member_valueadded_info
+        <set >
+            <if test="isOpen != null" >
+                is_open = #{isOpen},
+            </if>
+            <if test="startTime != null" >
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null" >
+                end_time = #{endTime},
+            </if>
+        </set>
+        where phone_no = #{phoneNo} and type = #{type}
     </update>
 
 </mapper>
