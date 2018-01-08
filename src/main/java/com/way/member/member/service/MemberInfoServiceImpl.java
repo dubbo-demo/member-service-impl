@@ -373,7 +373,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	@Transactional
 	public void withdrawalRewardScore(WithdrawalInfoDto withdrawalInfoDto) {
 		// 增加积分提现记录
-		withdrawalInfoDto.setStatus(1);
+		withdrawalInfoDto.setStatus(0);
 		Date date = new Date();
 		withdrawalInfoService.withdrawalRewardScore(withdrawalInfoDto);
 		// 用户扣除积分
