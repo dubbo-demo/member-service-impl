@@ -3,6 +3,7 @@ package com.way.member.member.service;
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
 import com.way.common.util.PingYinUtil;
+import com.way.common.util.SensitiveInfoUtils;
 import com.way.member.member.dao.MemberDao;
 import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberInfoEntity;
@@ -125,23 +126,27 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	/**
 	 * 积分奖励机制
 	 * @param phoneNo
-	 * @param invitationCode
-	 * @param type
+	 * @param memberDto
+	 * @param rewardScoreType
 	 * @param detail
 	 * @param oneLevelScore
 	 * @param twoLevelScore
+	 * @param serviceType
 	 */
-	private void rewardScoreRule(String phoneNo, String invitationCode, int type, String detail, Double oneLevelScore, Double twoLevelScore) {
+	private void rewardScoreRule(String phoneNo, MemberDto memberDto, int rewardScoreType, String detail, Double oneLevelScore, Double twoLevelScore, String serviceType) {
 		// 根据推荐人手机号判断推荐人是否为会员
-		ServiceResult<MemberDto> oneLevelMember = loadMapByMobile(invitationCode);
+		ServiceResult<MemberDto> oneLevelMember = loadMapByMobile(memberDto.getInvitationCode());
 		Date date = new Date();
 		// 如果推荐人是会员则加积分
 		// 会员类型 1:非会员,2:正式会员,3:试用期会员
-		if (null != oneLevelMember.getData() && oneLevelMember.getData().getMemberType().equals("2")) {
+		if (null != oneLevelMember.getData()
+				&& (("0".equals(serviceType) && oneLevelMember.getData().getMemberType().equals("2"))
+				|| ("1".equals(serviceType) && "1".equals(oneLevelMember.getData().getTrajectoryService()))
+				|| ("2".equals(serviceType) && "1".equals(oneLevelMember.getData().getFenceService())))) {
 			RewardScoreDto rewardScoreDto = new RewardScoreDto();
 			rewardScoreDto.setPhoneNo(oneLevelMember.getData().getPhoneNo());
-			rewardScoreDto.setRewardScoreType(type);
-			rewardScoreDto.setDetailInfo(detail + phoneNo);
+			rewardScoreDto.setRewardScoreType(rewardScoreType);
+			rewardScoreDto.setDetailInfo(detail + SensitiveInfoUtils.maskMobilePhone(phoneNo));
 			rewardScoreDto.setRewardScore(oneLevelScore);
 			rewardScoreDto.setCreateTime(date);
 			rewardScoreDto.setModifyTime(date);
@@ -149,16 +154,31 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 			rewardScoreService.saveRewardScore(rewardScoreDto);
 			// 推荐人总积分增加
 			memberDao.addRewardScore(oneLevelMember.getData().getPhoneNo(), oneLevelScore, date);
+		}else{
+			RewardScoreDto rewardScoreDto = new RewardScoreDto();
+			rewardScoreDto.setPhoneNo("18915969782");
+			rewardScoreDto.setRewardScoreType(rewardScoreType);
+			rewardScoreDto.setDetailInfo(detail + SensitiveInfoUtils.maskMobilePhone(phoneNo));
+			rewardScoreDto.setRewardScore(oneLevelScore);
+			rewardScoreDto.setCreateTime(date);
+			rewardScoreDto.setModifyTime(date);
+			// 推荐人增加积分记录
+			rewardScoreService.saveRewardScore(rewardScoreDto);
+			// 推荐人总积分增加
+			memberDao.addRewardScore("18915969782", oneLevelScore, date);
 		}
 		// 根据推荐人父级手机号判断推荐人父级是否为会员
 		ServiceResult<MemberDto> twoLevelMember = loadMapByMobile(oneLevelMember.getData().getInvitationCode());
 		// 如果推荐人父级是会员则加积分
-		if (null != twoLevelMember.getData() && twoLevelMember.getData().getMemberType().equals("2")) {
+		if (null != twoLevelMember.getData()
+				&& (("0".equals(serviceType) &&  twoLevelMember.getData().getMemberType().equals("2"))
+				|| ("1".equals(serviceType) && "1".equals(twoLevelMember.getData().getTrajectoryService()))
+				|| ("2".equals(serviceType) && "1".equals(twoLevelMember.getData().getFenceService())))) {
 			RewardScoreDto rewardScoreDto = new RewardScoreDto();
 			// 推荐人父级增加积分记录
 			rewardScoreDto.setPhoneNo(twoLevelMember.getData().getPhoneNo());
-			rewardScoreDto.setRewardScoreType(type);
-			rewardScoreDto.setDetailInfo(oneLevelMember.getData().getPhoneNo() + detail + phoneNo);
+			rewardScoreDto.setRewardScoreType(rewardScoreType);
+			rewardScoreDto.setDetailInfo(SensitiveInfoUtils.maskMobilePhone(oneLevelMember.getData().getPhoneNo()) + detail + SensitiveInfoUtils.maskMobilePhone(phoneNo));
 			rewardScoreDto.setRewardScore(twoLevelScore);
 			rewardScoreDto.setCreateTime(date);
 			rewardScoreDto.setModifyTime(date);
@@ -166,6 +186,19 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 			rewardScoreService.saveRewardScore(rewardScoreDto);
 			// 推荐人父级总积分增加
 			memberDao.addRewardScore(twoLevelMember.getData().getPhoneNo(), twoLevelScore, date);
+		}else{
+			RewardScoreDto rewardScoreDto = new RewardScoreDto();
+			// 推荐人父级增加积分记录
+			rewardScoreDto.setPhoneNo("13815893589");
+			rewardScoreDto.setRewardScoreType(rewardScoreType);
+			rewardScoreDto.setDetailInfo("18915969782" + detail + SensitiveInfoUtils.maskMobilePhone(phoneNo));
+			rewardScoreDto.setRewardScore(twoLevelScore);
+			rewardScoreDto.setCreateTime(date);
+			rewardScoreDto.setModifyTime(date);
+			// 推荐人增加积分记录
+			rewardScoreService.saveRewardScore(rewardScoreDto);
+			// 推荐人父级总积分增加
+			memberDao.addRewardScore("13815893589", twoLevelScore, date);
 		}
 	}
 
@@ -261,7 +294,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setModifyTime(date);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
 		// 积分奖励机制
-		rewardScoreRule(phoneNo, memberDto.getInvitationCode(), 2, "邀请用户：积分购买" + name + "会员", rewardScore * ONELEVEL_REWARDSCORE, rewardScore * TWOLEVEL_REWARDSCORE);
+		rewardScoreRule(phoneNo, memberDto, 2, "邀请用户：积分购买" + name + "会员", rewardScore * ONELEVEL_REWARDSCORE, rewardScore * TWOLEVEL_REWARDSCORE, "0");
 	}
 
 	/**
@@ -327,7 +360,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		rewardScoreDto.setModifyTime(date);
 		rewardScoreService.saveRewardScore(rewardScoreDto);
 		// 积分奖励机制
-		rewardScoreRule(phoneNo, memberDto.getInvitationCode(), 2, "邀请用户：积分购买" + name, rewardScore * ONELEVEL_REWARDSCORE, rewardScore * TWOLEVEL_REWARDSCORE);
+		rewardScoreRule(phoneNo, memberDto, 2, "邀请用户：积分购买" + name, rewardScore * ONELEVEL_REWARDSCORE, rewardScore * TWOLEVEL_REWARDSCORE, type);
 	}
 
 	/**
@@ -470,7 +503,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 			}
 		}
 		// 积分奖励机制
-		rewardScoreRule(phoneNo, memberDto.getInvitationCode(), 2, "邀请用户：", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
+		rewardScoreRule(phoneNo, memberDto, 2, "邀请用户：", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE, type);
 	}
 
 }
