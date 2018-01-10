@@ -19,7 +19,7 @@
         select friend.id,friend.friend_phone_no friendPhoneNo,friend.apply_info applyInfo,friend.is_approve isApprove,
         member.head_pic headPic,member.nick_name friendNickName from apply_friend_info friend
         left join member_info member on member.phone_no = friend.friend_phone_no
-        where friend.phone_no = #{phoneNo}
+        where friend.phone_no = #{phoneNo} order by friend.modify_time desc
     </select>
 
     <update id="agreeToAddFriend">
