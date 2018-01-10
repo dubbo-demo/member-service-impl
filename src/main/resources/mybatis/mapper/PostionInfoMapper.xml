@@ -8,16 +8,15 @@
     </insert>
 
     <update id="updatePosition">
-        update member_location_info_${flag} set longitude=#{po.longitude}, latitude=#{po.latitude}, modify_time=now() where id = #{id}
+        update member_location_info_0 set longitude=#{po.longitude}, latitude=#{po.latitude}, modify_time=now() where id = #{id}
     </update>
 
     <select id="getRealtimePositionByPhoneNo" resultType="com.way.member.position.dto.PositionInfoDto">
         select id, phone_no phoneNo, longitude, latitude, date_format(modify_time,'%Y-%m-%d %h:%i:%s') modifyTime
-        from member_location_info_${flag} where phone_no = #{phoneNo}
+        from member_location_info_0 where phone_no = #{phoneNo}
         <if test="modifyTime != null" >
             and date_format(modify_time,'%Y-%m-%d %h:%i:%s') > #{modifyTime},
         </if>
-        order by modify_time desc limit 1
     </select>
 
     <select id="getMemberHistoryPositions" resultType="com.way.member.position.dto.PositionInfoDto">

@@ -26,11 +26,14 @@ public class PositionInfoServiceImpl implements PositionInfoService {
     /**
      * 上传坐标
      * @param positionInfoDto
+     * @param flag
      */
     @Override
-    public void savePosition(PositionInfoDto positionInfoDto) {
-        // 分20张表
-        String flag = subTable(positionInfoDto.getPhoneNo());
+    public void savePosition(PositionInfoDto positionInfoDto, String flag) {
+        if(null == flag){
+            // 分20张表
+            flag = subTable(positionInfoDto.getPhoneNo());
+        }
         PositionInfoPo positionInfoPo = CommonUtils.transform(positionInfoDto, PositionInfoPo.class);
         positionInfoDao.savePosition(positionInfoPo, flag);
     }
@@ -42,10 +45,8 @@ public class PositionInfoServiceImpl implements PositionInfoService {
      */
     @Override
     public void updatePosition(PositionInfoDto positionInfoDto, Long id) {
-        // 分20张表
-        String flag = subTable(positionInfoDto.getPhoneNo());
         PositionInfoPo positionInfoPo = CommonUtils.transform(positionInfoDto, PositionInfoPo.class);
-        positionInfoDao.updatePosition(positionInfoPo, flag, id);
+        positionInfoDao.updatePosition(positionInfoPo, id);
     }
 
     /**
@@ -58,9 +59,7 @@ public class PositionInfoServiceImpl implements PositionInfoService {
     @Override
     public ServiceResult<PositionInfoDto> getRealtimePositionByPhoneNo(String phoneNo, String modifyTime) {
         ServiceResult<PositionInfoDto> serviceResult = ServiceResult.newSuccess();
-        // 分20张表
-        String flag = subTable(phoneNo);
-        serviceResult.setData(positionInfoDao.getRealtimePositionByPhoneNo(phoneNo, flag, modifyTime));
+        serviceResult.setData(positionInfoDao.getRealtimePositionByPhoneNo(phoneNo, modifyTime));
         return serviceResult;
     }
 

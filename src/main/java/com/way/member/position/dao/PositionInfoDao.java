@@ -25,19 +25,17 @@ public interface PositionInfoDao extends IBaseMapper {
     /**
      * 更新用户坐标
      * @param po
-     * @param flag
      * @param id
      */
-    void updatePosition(@Param("po") PositionInfoPo po, @Param("flag") String flag, @Param("id") Long id);
+    void updatePosition(@Param("po") PositionInfoPo po, @Param("id") Long id);
 
     /**
      * 根据手机号获取用户实时坐标
      * @param phoneNo
-     * @param flag
      * @param modifyTime
      * @return
      */
-    PositionInfoDto getRealtimePositionByPhoneNo(@Param("phoneNo") String phoneNo, @Param("flag") String flag, @Param("modifyTime") String modifyTime);
+    PositionInfoDto getRealtimePositionByPhoneNo(@Param("phoneNo") String phoneNo, @Param("modifyTime") String modifyTime);
 
     /**
      * 查询用户历史轨迹坐标
