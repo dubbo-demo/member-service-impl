@@ -18,11 +18,11 @@ public class MemberValueAddedInfoEntity extends BaseEntity {
 
     private static final long serialVersionUID = 4113890243968230405L;
 
-    private String phoneNo;// 手机号
+    private String invitationCode;// 邀请码
 
     private Integer type;// 增值服务类型:1:轨迹回放,2:电子围栏
 
-    private Integer isOpen;// 是否开启:1:是,2:否
+    private Integer isOpen;// 是否开启:1:是,2:否,3:试用
 
     private Date startTime;// 开始时间
 

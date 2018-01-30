@@ -83,4 +83,11 @@ public interface MemberDao extends IBaseMapper {
 	 * 扣除积分并且给用户设置为会员/或者延期会员
 	 */
 	void minusMemberTypeInfo(MemberInfoEntity entity);
+
+	/**
+	 * 根据邀请码查邀请人信息
+	 * @param invitationCode
+	 * @return
+	 */
+    MemberInfoEntity loadMapByInvitationCode(String invitationCode);
 }

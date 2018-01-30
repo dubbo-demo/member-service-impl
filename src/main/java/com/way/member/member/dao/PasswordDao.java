@@ -25,5 +25,5 @@ public interface PasswordDao extends IBaseMapper {
 	 * @Description: 查询当前登录密码是否正确
 	 * @return: String 返回mobile
 	 */
-	public Integer checkCurPassword(@Param("phoneNo") String phoneNo, @Param("curPasssword") String curPasssword);
+	public Integer checkCurPassword(@Param("invitationCode") String invitationCode, @Param("curPasssword") String curPasssword);
 }

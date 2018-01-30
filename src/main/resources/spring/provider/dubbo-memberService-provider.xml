@@ -28,4 +28,6 @@
 
     <dubbo:service interface="com.way.member.order.service.MemberOrderInfoService" ref="memberOrderInfoServiceImpl"/>
 
+    <dubbo:service interface="com.way.member.member.service.InviteRelationshipInfoService" ref="inviteRelationshipInfoServiceImpl"/>
+
 </beans>

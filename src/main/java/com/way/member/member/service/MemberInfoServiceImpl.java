@@ -2,6 +2,7 @@ package com.way.member.member.service;
 
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
+import com.way.common.util.DateUtils;
 import com.way.common.util.PingYinUtil;
 import com.way.common.util.SensitiveInfoUtils;
 import com.way.member.member.dao.MemberDao;
@@ -107,18 +108,36 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	/**
 	 * 用户注册数据保存
 	 * @param memberDto
+	 * @param invitationCode
 	 * @return
 	 */
 	@Override
 	@Transactional
-	public void memberRegist(MemberDto memberDto){
-		memberDto.setMemberType("1");
-		memberDto.setTrajectoryService("2");
-		memberDto.setFenceService("2");
+	public void memberRegist(MemberDto memberDto, String invitationCode){
 		// 保存客户信息表
+		memberDto.setMemberType("3");// 默认90天试用期
+		memberDto.setTrajectoryService("3");// 默认90天试用期
+		memberDto.setFenceService("3");// 默认90天试用期
+		memberDto.setMemberStartTime(new Date());
+		memberDto.setMemberEndTime(DateUtils.getDayEnd(DateUtils.addDays(memberDto.getMemberStartTime(), 90)));
 		saveMemberInfo(memberDto);
+
+		// 保存推荐人层级关系
+
+		// 保存用户增值服务信息
+		MemberValueAddedInfoDto memberValueAddedInfoDto = new MemberValueAddedInfoDto();
+		memberValueAddedInfoDto.setInvitationCode(memberDto.getInvitationCode());
+		memberValueAddedInfoDto.setType(1);// 1:轨迹回放,2:电子围栏
+		memberValueAddedInfoDto.setIsOpen(3);// 1:是,2:否,3:试用
+		memberValueAddedInfoDto.setStartTime(memberDto.getMemberStartTime());
+		memberValueAddedInfoDto.setEndTime(memberDto.getMemberEndTime());
+		memberValueAddedInfoService.saveMemberValueAddedInfo(memberValueAddedInfoDto);
+		memberValueAddedInfoDto.setType(2);// 1:轨迹回放,2:电子围栏
+		memberValueAddedInfoService.saveMemberValueAddedInfo(memberValueAddedInfoDto);
+
 		// 保存密码表
 		passwordService.savePasswordInfo(memberDto);
+
 		// 积分奖励机制
 		// rewardScoreRule(memberDto.getPhoneNo(), memberDto.getInvitationCode(), 2, "邀请用户：", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE);
 	}
@@ -415,6 +434,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		entity.setRewardScore(withdrawalInfoDto.getRewardScore());
 		memberDao.minusMemberTypeInfo(entity);
 
+
 		// 积分明细表增加记录
 		RewardScoreDto rewardScoreDto = new RewardScoreDto();
 		rewardScoreDto.setPhoneNo(withdrawalInfoDto.getPhoneNo());
@@ -504,6 +524,22 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		}
 		// 积分奖励机制
 		rewardScoreRule(phoneNo, memberDto, 2, "邀请用户：", ONELEVEL_REWARDSCORE, TWOLEVEL_REWARDSCORE, type);
+	}
+
+	/**
+	 * 根据邀请码查邀请人信息
+	 * @param invitationCode
+	 * @return
+	 */
+	@Override
+	public ServiceResult<MemberDto> loadMapByInvitationCode(String invitationCode) {
+		MemberInfoEntity memberInfoEntity = memberDao.loadMapByInvitationCode(invitationCode);
+		if(memberInfoEntity != null){
+			MemberDto memberDto = CommonUtils.transform(memberInfoEntity, MemberDto.class);
+			return ServiceResult.newSuccess(memberDto);
+		}else{
+			return ServiceResult.newSuccess(null);
+		}
 	}
 
 }

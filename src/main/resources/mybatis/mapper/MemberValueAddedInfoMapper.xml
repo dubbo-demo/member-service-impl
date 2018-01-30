@@ -3,11 +3,11 @@
 <mapper namespace="com.way.member.valueAdded.dao.MemberValueAddedInfoDao" >
 
     <select id="getMemberValueAddedInfoByType" resultType="com.way.member.valueAdded.entity.MemberValueAddedInfoEntity">
-        select is_open isOpen, start_time startTime, end_time endTime from member_valueadded_info where phone_no = #{phoneNo} and type = #{type}
+        select is_open isOpen, start_time startTime, end_time endTime from member_valueadded_info where invitation_code = #{invitationCode} and type = #{type}
     </select>
 
     <insert id="saveMemberValueAddedInfo">
-        insert into member_valueadded_info (phone_no, type, is_open, start_time, end_time) values (#{phoneNo}, #{type}, #{isOpen}, #{startTime}, #{endTime})
+        insert into member_valueadded_info (invitation_code, type, is_open, start_time, end_time) values (#{invitationCode}, #{type}, #{isOpen}, #{startTime}, #{endTime})
     </insert>
 
     <update id="updateMemberValueAddedInfo">
@@ -23,7 +23,7 @@
                 end_time = #{endTime},
             </if>
         </set>
-        where phone_no = #{phoneNo} and type = #{type}
+        where invitation_code = #{invitationCode} and type = #{type}
     </update>
 
 </mapper>

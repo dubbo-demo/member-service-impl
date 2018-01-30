@@ -41,8 +41,8 @@ public class PasswordServiceImpl implements PasswordService {
 	 * @Description: 查询当前登录密码是否正确
 	 * @return: String 返回mobile
 	 */
-	public ServiceResult checkCurPassword(String phoneNo, String curPasssword){
-		int count = passwordDao.checkCurPassword(phoneNo, curPasssword);
+	public ServiceResult checkCurPassword(String invitationCode, String curPasssword){
+		int count = passwordDao.checkCurPassword(invitationCode, curPasssword);
 		if(count > 0){
 			return ServiceResult.newSuccess();
 		}else{

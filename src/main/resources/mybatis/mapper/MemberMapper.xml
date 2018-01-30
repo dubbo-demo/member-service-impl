@@ -57,7 +57,11 @@
 		FROM MEMBER_INFO WHERE phone_no = #{phoneNo}
 	</select>
 
-	<update id="modifyMemberInfo">
+    <select id="loadMapByInvitationCode"  resultMap="memberInfoMap">
+		SELECT phone_no FROM member_info WHERE invitation_code = #{invitationCode}
+	</select>
+
+    <update id="modifyMemberInfo">
 		update MEMBER_INFO
 		<set >
 			<if test="headPic != null" >
