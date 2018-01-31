@@ -1,5 +1,6 @@
 package com.way.member.member.dao;
 
+import com.way.common.rom.IBaseMapper;
 import com.way.member.member.entity.InviteRelationshipInfoEntity;
 
 /**
@@ -8,7 +9,7 @@ import com.way.member.member.entity.InviteRelationshipInfoEntity;
  * @author: xinpei.xu
  *
  */
-public interface InviteRelationshipInfoDao {
+public interface InviteRelationshipInfoDao extends IBaseMapper {
 
     /**
      * 根据邀请码查出邀请人上级用户邀请码
