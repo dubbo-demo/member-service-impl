@@ -273,10 +273,14 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 	@Override
 	public ServiceResult<MemberDto> getMemberInfo(String phoneNo) {
 		MemberInfoEntity memberInfoEntity = memberDao.getMemberInfo(phoneNo);
-		if(memberInfoEntity != null){
+		if (memberInfoEntity != null) {
 			MemberDto memberDto = CommonUtils.transform(memberInfoEntity, MemberDto.class);
+			// 查询用户下级用户数
+			memberDto.setNextLevelCount(inviteRelationshipInfoService.getNextLevelCount(memberDto.getInvitationCode()));
+			// 查询用户下下级用户数
+			memberDto.setUnderNextLevelCount(inviteRelationshipInfoService.getUnderNextLevelCount(memberDto.getInvitationCode()));
 			return ServiceResult.newSuccess(memberDto);
-		}else{
+		} else {
 			return ServiceResult.newSuccess(null);
 		}
 	}

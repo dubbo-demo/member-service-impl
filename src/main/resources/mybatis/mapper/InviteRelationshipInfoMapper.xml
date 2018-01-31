@@ -13,4 +13,12 @@
         VALUES (#{invitationCode}, #{nextLevelInvitationCode}, #{underNextLevelInvitationCode}, #{createTime}, #{modifyTime});
     </insert>
 
+    <select id="getNextLevelCount" resultType="java.lang.Integer">
+        select count(1) from invite_relationship_info where next_level_invitation_code = #{invitationCode}
+    </select>
+
+    <select id="getUnderNextLevelCount" resultType="java.lang.Integer">
+        select count(1) from invite_relationship_info where invitation_code = #{invitationCode}
+    </select>
+
 </mapper>

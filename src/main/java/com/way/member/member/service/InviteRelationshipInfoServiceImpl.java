@@ -43,4 +43,24 @@ public class InviteRelationshipInfoServiceImpl implements InviteRelationshipInfo
         InviteRelationshipInfoEntity inviteRelationshipInfoEntity = CommonUtils.transform(inviteRelationshipInfoDto, InviteRelationshipInfoEntity.class);
         inviteRelationshipInfoDao.addInviteRelationshipInfo(inviteRelationshipInfoEntity);
     }
+
+    /**
+     * 查询用户下级用户数
+     * @param invitationCode
+     * @return
+     */
+    @Override
+    public Integer getNextLevelCount(String invitationCode) {
+        return inviteRelationshipInfoDao.getNextLevelCount(invitationCode);
+    }
+
+    /**
+     * 查询用户下下级用户数
+     * @param invitationCode
+     * @return
+     */
+    @Override
+    public Integer getUnderNextLevelCount(String invitationCode) {
+        return inviteRelationshipInfoDao.getUnderNextLevelCount(invitationCode);
+    }
 }

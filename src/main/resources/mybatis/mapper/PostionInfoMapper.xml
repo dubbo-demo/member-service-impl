@@ -12,7 +12,7 @@
     </update>
 
     <select id="getRealTimePositionByInvitationCode" resultType="com.way.member.position.dto.PositionInfoDto">
-        select id, phone_no phoneNo, longitude, latitude, date_format(modify_time,'%Y-%m-%d %h:%i:%s') modifyTime
+        select id, longitude, latitude, date_format(modify_time,'%Y-%m-%d %h:%i:%s') modifyTime
         from member_location_info_0 where invitation_code = #{invitationCode}
         <if test="modifyTime != null" >
             and date_format(modify_time,'%Y-%m-%d %h:%i:%s') > #{modifyTime},
