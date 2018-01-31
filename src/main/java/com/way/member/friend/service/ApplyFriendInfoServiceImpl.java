@@ -4,6 +4,7 @@ import com.way.common.constant.Constants;
 import com.way.common.result.ServiceResult;
 import com.way.member.friend.dao.ApplyFriendInfoDao;
 import com.way.member.friend.dto.FriendsInfoDto;
+import com.way.member.member.dto.MemberDto;
 import com.way.member.member.service.MemberInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,32 +34,32 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
 
     /**
      * 申请添加好友
-     * @param phoneNo
-     * @param friendPhoneNo
+     * @param invitationCode
+     * @param friendInvitationCode
      * @param applyInfo
      */
     @Override
-    public void applyForAddFriend(String phoneNo, String friendPhoneNo, String applyInfo) {
+    public void applyForAddFriend(String invitationCode, String friendInvitationCode, String applyInfo) {
         // 查询被申请人是否有被申请记录
-        int count = applyFriendInfoDao.getAddFriendInfo(phoneNo, friendPhoneNo);
+        int count = applyFriendInfoDao.getAddFriendInfo(invitationCode, friendInvitationCode);
         // 有更新没有新增
         if(count == 0){
             // 增加被申请记录
-            applyFriendInfoDao.addApplyFriendInfo(phoneNo, friendPhoneNo, applyInfo, new Date(), new Date());
+            applyFriendInfoDao.addApplyFriendInfo(invitationCode, friendInvitationCode, applyInfo, new Date(), new Date());
         }else{
             // 更新被申请记录
-            applyFriendInfoDao.updateApplyFriendInfo(phoneNo, friendPhoneNo, applyInfo, new Date());
+            applyFriendInfoDao.updateApplyFriendInfo(invitationCode, friendInvitationCode, applyInfo, new Date());
         }
     }
 
     /**
      * 获取被申请好友记录
-     * @param phoneNo
+     * @param invitationCode
      * @return
      */
     @Override
-    public List<FriendsInfoDto> getApplicationRecordOfFriend(String phoneNo) {
-        return applyFriendInfoDao.getApplicationRecordOfFriend(phoneNo);
+    public List<FriendsInfoDto> getApplicationRecordOfFriend(String invitationCode) {
+        return applyFriendInfoDao.getApplicationRecordOfFriend(invitationCode);
     }
 
     /**
@@ -72,15 +73,25 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
     @Override
     @Transactional
     public ServiceResult<Object> agreeToAddFriend(String phoneNo, String friendPhoneNo, String isApprove, String applicationId) {
+        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
+        String invitationCode = memberDto.getData().getInvitationCode();
+        ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(friendPhoneNo);
+        if(null == friendMemberDto.getData()){
+            ServiceResult.newFailure("该用户不存在");
+        }
+        String friendInvitationCode = friendMemberDto.getData().getInvitationCode();
+
         // 如果通过则互为好友
         if(isApprove.equals(Constants.YES)){
             // 校验双方是否互为好友
-            ServiceResult<FriendsInfoDto> friendsInfoDto = friendsInfoService.getFriendInfo(phoneNo, friendPhoneNo);
+            ServiceResult<FriendsInfoDto> friendsInfoDto = friendsInfoService.getFriendInfo(invitationCode, friendInvitationCode);
             if(null == friendsInfoDto.getData()){
                 FriendsInfoDto dto = new FriendsInfoDto();
                 // 添加好友
-                dto.setPhoneNo(phoneNo);// 手机号
-                dto.setFriendPhoneNo(friendPhoneNo);// 好友手机号
+//                dto.setPhoneNo(phoneNo);// 手机号
+//                dto.setFriendPhoneNo(friendPhoneNo);// 好友手机号
+                dto.setInvitationCode(invitationCode);// 邀请码
+                dto.setFriendInvitationCode(friendInvitationCode);// 好友邀请码
                 dto.setFriendRemarkName(memberInfoService.getMemberInfo(friendPhoneNo).getData().getNickName());// 好友备注名
                 dto.setIsAccreditVisible(Constants.YES_INT);// 是否授权可见 1:是,2:否
                 dto.setAccreditStartTime(Constants.ACCREDIT_STARTTIME);// 授权开始时间
@@ -93,8 +104,11 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
                 dto.setIsCheckBeforeExit(Constants.NO_INT);// 是否退出前查看 1:是,2:否
                 friendsInfoService.addFriendInfo(dto);
                 // 申请人好友列表添加数据
-                dto.setPhoneNo(friendPhoneNo);// 手机号
-                dto.setFriendPhoneNo(phoneNo);// 好友手机号
+//                dto.setPhoneNo(friendPhoneNo);// 手机号
+//                dto.setFriendPhoneNo(phoneNo);// 好友手机号
+
+                dto.setInvitationCode(friendInvitationCode);// 邀请码
+                dto.setFriendInvitationCode(invitationCode);// 好友邀请码
                 dto.setFriendRemarkName(memberInfoService.getMemberInfo(phoneNo).getData().getNickName());// 好友备注名
                 friendsInfoService.addFriendInfo(dto);
             }

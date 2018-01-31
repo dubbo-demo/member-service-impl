@@ -3,23 +3,23 @@
 <mapper namespace="com.way.member.friend.dao.ApplyFriendInfoDao" >
 
     <select id="getAddFriendInfo" resultType="java.lang.Integer">
-        select count(1) from apply_friend_info where phone_no=#{friendPhoneNo} and friend_phone_no=#{phoneNo}
+        select count(1) from apply_friend_info where invitation_code=#{friendInvitationCode} and friend_invitation_code=#{invitationCode}
     </select>
 
     <insert id="addApplyFriendInfo">
-        insert into apply_friend_info (phone_no, friend_phone_no, apply_info, is_approve, create_time, modify_time)
-        values (#{friendPhoneNo}, #{phoneNo}, #{applyInfo}, 0, #{createTime}, #{modifyTime})
+        insert into apply_friend_info (invitation_code, friend_invitation_code, apply_info, is_approve, create_time, modify_time)
+        values (#{friendInvitationCode}, #{invitationCode}, #{applyInfo}, 0, #{createTime}, #{modifyTime})
     </insert>
 
     <update id="updateApplyFriendInfo">
-        update apply_friend_info set apply_info=#{applyInfo},is_approve=0 ,modify_time=#{modifyTime} where phone_no=#{friendPhoneNo} and friend_phone_no=#{phoneNo}
+        update apply_friend_info set apply_info=#{applyInfo},is_approve=0 ,modify_time=#{modifyTime} where invitation_code=#{friendInvitationCode} and friend_invitation_code=#{invitationCode}
     </update>
 
     <select id="getApplicationRecordOfFriend" resultType="com.way.member.friend.dto.FriendsInfoDto">
-        select friend.id,friend.friend_phone_no friendPhoneNo,friend.apply_info applyInfo,friend.is_approve isApprove,
+        select friend.id,member.phone_no friendPhoneNo,friend.apply_info applyInfo,friend.is_approve isApprove,
         member.head_pic headPic,member.nick_name friendNickName from apply_friend_info friend
-        left join member_info member on member.phone_no = friend.friend_phone_no
-        where friend.phone_no = #{phoneNo} order by friend.modify_time desc
+        left join member_info member on member.invitation_code = friend.friend_invitation_code
+        where friend.invitation_code = #{invitationCode} order by friend.modify_time desc
     </select>
 
     <update id="agreeToAddFriend">

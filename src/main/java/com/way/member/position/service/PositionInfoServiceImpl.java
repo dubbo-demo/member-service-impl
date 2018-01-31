@@ -3,7 +3,9 @@ package com.way.member.position.service;
 import com.way.common.constant.NumberConstants;
 import com.way.common.result.ServiceResult;
 import com.way.common.util.CommonUtils;
+import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.PositionInfoPo;
+import com.way.member.member.service.MemberInfoService;
 import com.way.member.position.dao.PositionInfoDao;
 import com.way.member.position.dto.PositionInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class PositionInfoServiceImpl implements PositionInfoService {
     @Autowired
     private PositionInfoDao positionInfoDao;
 
+    @Autowired
+    private MemberInfoService memberInfoService;
+
     /**
      * 上传坐标
      * @param positionInfoDto
@@ -34,6 +39,10 @@ public class PositionInfoServiceImpl implements PositionInfoService {
             // 分20张表
             flag = subTable(positionInfoDto.getPhoneNo());
         }
+        // 根据手机号查用户邀请码
+        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(positionInfoDto.getPhoneNo());
+        String invitationCode = memberDto.getData().getInvitationCode();
+        positionInfoDto.setInvitationCode(invitationCode);
         PositionInfoPo positionInfoPo = CommonUtils.transform(positionInfoDto, PositionInfoPo.class);
         positionInfoDao.savePosition(positionInfoPo, flag);
     }
@@ -57,9 +66,13 @@ public class PositionInfoServiceImpl implements PositionInfoService {
      * @return
      */
     @Override
-    public ServiceResult<PositionInfoDto> getRealtimePositionByPhoneNo(String phoneNo, String modifyTime) {
+    public ServiceResult<PositionInfoDto> getRealTimePositionByPhoneNo(String phoneNo, String modifyTime) {
+        // 根据手机号查用户邀请码
+        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
+        String invitationCode = memberDto.getData().getInvitationCode();
+
         ServiceResult<PositionInfoDto> serviceResult = ServiceResult.newSuccess();
-        serviceResult.setData(positionInfoDao.getRealtimePositionByPhoneNo(phoneNo, modifyTime));
+        serviceResult.setData(positionInfoDao.getRealTimePositionByInvitationCode(invitationCode, modifyTime));
         return serviceResult;
     }
 

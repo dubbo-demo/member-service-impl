@@ -3,17 +3,17 @@
 <mapper namespace="com.way.member.recharge.dao.RechargeInfoDao" >
 
     <select id="getRechargeInfoCount" resultType="java.lang.Integer">
-        select count(1) from reward_detail_info where phone_no = #{phoneNo}
+        select count(1) from reward_detail_info where invitation_code = #{invitationCode}
     </select>
 
     <select id="getRechargeInfoList" resultType="com.way.member.recharge.entity.RechargeInfoEntity">
-        select phone_no phoneNo, type, amount, status, order_number orderNumber,create_time createTime from recharge_detail_info
-        where phone_no =#{phoneNo} order by id desc limit #{pageNumber},10
+        select invitation_code invitationCode, type, amount, status, order_number orderNumber,create_time createTime from recharge_detail_info
+        where invitation_code = #{invitationCode} order by id desc limit #{pageNumber},10
     </select>
 
     <insert id="addRechargeInfoDto">
-        insert into recharge_detail_info (phone_no, type, amount, status, order_number, create_time, modify_time)
-        values (#{phoneNo}, #{type}, #{amount}, 1, #{orderNumber}, #{createTime}, #{modifyTime})
+        insert into recharge_detail_info (invitation_code, type, amount, status, order_number, create_time, modify_time)
+        values (#{invitationCode}, #{type}, #{amount}, 1, #{orderNumber}, #{createTime}, #{modifyTime})
     </insert>
 
 </mapper>

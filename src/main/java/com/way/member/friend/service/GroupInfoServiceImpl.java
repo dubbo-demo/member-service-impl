@@ -27,13 +27,13 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 
     /**
      * 新建组
-     * @param phoneNo
+     * @param invitationCode
      * @param groupName
      * @return
      */
     @Override
-    public ServiceResult<Object> addGroupInfo(String phoneNo, String groupName) {
-        groupInfoDao.addGroupInfo(phoneNo, groupName, new Date());
+    public ServiceResult<Object> addGroupInfo(String invitationCode, String groupName) {
+        groupInfoDao.addGroupInfo(invitationCode, groupName, new Date());
         return ServiceResult.newSuccess();
     }
 
@@ -68,12 +68,12 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 
     /**
      * 查询组信息
-     * @param phoneNo
+     * @param invitationCode
      * @return
      */
     @Override
-    public List<GroupInfoDto> getGroupInfoListByPhoneNo(String phoneNo) {
-        List<GroupInfoEntity> entity = groupInfoDao.getGroupInfoListByPhoneNo(phoneNo);
+    public List<GroupInfoDto> getGroupInfoListByInvitationCode(String invitationCode) {
+        List<GroupInfoEntity> entity = groupInfoDao.getGroupInfoListByInvitationCode(invitationCode);
         return CommonUtils.transformList(entity, GroupInfoDto.class);
     }
 

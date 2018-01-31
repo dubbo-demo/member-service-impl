@@ -65,4 +65,10 @@ public class FriendsInfoEntity extends BaseEntity {
 
     /** 是否退出前查看 1:是,2:否 */
     private Integer isCheckBeforeExit;
+
+    /** 邀请码 */
+    private String invitationCode;
+
+    /** 好友邀请码 */
+    private String friendInvitationCode;
 }

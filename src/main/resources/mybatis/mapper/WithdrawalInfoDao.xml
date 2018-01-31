@@ -3,19 +3,19 @@
 <mapper namespace="com.way.member.withdrawal.dao.WithdrawalInfoDao" >
 
     <insert id="withdrawalRewardScore">
-        insert into withdrawal_info (phone_no, bank_name, bank_number, name, reward_score, status, remark, create_time, modify_time)
-        values (#{phoneNo}, #{bankName}, #{bankNumber}, #{name}, #{rewardScore}, #{status}, #{remark}, now(), now())
+        insert into withdrawal_info (invitation_code, bank_name, bank_number, name, reward_score, status, remark, create_time, modify_time)
+        values (#{invitationCode}, #{bankName}, #{bankNumber}, #{name}, #{rewardScore}, #{status}, #{remark}, now(), now())
     </insert>
 
     <select id="getWithdrawalRewardScoreCount" resultType="java.lang.Integer">
-        select COUNT(1) from withdrawal_info where phone_no = #{phoneNo}
+        select COUNT(1) from withdrawal_info where invitation_code = #{invitationCode}
     </select>
 
     <select id="getWithdrawalRewardScoreInfo"
             resultType="com.way.member.withdrawal.entity.WithdrawalInfoEntity">
-        select phone_no phoneNo, bank_name bankName, bank_number bankNumber, name, bank_branch bankBranch, reward_score rewardScore, status, remark,
+        select invitation_code invitationCode, bank_name bankName, bank_number bankNumber, name, bank_branch bankBranch, reward_score rewardScore, status, remark,
         create_time createTime, modify_time modifyTime from withdrawal_info
-        where phone_no = #{phoneNo} order by id desc limit #{pageNumber},10
+        where invitation_code = #{invitationCode} order by id desc limit #{pageNumber},10
     </select>
 
 </mapper>

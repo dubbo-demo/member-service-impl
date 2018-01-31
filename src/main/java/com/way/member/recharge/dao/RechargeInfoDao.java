@@ -16,18 +16,18 @@ public interface RechargeInfoDao extends IBaseMapper {
 
     /**
      * 查询总页数
-     * @param phoneNo
+     * @param invitationCode
      * @return
      */
-    Integer getRechargeInfoCount(String phoneNo);
+    Integer getRechargeInfoCount(String invitationCode);
 
     /**
      * 分页查询
-     * @param phoneNo
+     * @param invitationCode
      * @param pageNumber
      * @return
      */
-    List<RechargeInfoEntity> getRechargeInfoList(@Param("phoneNo") String phoneNo, @Param("pageNumber") int pageNumber);
+    List<RechargeInfoEntity> getRechargeInfoList(@Param("invitationCode") String invitationCode, @Param("pageNumber") int pageNumber);
 
     /**
      * 更新充值记录表

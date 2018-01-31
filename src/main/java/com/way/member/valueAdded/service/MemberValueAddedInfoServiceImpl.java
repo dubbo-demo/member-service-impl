@@ -20,13 +20,13 @@ public class MemberValueAddedInfoServiceImpl implements MemberValueAddedInfoServ
     /**
      * 根据增值服务类型获取用户增值服务信息
      *
-     * @param phoneNo
+     * @param invitationCode
      * @param type
      * @return
      */
     @Override
-    public MemberValueAddedInfoDto getMemberValueAddedInfoByType(String phoneNo, String type) {
-        MemberValueAddedInfoEntity entity = memberValueAddedInfoDao.getMemberValueAddedInfoByType(phoneNo, type);
+    public MemberValueAddedInfoDto getMemberValueAddedInfoByType(String invitationCode, String type) {
+        MemberValueAddedInfoEntity entity = memberValueAddedInfoDao.getMemberValueAddedInfoByType(invitationCode, type);
         return CommonUtils.transform(entity, MemberValueAddedInfoDto.class);
     }
 

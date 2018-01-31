@@ -1,5 +1,6 @@
 package com.way.member.member.dao;
 
+import com.way.common.result.ServiceResult;
 import com.way.common.rom.IBaseMapper;
 import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberInfoEntity;
@@ -42,14 +43,14 @@ public interface MemberDao extends IBaseMapper {
 	 * @Description: 修改密码
 	 * @return: void
 	 */
-	public void updatePassword(@Param("phoneNo") String phoneNo, @Param("newPassword") String newPassword);
+	public void updatePassword(@Param("invitationCode") String invitationCode, @Param("newPassword") String newPassword);
 
 	/**
 	 * 根据手机号更新用户头像id
-	 * @param phoneNo
+	 * @param invitationCode
 	 * @param headPicId
 	 */
-	void updateHeadPicIdByPhoneNo(@Param("phoneNo") String phoneNo, @Param("headPicId") String headPicId);
+	void updateHeadPicIdByInvitationCode(@Param("invitationCode") String invitationCode, @Param("headPicId") String headPicId);
 
 	/**
 	 * 根据手机号搜索用户
@@ -90,4 +91,11 @@ public interface MemberDao extends IBaseMapper {
 	 * @return
 	 */
     MemberInfoEntity loadMapByInvitationCode(String invitationCode);
+
+	/**
+	 * 根据推荐人编号查推荐人信息
+	 * @param oneLevelInvitationCode
+	 * @return
+	 */
+	ServiceResult<MemberDto> getMemberInfoByInvitationCode(String oneLevelInvitationCode);
 }

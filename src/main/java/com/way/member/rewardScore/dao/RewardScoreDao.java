@@ -22,16 +22,16 @@ public interface RewardScoreDao extends IBaseMapper {
 
     /**
      * 查询总页数
-     * @param phoneNo
+     * @param invitationCode
      * @return
      */
-    Integer getRewardScoreDetailCount(String phoneNo);
+    Integer getRewardScoreDetailCount(String invitationCode);
 
     /**
      * 分页查询
-     * @param phoneNo
+     * @param invitationCode
      * @param pageNumber
      * @return
      */
-    List<RewardScoreEntity> getRewardScoreDetailList(@Param("phoneNo") String phoneNo, @Param("pageNumber") Integer pageNumber);
+    List<RewardScoreEntity> getRewardScoreDetailList(@Param("invitationCode") String invitationCode, @Param("pageNumber") Integer pageNumber);
 }

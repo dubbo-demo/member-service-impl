@@ -22,23 +22,23 @@ public class RechargeInfoServiceImpl implements RechargeInfoService {
 
     /**
      * 查询总页数
-     * @param phoneNo
+     * @param invitationCode
      * @return
      */
     @Override
-    public Integer getRechargeInfoCount(String phoneNo) {
-        return rechargeInfoDao.getRechargeInfoCount(phoneNo);
+    public Integer getRechargeInfoCount(String invitationCode) {
+        return rechargeInfoDao.getRechargeInfoCount(invitationCode);
     }
 
     /**
      * 分页查询
-     * @param phoneNo
+     * @param invitationCode
      * @param pageNumber
      * @return
      */
     @Override
-    public List<RechargeInfoDto> getRechargeInfoList(String phoneNo, int pageNumber) {
-        List<RechargeInfoEntity> list = rechargeInfoDao.getRechargeInfoList(phoneNo, pageNumber);
+    public List<RechargeInfoDto> getRechargeInfoList(String invitationCode, int pageNumber) {
+        List<RechargeInfoEntity> list = rechargeInfoDao.getRechargeInfoList(invitationCode, pageNumber);
         return CommonUtils.transformList(list, RechargeInfoDto.class);
     }
 

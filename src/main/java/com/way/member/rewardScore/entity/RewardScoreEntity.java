@@ -18,7 +18,7 @@ public class RewardScoreEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    private String phoneNo; // 手机号
+    private String invitationCode; // 邀请码
 
     private Integer rewardScoreType;// 积分类型:1:购买会员,2:推荐奖励,3:提现,4:转增
 

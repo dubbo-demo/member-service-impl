@@ -33,23 +33,23 @@ public class RewardScoreServiceImpl implements RewardScoreService {
 
     /**
      * 查询总页数
-     * @param phoneNo
+     * @param invitationCode
      * @return
      */
     @Override
-    public Integer getRewardScoreDetailCount(String phoneNo) {
-        return rewardScoreDao.getRewardScoreDetailCount(phoneNo);
+    public Integer getRewardScoreDetailCount(String invitationCode) {
+        return rewardScoreDao.getRewardScoreDetailCount(invitationCode);
     }
 
     /**
      * 分页查询
-     * @param phoneNo
+     * @param invitationCode
      * @param pageNumber
      * @return
      */
     @Override
-    public List<RewardScoreDto> getRewardScoreDetailList(String phoneNo, Integer pageNumber) {
-        List<RewardScoreEntity> rewardScoreEntity =  rewardScoreDao.getRewardScoreDetailList(phoneNo, pageNumber);
+    public List<RewardScoreDto> getRewardScoreDetailList(String invitationCode, Integer pageNumber) {
+        List<RewardScoreEntity> rewardScoreEntity =  rewardScoreDao.getRewardScoreDetailList(invitationCode, pageNumber);
         return CommonUtils.transformList(rewardScoreEntity, RewardScoreDto.class);
     }
 }

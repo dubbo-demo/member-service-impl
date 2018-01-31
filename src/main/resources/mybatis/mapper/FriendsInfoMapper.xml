@@ -3,13 +3,13 @@
 <mapper namespace="com.way.member.friend.dao.FriendsInfoDao" >
 
     <select id="getFriendsInfoBeforeExit" resultType="com.way.member.friend.dto.FriendsInfoDto">
-        select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        select member.phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
         friends.is_authorized_visible isAuthorizedVisible,friends.group_id groupId,
         date_format(friends.authorized_accredit_startTime,'%Y-%m-%d %h:%i:%s') authorizedAccreditStartTime,
         date_format(friends.authorized_accredit_endTime,'%Y-%m-%d %h:%i:%s') authorizedAccreditEndTime,
         member.head_pic headPic from friends_info friends
-        left join member_info member on member.phone_no = friends.friend_phone_no
-        where friends.is_check_before_exit = 1 and friends.phone_no = #{phoneNo}
+        left join member_info member on member.invitation_code = friends.friend_invitation_code
+        where friends.is_check_before_exit = 1  and friends.invitation_code = #{invitationCode}
     </select>
 
     <select id="getRealtimePositionByGroupId" resultType="com.way.member.friend.dto.FriendsInfoDto">
@@ -23,83 +23,83 @@
     </select>
 
     <update id="updateIsCheckBeforeExitByGroupId">
-        update friends_info set is_check_before_exit=#{state} where group_id = #{groupId} and phone_no = #{phoneNo}
+        update friends_info set is_check_before_exit=#{state} where group_id = #{groupId} and invitation_code = #{invitationCode}
     </update>
 
-    <update id="updateIsCheckBeforeExitByFriendPhoneNos">
-        update friends_info set is_check_before_exit=#{state} where phone_no = #{phoneNo} and friend_phone_no in
-        <foreach collection="friendPhoneNoList" index="index" item="friendPhoneNo"
+    <update id="updateIsCheckBeforeExitByFriendInvitationCodes">
+        update friends_info set is_check_before_exit=#{state} where invitation_code = #{invitationCode} and friend_invitation_code in
+        <foreach collection="friendInvitationCodes" index="index" item="friendInvitationCode"
                  separator="," open="(" close=")">
-            ${friendPhoneNo}
+            ${friendInvitationCode}
         </foreach>
     </update>
 
     <select id="getFriendInfo" resultType="com.way.member.friend.dto.FriendsInfoDto">
-        select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        select member.phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
         friends.accredit_startTime accreditStartTime,friends.accredit_endTime accreditEndTime,
         friends.is_accredit_visible isAccreditVisible,friends.accredit_weeks accreditWeeks,
         member.head_pic headPic,member.nick_name friendNickName
         from friends_info friends
-        left join member_info member on member.phone_no = friends.friend_phone_no
-        where friends.phone_no = #{phoneNo} and friends.friend_phone_no = #{friendPhoneNo}
+        left join member_info member on member.invitation_code = friends.friend_invitation_code
+        where friends.invitation_code = #{invitationCode} and friends.friend_invitation_code = #{friendInvitationCode}
     </select>
     <select id="getFriendList" resultType="com.way.member.friend.dto.FriendsInfoDto">
-        select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        select member.phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
         friends.group_id groupId,friends.group_name groupName,friends.is_check_before_exit isCheckBeforeExit,
         member.head_pic headPic,member.nick_name friendNickName
         from friends_info friends
-        left join member_info member on member.phone_no = friends.friend_phone_no
-        where friends.phone_no = #{phoneNo}
+        left join member_info member on member.invitation_code = friends.friend_invitation_code
+        where friends.invitation_code = #{invitationCode}
     </select>
 
     <update id="modifyFriendInfo">
         update friends_info set friend_remark_name = #{friendRemarkName}, is_accredit_visible = #{isAccreditVisible},
         accredit_startTime = #{accreditStartTime}, accredit_endTime = #{accreditEndTime},friend_remark_name=#{friendRemarkName},
         accredit_weeks = #{accreditWeeks}
-        where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
+        where invitation_code = #{invitationCode} and friend_invitation_code = #{friendInvitationCode}
     </update>
 
     <update id="modifyAuthorizedFriendInfo">
         update friends_info set is_authorized_visible = #{isAuthorizedVisible},
         authorized_accredit_startTime = #{authorizedAccreditStartTime}, authorized_accredit_endTime = #{authorizedAccreditEndTime},
         authorized_weeks = #{authorizedWeeks}
-        where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
+        where invitation_code = #{invitationCode} and friend_invitation_code = #{friendInvitationCode}
     </update>
 
     <delete id="deleteFriend">
-        delete from friends_info where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
+        delete from friends_info where invitation_code = #{invitationCode} and friend_invitation_code = #{friendInvitationCode}
     </delete>
 
     <select id="getFriendListByGroupId" resultType="com.way.member.friend.dto.FriendsInfoDto">
-        select friends.friend_phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        select member.phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
         member.head_pic headPic,member.nick_name friendNickName
         from friends_info friends
-        left join member_info member on member.phone_no = friends.friend_phone_no
+        left join member_info member on member.invitation_code = friends.friend_invitation_code
         where friends.group_id = #{groupId}
     </select>
 
     <update id="updateFriendsGroupInfo">
-        update friends_info set group_id = null, group_name = null, group_create_time = null where phone_no = #{phoneNo} and group_id = #{groupId}
+        update friends_info set group_id = null, group_name = null, group_create_time = null where invitation_code = #{invitationCode} and group_id = #{groupId}
     </update>
 
     <update id="moveFriendToGroup">
-        update friends_info set group_id = #{dto.groupId}, group_name = #{dto.groupName} where phone_no = #{dto.phoneNo} and friend_phone_no = #{friendPhoneNo}
+        update friends_info set group_id = #{dto.groupId}, group_name = #{dto.groupName} where invitation_code = #{dto.invitationCode} and friend_invitation_code = #{friendInvitationCode}
     </update>
 
     <update id="removeFriendFromGroup">
-        update friends_info set group_id = null, group_name = null, group_create_time = null where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
+        update friends_info set group_id = null, group_name = null, group_create_time = null where invitation_code = #{invitationCode} and friend_invitation_code = #{friendInvitationCode}
     </update>
 
     <insert id="addFriendInfo">
-        INSERT INTO friends_info (phone_no,friend_phone_no,friend_remark_name,is_accredit_visible,accredit_startTime,accredit_endTime,
+        INSERT INTO friends_info (invitation_code,friend_invitation_code,friend_remark_name,is_accredit_visible,accredit_startTime,accredit_endTime,
         accredit_weeks,is_authorized_visible,authorized_accredit_startTime,authorized_accredit_endTime,authorized_weeks,is_check_before_exit)
-        VALUES (#{phoneNo},#{friendPhoneNo},#{friendRemarkName},#{isAccreditVisible},#{accreditStartTime},#{accreditEndTime},#{accreditWeeks},
+        VALUES (#{invitationCode},#{friendInvitationCode},#{friendRemarkName},#{isAccreditVisible},#{accreditStartTime},#{accreditEndTime},#{accreditWeeks},
         #{isAuthorizedVisible},#{authorizedAccreditStartTime},#{authorizedAccreditEndTime},#{authorizedWeeks},#{isCheckBeforeExit})
     </insert>
 
     <select id="checkIsAuthorizedVisible" resultType="com.way.member.friend.dto.FriendsInfoDto">
         select is_authorized_visible isAuthorizedVisible,authorized_accredit_startTime authorizedAccreditStartTime,
         authorized_accredit_endTime authorizedAccreditEndTime,authorized_weeks authorizedWeeks
-        from friends_info where phone_no = #{phoneNo} and friend_phone_no = #{friendPhoneNo}
+        from friends_info where invitation_code = #{invitationCode} and friend_invitation_code = #{friendInvitationCode}
     </select>
 </mapper>

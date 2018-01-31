@@ -42,11 +42,11 @@
 	<!-- 修改会员登录密码 -->
 	<update id="updatePassword" parameterType="java.util.Map">
 		UPDATE MEMBER_PASSWORD SET password = #{newPassword},modify_time = now()
-		WHERE phone_no = #{phoneNo}
+		WHERE invitation_code = #{invitationCode}
 	</update>
 
-	<update id="updateHeadPicIdByPhoneNo">
-		update member_info set head_pic = #{headPicId} where phone_no = #{phoneNo}
+	<update id="updateHeadPicIdByInvitationCode">
+		update member_info set head_pic = #{headPicId} where invitation_code = #{invitationCode}
 	</update>
 
 	<select id="searchUserByPhoneNo" resultMap="memberInfoMap">
@@ -61,7 +61,12 @@
 		SELECT phone_no FROM member_info WHERE invitation_code = #{invitationCode}
 	</select>
 
-    <update id="modifyMemberInfo">
+	<select id="getMemberInfoByInvitationCode" resultMap="memberInfoMap">
+		SELECT phone_no,head_pic,nick_name,age,member_type,trajectory_service,fence_service,reward_score,member_startTime,member_endTime,invitation_code
+		FROM MEMBER_INFO WHERE invitation_code = #{invitationCode}
+	</select>
+
+	<update id="modifyMemberInfo">
 		update MEMBER_INFO
 		<set >
 			<if test="headPic != null" >
@@ -115,6 +120,6 @@
 				modify_time = #{modifyTime},
 			</if>
 		</set>
-		where phone_no = #{phoneNo}
+		where invitation_code = #{invitationCode}
 	</update>
 </mapper>

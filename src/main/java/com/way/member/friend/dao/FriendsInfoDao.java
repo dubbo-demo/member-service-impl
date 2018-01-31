@@ -19,10 +19,10 @@ public interface FriendsInfoDao extends IBaseMapper {
 
     /**
      * 出退出前查看的好友信息
-     * @param phoneNo
+     * @param invitationCode
      * @return
      */
-    List<FriendsInfoDto> getFriendsInfoBeforeExit(String phoneNo);
+    List<FriendsInfoDto> getFriendsInfoBeforeExit(String invitationCode);
 
     /**
      * 根据组ID获取好友信息
@@ -34,34 +34,34 @@ public interface FriendsInfoDao extends IBaseMapper {
 
     /**
      * 更新好友是否退出前查看状态
-     * @param phoneNo
+     * @param invitationCode
      * @param groupId
      * @param state
      */
-    void updateIsCheckBeforeExitByGroupId(@Param("phoneNo") String phoneNo, @Param("groupId") String groupId, @Param("state") Integer state);
+    void updateIsCheckBeforeExitByGroupId(@Param("invitationCode") String invitationCode, @Param("groupId") String groupId, @Param("state") Integer state);
 
     /**
      * 取消查看好友实时坐标
-     * @param phoneNo
-     * @param friendPhoneNoList
+     * @param invitationCode
+     * @param friendInvitationCodes
      * @param state
      */
-    void updateIsCheckBeforeExitByFriendPhoneNos(@Param("phoneNo") String phoneNo, @Param("friendPhoneNoList") List<String> friendPhoneNoList, @Param("state") Integer state);
+    void updateIsCheckBeforeExitByFriendInvitationCodes(@Param("invitationCode") String invitationCode, @Param("friendInvitationCodes") List<String> friendInvitationCodes, @Param("state") Integer state);
 
     /**
      * 查询好友信息
-     * @param phoneNo
-     * @param friendPhoneNo
+     * @param invitationCode
+     * @param friendInvitationCode
      * @return
      */
-    FriendsInfoDto getFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
+    FriendsInfoDto getFriendInfo(@Param("invitationCode") String invitationCode, @Param("friendInvitationCode") String friendInvitationCode);
 
     /**
      * 查询好友列表
-     * @param phoneNo
+     * @param invitationCode
      * @return
      */
-    List<FriendsInfoDto> getFriendList(String phoneNo);
+    List<FriendsInfoDto> getFriendList(String invitationCode);
 
     /**
      * 修改好友信息
@@ -77,10 +77,10 @@ public interface FriendsInfoDao extends IBaseMapper {
 
     /**
      * 删除好友
-     * @param phoneNo
-     * @param friendPhoneNo
+     * @param invitationCode
+     * @param friendInvitationCode
      */
-    void deleteFriend(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
+    void deleteFriend(@Param("invitationCode") String invitationCode, @Param("friendInvitationCode") String friendInvitationCode);
 
     /**
      * 根据组ID获取好友信息
@@ -91,24 +91,24 @@ public interface FriendsInfoDao extends IBaseMapper {
 
     /**
      * 将好友组信息清空
-     * @param phoneNo
+     * @param invitationCode
      * @param groupId
      */
-    void updateFriendsGroupInfo(@Param("phoneNo") String phoneNo, @Param("groupId") String groupId);
+    void updateFriendsGroupInfo(@Param("invitationCode") String invitationCode, @Param("groupId") String groupId);
 
     /**
      * 将好友添加到分组
-     * @param friendPhoneNo
+     * @param friendInvitationCode
      * @param dto
      */
-    void moveFriendToGroup(@Param("friendPhoneNo") String friendPhoneNo, @Param("dto") GroupInfoDto dto);
+    void moveFriendToGroup(@Param("friendInvitationCode") String friendInvitationCode, @Param("dto") GroupInfoDto dto);
 
     /**
      * 将好友从分组中移除
-     * @param phoneNo
-     * @param friendPhoneNo
+     * @param invitationCode
+     * @param friendInvitationCode
      */
-    void removeFriendFromGroup(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
+    void removeFriendFromGroup(@Param("invitationCode") String invitationCode, @Param("friendInvitationCode") String friendInvitationCode);
 
     /**
      * 添加好友
@@ -118,9 +118,9 @@ public interface FriendsInfoDao extends IBaseMapper {
 
     /**
      * 查询是否被好友授权可见
-     * @param phoneNo
-     * @param friendPhoneNo
+     * @param invitationCode
+     * @param friendInvitationCode
      * @return
      */
-    FriendsInfoDto checkIsAuthorizedVisible(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
+    FriendsInfoDto checkIsAuthorizedVisible(@Param("invitationCode") String invitationCode, @Param("friendInvitationCode") String friendInvitationCode);
 }

@@ -1,6 +1,10 @@
 package com.way.member.member.service;
 
+import com.way.common.result.ServiceResult;
+import com.way.common.util.CommonUtils;
 import com.way.member.member.dao.InviteRelationshipInfoDao;
+import com.way.member.member.dto.InviteRelationshipInfoDto;
+import com.way.member.member.entity.InviteRelationshipInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,4 +20,27 @@ public class InviteRelationshipInfoServiceImpl implements InviteRelationshipInfo
     @Autowired
     private InviteRelationshipInfoDao inviteRelationshipInfoDao;
 
+    /**
+     * 根据邀请码查出邀请人上级用户邀请码
+     * @param invitationCode
+     * @return
+     */
+    @Override
+    public ServiceResult<InviteRelationshipInfoDto> queryInviteRelationshipInfoByUnderNextLevelInvitationCode(String invitationCode) {
+        ServiceResult<InviteRelationshipInfoDto> serviceResult = ServiceResult.newSuccess();
+        // 根据邀请码查出邀请人上级用户邀请码
+        InviteRelationshipInfoEntity inviteRelationshipInfoEntity = inviteRelationshipInfoDao.queryInviteRelationshipInfoByUnderNextLevelInvitationCode(invitationCode);
+        serviceResult.setData(CommonUtils.transform(inviteRelationshipInfoEntity, InviteRelationshipInfoDto.class));
+        return serviceResult;
+    }
+
+    /**
+     * 保存推荐人层级关系
+     * @param inviteRelationshipInfoDto
+     */
+    @Override
+    public void addInviteRelationshipInfo(InviteRelationshipInfoDto inviteRelationshipInfoDto) {
+        InviteRelationshipInfoEntity inviteRelationshipInfoEntity = CommonUtils.transform(inviteRelationshipInfoDto, InviteRelationshipInfoEntity.class);
+        inviteRelationshipInfoDao.addInviteRelationshipInfo(inviteRelationshipInfoEntity);
+    }
 }

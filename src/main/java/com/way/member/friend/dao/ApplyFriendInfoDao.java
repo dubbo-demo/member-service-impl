@@ -18,36 +18,36 @@ public interface ApplyFriendInfoDao extends IBaseMapper {
 
     /**
      * 查询被申请人是否有被申请记录
-     * @param phoneNo
-     * @param friendPhoneNo
+     * @param invitationCode
+     * @param friendInvitationCode
      */
-    int getAddFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo);
+    int getAddFriendInfo(@Param("invitationCode") String invitationCode, @Param("friendInvitationCode") String friendInvitationCode);
 
     /**
      * 增加被申请记录
-     * @param phoneNo
-     * @param friendPhoneNo
+     * @param invitationCode
+     * @param friendInvitationCode
      * @param applyInfo
      * @param createTime
      * @param modifyTime
      */
-    void addApplyFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo, @Param("applyInfo") String applyInfo, @Param("createTime") Date createTime, @Param("modifyTime") Date modifyTime);
+    void addApplyFriendInfo(@Param("invitationCode") String invitationCode, @Param("friendInvitationCode") String friendInvitationCode, @Param("applyInfo") String applyInfo, @Param("createTime") Date createTime, @Param("modifyTime") Date modifyTime);
 
     /**
      * 更新被申请记录
-     * @param phoneNo
-     * @param friendPhoneNo
+     * @param invitationCode
+     * @param friendInvitationCode
      * @param applyInfo
      * @param modifyTime
      */
-    void updateApplyFriendInfo(@Param("phoneNo") String phoneNo, @Param("friendPhoneNo") String friendPhoneNo, @Param("applyInfo") String applyInfo, @Param("modifyTime") Date modifyTime);
+    void updateApplyFriendInfo(@Param("invitationCode") String invitationCode, @Param("friendInvitationCode") String friendInvitationCode, @Param("applyInfo") String applyInfo, @Param("modifyTime") Date modifyTime);
 
     /**
      * 获取被申请好友记录
-     * @param phoneNo
+     * @param invitationCode
      * @return
      */
-    List<FriendsInfoDto> getApplicationRecordOfFriend(String phoneNo);
+    List<FriendsInfoDto> getApplicationRecordOfFriend(String invitationCode);
 
 
     /**

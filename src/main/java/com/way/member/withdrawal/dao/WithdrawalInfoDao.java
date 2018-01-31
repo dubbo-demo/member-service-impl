@@ -22,16 +22,16 @@ public interface WithdrawalInfoDao extends IBaseMapper {
 
     /**
      * 查询总页数
-     * @param phoneNo
+     * @param invitationCode
      * @return
      */
-    Integer getWithdrawalRewardScoreCount(String phoneNo);
+    Integer getWithdrawalRewardScoreCount(String invitationCode);
 
     /**
      * 获取积分提现记录
-     * @param phoneNo
+     * @param invitationCode
      * @param pageNumber
      * @return
      */
-    List<WithdrawalInfoEntity> getWithdrawalRewardScoreInfo(@Param("phoneNo") String phoneNo, @Param("pageNumber") int pageNumber);
+    List<WithdrawalInfoEntity> getWithdrawalRewardScoreInfo(@Param("invitationCode") String invitationCode, @Param("pageNumber") int pageNumber);
 }

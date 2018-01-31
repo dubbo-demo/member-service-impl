@@ -32,4 +32,6 @@ public class WithdrawalInfoEntity extends BaseEntity {
     private String remark;// 备注
 
     private Integer status;// 状态 0:待处理,1:提醒成功,2:提现失败
+
+    private String invitationCode;// 邀请码
 }

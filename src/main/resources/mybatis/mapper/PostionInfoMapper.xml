@@ -3,17 +3,17 @@
 <mapper namespace="com.way.member.position.dao.PositionInfoDao" >
 
     <insert id="savePosition">
-        insert into member_location_info_${flag} (phone_no, longitude, latitude, create_time, modify_time) values
-        (#{po.phoneNo}, #{po.longitude}, #{po.latitude}, now(), now())
+        insert into member_location_info_${flag} (invitation_code, longitude, latitude, create_time, modify_time) values
+        (#{po.invitationCode}, #{po.longitude}, #{po.latitude}, now(), now())
     </insert>
 
     <update id="updatePosition">
         update member_location_info_0 set longitude=#{po.longitude}, latitude=#{po.latitude}, modify_time=now() where id = #{id}
     </update>
 
-    <select id="getRealtimePositionByPhoneNo" resultType="com.way.member.position.dto.PositionInfoDto">
+    <select id="getRealTimePositionByInvitationCode" resultType="com.way.member.position.dto.PositionInfoDto">
         select id, phone_no phoneNo, longitude, latitude, date_format(modify_time,'%Y-%m-%d %h:%i:%s') modifyTime
-        from member_location_info_0 where phone_no = #{phoneNo}
+        from member_location_info_0 where invitation_code = #{invitationCode}
         <if test="modifyTime != null" >
             and date_format(modify_time,'%Y-%m-%d %h:%i:%s') > #{modifyTime},
         </if>

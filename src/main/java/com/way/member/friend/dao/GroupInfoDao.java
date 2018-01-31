@@ -19,11 +19,11 @@ public interface GroupInfoDao  extends IBaseMapper{
 
     /**
      * 新建组
-     * @param phoneNo
+     * @param invitationCode
      * @param groupName
      * @param createTime
      */
-    void addGroupInfo(@Param("phoneNo") String phoneNo, @Param("groupName") String groupName, @Param("createTime") Date createTime);
+    void addGroupInfo(@Param("invitationCode") String invitationCode, @Param("groupName") String groupName, @Param("createTime") Date createTime);
 
     /**
      * 查出组信息
@@ -46,8 +46,8 @@ public interface GroupInfoDao  extends IBaseMapper{
 
     /**
      * 查询组信息
-     * @param phoneNo
+     * @param invitationCode
      * @return
      */
-    List<GroupInfoEntity> getGroupInfoListByPhoneNo(String phoneNo);
+    List<GroupInfoEntity> getGroupInfoListByInvitationCode(String invitationCode);
 }

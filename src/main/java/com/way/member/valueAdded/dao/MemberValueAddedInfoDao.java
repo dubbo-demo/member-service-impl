@@ -12,11 +12,11 @@ public interface MemberValueAddedInfoDao extends IBaseMapper {
 
     /**
      * 根据增值服务类型获取用户增值服务信息
-     * @param phoneNo
+     * @param invitationCode
      * @param type
      * @return
      */
-    MemberValueAddedInfoEntity getMemberValueAddedInfoByType(@Param("phoneNo") String phoneNo, @Param("type") String type);
+    MemberValueAddedInfoEntity getMemberValueAddedInfoByType(@Param("invitationCode") String invitationCode, @Param("type") String type);
 
     /**
      * 新增用户增值服务信息

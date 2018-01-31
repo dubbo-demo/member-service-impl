@@ -31,11 +31,11 @@ public interface PositionInfoDao extends IBaseMapper {
 
     /**
      * 根据手机号获取用户实时坐标
-     * @param phoneNo
+     * @param invitationCode
      * @param modifyTime
      * @return
      */
-    PositionInfoDto getRealtimePositionByPhoneNo(@Param("phoneNo") String phoneNo, @Param("modifyTime") String modifyTime);
+    PositionInfoDto getRealTimePositionByInvitationCode(@Param("invitationCode") String invitationCode, @Param("modifyTime") String modifyTime);
 
     /**
      * 查询用户历史轨迹坐标

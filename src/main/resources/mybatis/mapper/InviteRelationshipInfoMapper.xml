@@ -2,4 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.way.member.member.dao.InviteRelationshipInfoDao">
 
+    <select id="queryInviteRelationshipInfoByUnderNextLevelInvitationCode"
+            resultType="com.way.member.member.entity.InviteRelationshipInfoEntity">
+        select invitation_code invitationCode, next_level_invitation_code nextLevelInvitationCode from invite_relationship_info
+        where under_next_level_invitation_code = #{invitationCode}
+    </select>
+
+    <insert id="addInviteRelationshipInfo">
+        INSERT INTO invite_relationship_info (invitation_code, next_level_invitation_code, under_next_level_invitation_code, create_time, modify_time)
+        VALUES (#{invitationCode}, #{nextLevelInvitationCode}, #{underNextLevelInvitationCode}, #{createTime}, #{modifyTime});
+    </insert>
+
 </mapper>

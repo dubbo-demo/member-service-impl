@@ -3,8 +3,8 @@
 <mapper namespace="com.way.member.friend.dao.GroupInfoDao" >
 
     <insert id="addGroupInfo">
-        insert into group_info (group_name, phone_no,is_accredit_visible,accredit_startTime,accredit_endTime,accredit_weeks, create_time) values
-        (#{groupName}, #{phoneNo},'1','09:00','17:00','1,2,3,4,5', #{createTime})
+        insert into group_info (group_name, invitation_code,is_accredit_visible,accredit_startTime,accredit_endTime,accredit_weeks, create_time) values
+        (#{groupName}, #{invitationCode},'1','09:00','17:00','1,2,3,4,5', #{createTime})
     </insert>
 
     <select id="getGroupInfo" resultType="com.way.member.friend.entity.GroupInfoEntity">
@@ -21,8 +21,8 @@
         delete from group_info where id = #{groupId}
     </delete>
 
-    <select id="getGroupInfoListByPhoneNo" resultType="com.way.member.friend.entity.GroupInfoEntity">
-        select id groupId,group_name groupName from group_info where phone_no=#{phoneNo} order by create_time asc
+    <select id="getGroupInfoListByInvitationCode" resultType="com.way.member.friend.entity.GroupInfoEntity">
+        select id groupId,group_name groupName from group_info where invitation_code=#{invitationCode} order by create_time asc
     </select>
 
 </mapper>
