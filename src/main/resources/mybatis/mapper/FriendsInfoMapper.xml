@@ -29,8 +29,8 @@
     <update id="updateIsCheckBeforeExitByFriendInvitationCodes">
         update friends_info set is_check_before_exit=#{state} where invitation_code = #{invitationCode} and friend_invitation_code in
         <foreach collection="friendInvitationCodes" index="index" item="friendInvitationCode"
-                 separator="','" open="('" close="')">
-            ${friendInvitationCode}
+                 separator="," open="(" close=")">
+            #{friendInvitationCode}
         </foreach>
     </update>
 
