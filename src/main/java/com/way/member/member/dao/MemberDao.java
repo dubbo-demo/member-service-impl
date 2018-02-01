@@ -1,6 +1,5 @@
 package com.way.member.member.dao;
 
-import com.way.common.result.ServiceResult;
 import com.way.common.rom.IBaseMapper;
 import com.way.member.member.dto.MemberDto;
 import com.way.member.member.entity.MemberInfoEntity;
@@ -94,8 +93,8 @@ public interface MemberDao extends IBaseMapper {
 
 	/**
 	 * 根据推荐人编号查推荐人信息
-	 * @param oneLevelInvitationCode
+	 * @param invitationCode
 	 * @return
 	 */
-	ServiceResult<MemberDto> getMemberInfoByInvitationCode(String oneLevelInvitationCode);
+	MemberInfoEntity getMemberInfoByInvitationCode(String invitationCode);
 }

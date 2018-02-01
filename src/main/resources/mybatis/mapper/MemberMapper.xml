@@ -23,9 +23,9 @@
 	<!-- 保存用户信息 -->
 	<insert id="insert" parameterType="com.way.member.member.entity.MemberInfoEntity">
 		INSERT INTO member_info (phone_no,nick_name,nick_spell,gender,age, member_type, trajectory_service, fence_service, reward_score,
-		invitation_code, create_time, modify_time)
+		invitation_code, member_startTime, member_endTime, create_time, modify_time)
 		VALUES (#{phoneNo}, #{nickName}, #{nickSpell}, '1','20', #{memberType}, #{trajectoryService}, #{fenceService},'0.0', #{invitationCode},
-		#{createTime}, #{modifyTime})
+		#{memberStartTime}, #{memberEndTime},#{createTime}, #{modifyTime})
 	</insert>
 	
 	<!-- 根据手机号查询用户信息 -->
@@ -79,7 +79,7 @@
 				nick_spell = #{nickSpell},
 			</if>
 			<if test="age != null" >
-				age = #{age},
+				age = 18,
 			</if>
 			<if test="gender != null" >
 				gender = #{gender},
