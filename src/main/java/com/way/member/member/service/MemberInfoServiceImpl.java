@@ -531,7 +531,7 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 		memberDao.minusMemberTypeInfo(entity);
 		if("1".equals(type) || "2".equals(type)){
 			// 根据增值服务类型获取用户增值服务信息
-			MemberValueAddedInfoDto memberValueAddedInfoDto = memberValueAddedInfoService.getMemberValueAddedInfoByType(phoneNo, type);
+			MemberValueAddedInfoDto memberValueAddedInfoDto = memberValueAddedInfoService.getMemberValueAddedInfoByType(memberDto.getInvitationCode(), type);
 			if(null == memberValueAddedInfoDto){
 				memberValueAddedInfoDto = new MemberValueAddedInfoDto();
 				memberValueAddedInfoDto.setInvitationCode(memberDto.getInvitationCode());

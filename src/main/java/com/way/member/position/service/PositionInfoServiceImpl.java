@@ -73,7 +73,6 @@ public class PositionInfoServiceImpl implements PositionInfoService {
 
         ServiceResult<PositionInfoDto> serviceResult = ServiceResult.newSuccess();
         PositionInfoDto positionInfoDto = positionInfoDao.getRealTimePositionByInvitationCode(invitationCode, modifyTime);
-        positionInfoDto.setPhoneNo(phoneNo);
         serviceResult.setData(positionInfoDto);
         return serviceResult;
     }
