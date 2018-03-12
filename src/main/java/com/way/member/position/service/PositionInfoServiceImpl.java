@@ -61,15 +61,15 @@ public class PositionInfoServiceImpl implements PositionInfoService {
     /**
      * 根据手机号获取用户实时坐标
      *
-     * @param phoneNo
+     * @param invitationCode
      * @param modifyTime
      * @return
      */
     @Override
-    public ServiceResult<PositionInfoDto> getRealTimePositionByPhoneNo(String phoneNo, String modifyTime) {
-        // 根据手机号查用户邀请码
-        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
-        String invitationCode = memberDto.getData().getInvitationCode();
+    public ServiceResult<PositionInfoDto> getRealTimePositionByPhoneNo(String invitationCode, String modifyTime) {
+//        // 根据手机号查用户邀请码
+//        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
+//        String invitationCode = memberDto.getData().getInvitationCode();
 
         ServiceResult<PositionInfoDto> serviceResult = ServiceResult.newSuccess();
         PositionInfoDto positionInfoDto = positionInfoDao.getRealTimePositionByInvitationCode(invitationCode, modifyTime);
@@ -79,16 +79,16 @@ public class PositionInfoServiceImpl implements PositionInfoService {
 
     /**
      * 查询用户历史轨迹坐标
-     * @param phoneNo
+     * @param invitationCode
      * @param startTime
      * @param endTime
      * @return
      */
     @Override
-    public List<PositionInfoDto> getMemberHistoryPositions(String phoneNo, String startTime, String endTime) {
+    public List<PositionInfoDto> getMemberHistoryPositions(String invitationCode, String startTime, String endTime) {
         // 分20张表
-        String flag = subTable(phoneNo);
-        return positionInfoDao.getMemberHistoryPositions(phoneNo, flag, startTime, endTime);
+        String flag = subTable(invitationCode);
+        return positionInfoDao.getMemberHistoryPositions(invitationCode, flag, startTime, endTime);
     }
 
     /**

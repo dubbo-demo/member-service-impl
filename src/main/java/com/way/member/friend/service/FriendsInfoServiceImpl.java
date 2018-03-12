@@ -55,37 +55,37 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
 
     /**
      * 更新好友是否退出前查看状态
-     * @param phoneNo
+     * @param invitationCode
      * @param groupId
      * @param state
      */
     @Override
-    public void updateIsCheckBeforeExitByGroupId(String phoneNo, String groupId, Integer state) {
+    public void updateIsCheckBeforeExitByGroupId(String invitationCode, String groupId, Integer state) {
         // 查询用户信息
-        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
-        String invitationCode = memberDto.getData().getInvitationCode();
+//        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
+//        String invitationCode = memberDto.getData().getInvitationCode();
         friendsInfoDao.updateIsCheckBeforeExitByGroupId(invitationCode, groupId, state);
     }
 
     /**
      * 取消查看好友实时坐标
-     * @param phoneNo
-     * @param friendPhoneNoList
+     * @param invitationCode
+     * @param friendInvitationCodes
      * @param state
      */
     @Override
-    public void updateIsCheckBeforeExitByFriendPhoneNos(String phoneNo, List<String> friendPhoneNoList, Integer state) {
-        List<String> friendInvitationCodes = new ArrayList<>();
-
-        // 查询用户信息
-        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
-        String invitationCode = memberDto.getData().getInvitationCode();
-        for(String friendPhoneNo : friendPhoneNoList){
-            ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(friendPhoneNo);
-            if(null != friendMemberDto.getData()){
-                friendInvitationCodes.add(friendMemberDto.getData().getInvitationCode());
-            }
-        }
+    public void updateIsCheckBeforeExitByFriendPhoneNos(String invitationCode, List<String> friendInvitationCodes, Integer state) {
+//        List<String> friendInvitationCodes = new ArrayList<>();
+//
+//        // 查询用户信息
+//        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
+//        String invitationCode = memberDto.getData().getInvitationCode();
+//        for(String friendPhoneNo : friendPhoneNoList){
+//            ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(friendPhoneNo);
+//            if(null != friendMemberDto.getData()){
+//                friendInvitationCodes.add(friendMemberDto.getData().getInvitationCode());
+//            }
+//        }
         friendsInfoDao.updateIsCheckBeforeExitByFriendInvitationCodes(invitationCode, friendInvitationCodes, state);
     }
 
@@ -180,32 +180,32 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
 
     /**
      * 将好友添加到分组
-     * @param friendPhoneNos
+     * @param friendInvitationCodes
      * @param groupInfoDto
      */
     @Override
     @Transactional
-    public void moveFriendToGroup(String friendPhoneNos, GroupInfoDto groupInfoDto) {
-        for(String friendPhoneNo : friendPhoneNos.split("\\|")){
-            ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(friendPhoneNo);
-            friendsInfoDao.moveFriendToGroup(friendMemberDto.getData().getInvitationCode(), groupInfoDto);
+    public void moveFriendToGroup(String friendInvitationCodes, GroupInfoDto groupInfoDto) {
+        for(String friendInvitationCode : friendInvitationCodes.split("\\|")){
+//            ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(friendInvitationCode);
+            friendsInfoDao.moveFriendToGroup(friendInvitationCode, groupInfoDto);
         }
     }
 
     /**
      * 将好友从分组中移除
-     * @param phoneNo
-     * @param friendPhoneNos
+     * @param invitationCode
+     * @param friendInvitationCodes
      * @return
      */
     @Override
     @Transactional
-    public ServiceResult<Object> removeFriendFromGroup(String phoneNo, String friendPhoneNos) {
-        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
-        String invitationCode = memberDto.getData().getInvitationCode();
-        for(String friendPhoneNo : friendPhoneNos.split("\\|")){
-            ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(friendPhoneNo);
-            friendsInfoDao.removeFriendFromGroup(invitationCode, friendMemberDto.getData().getInvitationCode());
+    public ServiceResult<Object> removeFriendFromGroup(String invitationCode, String friendInvitationCodes) {
+//        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
+//        String invitationCode = memberDto.getData().getInvitationCode();
+        for(String friendInvitationCode : friendInvitationCodes.split("\\|")){
+//            ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(friendPhoneNo);
+            friendsInfoDao.removeFriendFromGroup(invitationCode, friendInvitationCode);
         }
         return ServiceResult.newSuccess();
     }
@@ -223,18 +223,18 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
 
     /**
      * 查询是否被好友授权可见
-     * @param phoneNo
-     * @param friendPhoneNo
+     * @param invitationCode
+     * @param friendInvitationCode
      * @return
      */
     @Override
-    public FriendsInfoDto checkIsAuthorizedVisible(String phoneNo, String friendPhoneNo) {
-        // 根据手机号查用户邀请码
-        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
-        String invitationCode = memberDto.getData().getInvitationCode();
-        // 根据手机号查用户邀请码
-        ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(friendPhoneNo);
-        String friendInvitationCode = friendMemberDto.getData().getInvitationCode();
+    public FriendsInfoDto checkIsAuthorizedVisible(String invitationCode, String friendInvitationCode) {
+//        // 根据手机号查用户邀请码
+//        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
+//        String invitationCode = memberDto.getData().getInvitationCode();
+//        // 根据手机号查用户邀请码
+//        ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(friendPhoneNo);
+//        String friendInvitationCode = friendMemberDto.getData().getInvitationCode();
 
         return friendsInfoDao.checkIsAuthorizedVisible(invitationCode, friendInvitationCode);
     }
@@ -252,16 +252,16 @@ public class FriendsInfoServiceImpl implements FriendsInfoService {
         // 标记好友退出前查看为是：1
         if(setVisibleFriendsList.size() > 0){
             for(String setVisibleFriend : setVisibleFriendsList){
-                ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(setVisibleFriend);
-                friendInvitationCodes.add(friendMemberDto.getData().getInvitationCode());
+//                ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(setVisibleFriend);
+                friendInvitationCodes.add(setVisibleFriend);
             }
             friendsInfoDao.updateIsCheckBeforeExitByFriendInvitationCodes(invitationCode, friendInvitationCodes, Constants.YES_INT);
         }
         // 标记好友退出前查看为否：2
         if(setInvisibleFriendsList.size() > 0){
             for(String setInvisibleFriend : setInvisibleFriendsList){
-                ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(setInvisibleFriend);
-                friendInvitationCodes.add(friendMemberDto.getData().getInvitationCode());
+//                ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(setInvisibleFriend);
+                friendInvitationCodes.add(setInvisibleFriend);
             }
             friendsInfoDao.updateIsCheckBeforeExitByFriendInvitationCodes(invitationCode, friendInvitationCodes, Constants.NO_INT);
         }

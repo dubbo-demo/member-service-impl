@@ -54,7 +54,7 @@
 	</select>
 	<select id="getMemberInfo" resultMap="memberInfoMap">
 		SELECT phone_no,head_pic,nick_name,age,member_type,trajectory_service,fence_service,reward_score,member_startTime,member_endTime,invitation_code
-		FROM MEMBER_INFO WHERE phone_no = #{phoneNo}
+		FROM MEMBER_INFO WHERE phone_no = #{invitationCode} OR invitation_code = #{invitationCode}
 	</select>
 
     <select id="loadMapByInvitationCode"  resultMap="memberInfoMap">
@@ -88,11 +88,11 @@
 				modify_time = #{modifyTime},
 			</if>
 		</set>
-		where phone_no = #{phoneNo}
+		where invitation_code = #{invitationCode}
 	</update>
 
 	<update id="addRewardScore">
-		update member_info set reward_score = reward_score + #{rewardScore}, modify_time = #{modifyTime} where phone_no = #{phoneNo}
+		update member_info set reward_score = reward_score + #{rewardScore}, modify_time = #{modifyTime} where phone_no = #{phoneNo} OR invitation_code = #{phoneNo}
 	</update>
 
 	<update id="minusMemberTypeInfo">

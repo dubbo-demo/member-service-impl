@@ -39,11 +39,11 @@ public interface PositionInfoDao extends IBaseMapper {
 
     /**
      * 查询用户历史轨迹坐标
-     * @param phoneNo
+     * @param invitationCode
      * @param flag
      * @param startTime
      *@param endTime @return
      */
-    List<PositionInfoDto> getMemberHistoryPositions(@Param("phoneNo") String phoneNo, @Param("flag") String flag,
+    List<PositionInfoDto> getMemberHistoryPositions(@Param("invitationCode") String invitationCode, @Param("flag") String flag,
                                                     @Param("startTime") String startTime, @Param("endTime") String endTime);
 }

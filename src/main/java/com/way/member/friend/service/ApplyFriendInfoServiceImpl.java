@@ -64,22 +64,22 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
 
     /**
      * 同意/拒绝添加好友申请
-     * @param phoneNo
-     * @param friendPhoneNo
+     * @param invitationCode
+     * @param friendInvitationCode
      * @param isApprove
      * @param applicationId
      * @return
      */
     @Override
     @Transactional
-    public ServiceResult<Object> agreeToAddFriend(String phoneNo, String friendPhoneNo, String isApprove, String applicationId) {
-        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
-        String invitationCode = memberDto.getData().getInvitationCode();
-        ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(friendPhoneNo);
+    public ServiceResult<Object> agreeToAddFriend(String invitationCode, String friendInvitationCode, String isApprove, String applicationId) {
+//        ServiceResult<MemberDto> memberDto = memberInfoService.getMemberInfo(phoneNo);
+//        String invitationCode = memberDto.getData().getInvitationCode();
+        ServiceResult<MemberDto> friendMemberDto = memberInfoService.getMemberInfo(friendInvitationCode);
         if(null == friendMemberDto.getData()){
             ServiceResult.newFailure("该用户不存在");
         }
-        String friendInvitationCode = friendMemberDto.getData().getInvitationCode();
+//        String friendInvitationCode = friendMemberDto.getData().getInvitationCode();
 
         // 如果通过则互为好友
         if(isApprove.equals(Constants.YES)){
@@ -92,7 +92,7 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
 //                dto.setFriendPhoneNo(friendPhoneNo);// 好友手机号
                 dto.setInvitationCode(invitationCode);// 邀请码
                 dto.setFriendInvitationCode(friendInvitationCode);// 好友邀请码
-                dto.setFriendRemarkName(memberInfoService.getMemberInfo(friendPhoneNo).getData().getNickName());// 好友备注名
+                dto.setFriendRemarkName(memberInfoService.getMemberInfo(friendInvitationCode).getData().getNickName());// 好友备注名
                 dto.setIsAccreditVisible(Constants.YES_INT);// 是否授权可见 1:是,2:否
                 dto.setAccreditStartTime(Constants.ACCREDIT_STARTTIME);// 授权开始时间
                 dto.setAccreditEndTime(Constants.ACCREDIT_ENDTIME);// 授权结束时间
@@ -109,7 +109,7 @@ public class ApplyFriendInfoServiceImpl implements ApplyFriendInfoService {
 
                 dto.setInvitationCode(friendInvitationCode);// 邀请码
                 dto.setFriendInvitationCode(invitationCode);// 好友邀请码
-                dto.setFriendRemarkName(memberInfoService.getMemberInfo(phoneNo).getData().getNickName());// 好友备注名
+                dto.setFriendRemarkName(memberInfoService.getMemberInfo(invitationCode).getData().getNickName());// 好友备注名
                 friendsInfoService.addFriendInfo(dto);
             }
         }

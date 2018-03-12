@@ -3,7 +3,7 @@
 <mapper namespace="com.way.member.friend.dao.FriendsInfoDao" >
 
     <select id="getFriendsInfoBeforeExit" resultType="com.way.member.friend.dto.FriendsInfoDto">
-        select member.phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        select member.phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,friends.friend_invitation_code friendInvitationCode,
         friends.is_authorized_visible isAuthorizedVisible,friends.group_id groupId,
         date_format(friends.authorized_accredit_startTime,'%Y-%m-%d %h:%i:%s') authorizedAccreditStartTime,
         date_format(friends.authorized_accredit_endTime,'%Y-%m-%d %h:%i:%s') authorizedAccreditEndTime,
@@ -35,7 +35,7 @@
     </update>
 
     <select id="getFriendInfo" resultType="com.way.member.friend.dto.FriendsInfoDto">
-        select member.phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        select friends.friend_invitation_code friendInvitationCode,friends.friend_remark_name friendRemarkName,
         friends.accredit_startTime accreditStartTime,friends.accredit_endTime accreditEndTime,
         friends.is_accredit_visible isAccreditVisible,friends.accredit_weeks accreditWeeks,
         member.head_pic headPic,member.nick_name friendNickName
@@ -44,7 +44,7 @@
         where friends.invitation_code = #{invitationCode} and friends.friend_invitation_code = #{friendInvitationCode}
     </select>
     <select id="getFriendList" resultType="com.way.member.friend.dto.FriendsInfoDto">
-        select member.phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        select friends.friend_remark_name friendRemarkName,friends.friend_invitation_code friendInvitationCode,
         friends.group_id groupId,friends.group_name groupName,friends.is_check_before_exit isCheckBeforeExit,
         member.head_pic headPic,member.nick_name friendNickName
         from friends_info friends
@@ -71,7 +71,7 @@
     </delete>
 
     <select id="getFriendListByGroupId" resultType="com.way.member.friend.dto.FriendsInfoDto">
-        select member.phone_no friendPhoneNo,friends.friend_remark_name friendRemarkName,
+        select friends.friend_remark_name friendRemarkName,friends.friend_invitation_code friendInvitationCode,
         member.head_pic headPic,member.nick_name friendNickName
         from friends_info friends
         left join member_info member on member.invitation_code = friends.friend_invitation_code

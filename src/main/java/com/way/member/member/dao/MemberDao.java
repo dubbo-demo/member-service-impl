@@ -60,10 +60,10 @@ public interface MemberDao extends IBaseMapper {
 
 	/**
 	 * 查看个人信息
-	 * @param phoneNo
+	 * @param invitationCode
 	 * @return
 	 */
-	MemberInfoEntity getMemberInfo(String phoneNo);
+	MemberInfoEntity getMemberInfo(String invitationCode);
 
 	/**
 	 * 修改个人信息

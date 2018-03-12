@@ -20,7 +20,7 @@
     </select>
 
     <select id="getMemberHistoryPositions" resultType="com.way.member.position.dto.PositionInfoDto">
-        select longitude, latitude from member_location_info_${flag} where phone_no = #{phoneNo}
+        select longitude, latitude from member_location_info_${flag} where invitation_code = #{invitationCode}
         and date_format(modify_time,'%Y-%m-%d %h:%i:%s') between #{startTime} and #{endTime}
         order by id asc
     </select>

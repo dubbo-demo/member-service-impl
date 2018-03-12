@@ -277,12 +277,12 @@ public class MemberInfoServiceImpl implements MemberInfoService {
 
 	/**
 	 * 查看个人信息
-	 * @param phoneNo
+	 * @param invitationCode
 	 * @return
 	 */
 	@Override
-	public ServiceResult<MemberDto> getMemberInfo(String phoneNo) {
-		MemberInfoEntity memberInfoEntity = memberDao.getMemberInfo(phoneNo);
+	public ServiceResult<MemberDto> getMemberInfo(String invitationCode) {
+		MemberInfoEntity memberInfoEntity = memberDao.getMemberInfo(invitationCode);
 		if (memberInfoEntity != null) {
 			MemberDto memberDto = CommonUtils.transform(memberInfoEntity, MemberDto.class);
 			// 查询用户下级用户数
